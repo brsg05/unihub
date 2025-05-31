@@ -1,0 +1,22 @@
+/* Styles for Professor Detail Component */
+.professor-detail-card {
+  max-width: 900px;
+  margin: 20px auto;
+}
+
+.mat-card-avatar {
+  width: 64px !important;
+  height: 64px !important;
+  border-radius: 50%;
+  object-fit: cover;
+}
+
+/* Ensure table headers are aligned correctly with Tailwind utility classes */
+.mat-table th.mat-header-cell {
+    text-align: left; /* Or your desired alignment */
+}
+
+/* Add some spacing for list items if not using dense list */
+.mat-list-item {
+    margin-bottom: 8px;
+} 

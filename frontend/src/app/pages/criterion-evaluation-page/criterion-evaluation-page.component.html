@@ -1,0 +1,84 @@
+<div class="criterion-evaluation-container p-4">
+  <div *ngIf="isLoading && (!professor || !criterio)" class="flex justify-center items-center p-8">
+    <mat-progress-spinner mode="indeterminate" diameter="50"></mat-progress-spinner>
+  </div>
+
+  <div *ngIf="!isLoading || (professor && criterio)">
+    <button mat-icon-button routerLink="/professores/{{professorId}}" class="mb-2">
+      <mat-icon>arrow_back</mat-icon> Voltar para {{ professor?.nomeCompleto || 'Professor' }}
+    </button>
+    <h1 class="text-3xl font-bold mb-2">Avaliações do Critério: <span class="text-primary">{{ criterio?.nome }}</span></h1>
+    <h2 class="text-xl mb-6">Professor: {{ professor?.nomeCompleto }}</h2>
+
+    <!-- Filters -->
+    <div class="filters-container flex flex-wrap gap-4 mb-6 items-center">
+      <mat-form-field appearance="outline" class="min-w-[200px]">
+        <mat-label>Filtrar por Período</mat-label>
+        <mat-select [(ngModel)]="currentPeriodo" (ngModelChange)="onPeriodoChange($event)">
+          <mat-option [value]="null">Todos os Períodos</mat-option>
+          <mat-option *ngFor="let periodo of periodos" [value]="periodo">
+            {{ periodo }}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+
+      <mat-form-field appearance="outline" class="min-w-[200px]">
+        <mat-label>Ordenar Comentários Por</mat-label>
+        <mat-select [(ngModel)]="currentSort" (ngModelChange)="onSortChange($event)">
+          <mat-option [value]="null">Padrão (Mais Recentes)</mat-option>
+          <mat-option value="top">Melhores Avaliados</mat-option>
+          <mat-option value="worst">Piores Avaliados</mat-option>
+          <!-- <mat-option value="recent">Mais Recentes (se backend default is not this)</mat-option> -->
+        </mat-select>
+      </mat-form-field>
+    </div>
+
+    <div *ngIf="isLoading && (professor && criterio)" class="flex justify-center items-center p-8">
+      <mat-progress-spinner mode="indeterminate" diameter="50"></mat-progress-spinner>
+    </div>
+
+    <div *ngIf="!isLoading && evaluations.length === 0" class="text-center p-8 text-gray-600">
+      <mat-icon class="text-4xl mb-2">info</mat-icon>
+      <p>Nenhuma avaliação ou comentário encontrado para este critério e professor</p>
+      <p *ngIf="currentPeriodo">no período selecionado.</p>
+    </div>
+
+    <div *ngIf="!isLoading && evaluations.length > 0">
+      <div class="comments-list space-y-4">
+        <mat-card *ngFor="let avaliacao of evaluations" class="evaluation-card">
+          <mat-card-header class="mb-2">
+            <mat-card-title class="text-lg">Avaliação #{{avaliacao.id}}</mat-card-title>
+            <mat-card-subtitle>Data: {{ avaliacao.data | date:'dd/MM/yyyy HH:mm' }} | Período: {{avaliacao.periodo}}</mat-card-subtitle>
+          </mat-card-header>
+          <mat-card-content>
+            <div *ngIf="avaliacao.comentarios && avaliacao.comentarios.length > 0">
+              <h4 class="text-md font-semibold mb-1">Comentários sobre "{{criterio?.nome}}":</h4>
+              <mat-list>
+                <mat-list-item *ngFor="let comentario of avaliacao.comentarios" class="comment-item mb-2 border-b pb-2">
+                  <mat-icon matListItemIcon>comment</mat-icon>
+                  <div matListItemTitle class="text-gray-800">{{comentario.texto}}</div>
+                  <div matListItemLine class="text-sm text-gray-500">
+                    Score: <mat-chip-listbox><mat-chip [color]="comentario.score > 0 ? 'primary' : (comentario.score < 0 ? 'warn' : 'accent')" selected>{{comentario.score}}</mat-chip></mat-chip-listbox>
+                    | Data: {{comentario.createdAt | date:'dd/MM/yyyy HH:mm'}}
+                  </div>
+                </mat-list-item>
+              </mat-list>
+            </div>
+            <p *ngIf="!avaliacao.comentarios || avaliacao.comentarios.length === 0" class="text-gray-500 italic">
+              Nenhum comentário específico para "{{criterio?.nome}}" nesta avaliação.
+            </p>
+          </mat-card-content>
+        </mat-card>
+      </div>
+
+      <mat-paginator 
+          [length]="totalElements"
+          [pageSize]="pageSize"
+          [pageSizeOptions]="[5, 10, 20, 50]"
+          (page)="pageChanged($event)"
+          aria-label="Selecionar página de avaliações"
+          *ngIf="!isLoading && totalElements > pageSize">
+      </mat-paginator>
+    </div>
+  </div>
+</div> 

@@ -1,0 +1,94 @@
+<div class="list-container">
+  <h1>Professors</h1>
+
+  <form [formGroup]="filterForm" class="filter-controls">
+    <mat-form-field appearance="outline" class="search-input">
+      <mat-label>Search by Name</mat-label>
+      <input matInput formControlName="searchTerm" placeholder="Enter professor's name">
+      <button mat-icon-button matSuffix *ngIf="filterForm.get('searchTerm')?.value" (click)="clearSearch()" aria-label="Clear search">
+        <mat-icon>close</mat-icon>
+      </button>
+      <mat-icon matSuffix *ngIf="!filterForm.get('searchTerm')?.value">search</mat-icon>
+    </mat-form-field>
+
+    <mat-form-field appearance="outline" class="filter-select">
+      <mat-label>Filter by</mat-label>
+      <mat-select formControlName="filterType">
+        <mat-option *ngFor="let filter of filterOptions" [value]="filter.value">
+          {{filter.viewValue}}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+
+    <mat-form-field appearance="outline" class="periodo-input" *ngIf="isPeriodoFilterActive()">
+      <mat-label>Academic Period</mat-label>
+      <input matInput formControlName="academicPeriod" placeholder="e.g., 2023.1">
+    </mat-form-field>
+  </form>
+
+  <div class="loading-shade" *ngIf="isLoading">
+    <mat-progress-spinner mode="indeterminate" diameter="50"></mat-progress-spinner>
+  </div>
+
+  <div class="table-container mat-elevation-z8" [hidden]="isLoading">
+    <table mat-table [dataSource]="dataSource">
+
+      <!-- Photo Column -->
+      <ng-container matColumnDef="photo">
+        <th mat-header-cell *matHeaderCellDef> Photo </th>
+        <td mat-cell *matCellDef="let prof">
+          <img [src]="prof.photoUrl || 'assets/images/default-avatar.png'" alt="{{prof.nomeCompleto}}" class="professor-avatar">
+        </td>
+      </ng-container>
+
+      <!-- Name Column -->
+      <ng-container matColumnDef="nomeCompleto">
+        <th mat-header-cell *matHeaderCellDef> Name </th>
+        <td mat-cell *matCellDef="let prof"> {{prof.nomeCompleto}} </td>
+      </ng-container>
+
+      <!-- Overall Rating Column -->
+      <ng-container matColumnDef="notaGeral">
+        <th mat-header-cell *matHeaderCellDef> Overall Rating </th>
+        <td mat-cell *matCellDef="let prof">
+          <span *ngIf="prof.notaGeral !== undefined && prof.notaGeral !== null">
+            {{prof.notaGeral | number:'1.1-1'}} <mat-icon class="star-icon">star_rate</mat-icon>
+          </span>
+          <span *ngIf="prof.notaGeral === undefined || prof.notaGeral === null">
+            Not rated yet
+          </span>
+        </td>
+      </ng-container>
+
+      <!-- Actions Column -->
+      <ng-container matColumnDef="actions">
+        <th mat-header-cell *matHeaderCellDef> Actions </th>
+        <td mat-cell *matCellDef="let prof">
+          <button mat-icon-button color="primary" (click)="viewProfessor(prof.id)" matTooltip="View Details">
+            <mat-icon>visibility</mat-icon>
+          </button>
+          <!-- Add other actions like edit/delete for admin later -->
+        </td>
+      </ng-container>
+
+      <tr mat-header-row *matHeaderRowDef="displayedColumns; sticky: true"></tr>
+      <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+      
+      <!-- Row shown when there is no matching data. -->
+      <tr class="mat-row" *matNoDataRow>
+        <td class="mat-cell" [attr.colspan]="displayedColumns.length">
+          No professors found matching your criteria.
+        </td>
+      </tr>
+    </table>
+
+    <mat-paginator 
+      [length]="totalElements" 
+      [pageSize]="pageSize" 
+      [pageSizeOptions]="[5, 10, 20, 50]"
+      aria-label="Select page of professors">
+    </mat-paginator>
+  </div>
+
+</div>
+<!-- Placeholder for professor listing, filters, pagination --> 

@@ -1,0 +1,17 @@
+.spacer {
+  flex: 1 1 auto;
+}
+
+mat-toolbar {
+  position: sticky;
+  top: 0;
+  z-index: 1000; // Ensure header stays on top
+}
+
+button mat-icon-button {
+  margin-right: 8px;
+}
+
+.mat-menu-item mat-icon {
+  margin-right: 8px;
+} 

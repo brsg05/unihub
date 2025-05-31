@@ -1,0 +1,9 @@
+/* Styles for AdminCriterioDialogComponent */
+
+.mat-dialog-content {
+    overflow: visible; /* Allow form field errors to show if they overflow */
+}
+
+.mat-form-field {
+    width: 100%;
+} 

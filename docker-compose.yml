@@ -1,0 +1,92 @@
+version: '3.8'
+
+services:
+  postgres-db:
+    image: postgres:15-alpine
+    container_name: unihub_postgres
+    ports:
+      - "5432:5432"
+    environment:
+      - POSTGRES_USER=${POSTGRES_USER:-unihub_user}
+      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD:-unihub_pass}
+      - POSTGRES_DB=${POSTGRES_DB:-unihub_db}
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+      # Montar scripts de migração e seed para o Flyway/Liquibase usar (se executado pelo backend no startup)
+      # Ou para inicialização manual/ferramenta de migração separada.
+      # - ./db/migrations:/docker-entrypoint-initdb.d/migrations # Exemplo para Flyway se rodar via initdb
+      # - ./db/seeds:/docker-entrypoint-initdb.d/seeds        # Exemplo para Flyway se rodar via initdb
+    networks:
+      - unihub-network
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER:-unihub_user} -d ${POSTGRES_DB:-unihub_db}"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  app-backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    container_name: unihub_backend
+    ports:
+      - "8080:8080"
+    environment:
+      - SPRING_DATASOURCE_URL=jdbc:postgresql://postgres-db:5432/${POSTGRES_DB:-unihub_db}
+      - SPRING_DATASOURCE_USERNAME=${POSTGRES_USER:-unihub_user}
+      - SPRING_DATASOURCE_PASSWORD=${POSTGRES_PASSWORD:-unihub_pass}
+      - SPRING_JPA_HIBERNATE_DDL_AUTO=${SPRING_JPA_HIBERNATE_DDL_AUTO:-validate} # validate ou update. create-drop para testes.
+      - SPRING_FLYWAY_ENABLED=${SPRING_FLYWAY_ENABLED:-true} # Habilitar Flyway
+      - SPRING_FLYWAY_LOCATIONS=classpath:db/migration,classpath:db/seed # Caminhos para Flyway
+      - JWT_SECRET=${JWT_SECRET:-YourDefaultSecretKeyForJWTGenerationWhichIsLongAndSecure}
+      - JWT_EXPIRATION_MS=${JWT_EXPIRATION_MS:-86400000} # 24 horas
+      - SERVER_PORT=8080
+    depends_on:
+      postgres-db:
+        condition: service_healthy
+    volumes:
+      - ./backend:/app # Monta o código para hot-reload se configurado no Spring Boot DevTools
+      # Compartilhar os scripts de migração/seed com o backend para o Flyway
+      - ./db/migrations:/app/src/main/resources/db/migration
+      - ./db/seeds:/app/src/main/resources/db/seed
+    networks:
+      - unihub-network
+    # healthcheck: (Opcional, depende da sua configuração do Actuator)
+    #   test: ["CMD", "curl", "-f", "http://localhost:8080/actuator/health"] 
+    #   interval: 30s
+    #   timeout: 10s
+    #   retries: 3
+
+  app-frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    container_name: unihub_frontend
+    ports:
+      - "4200:80" # Angular app servido pelo Nginx na porta 80 dentro do container
+    environment:
+      - API_BASE_URL=${API_BASE_URL:-http://localhost:8080/api} # URL do backend
+    depends_on:
+      - app-backend
+    volumes:
+      - ./frontend:/app # Monta o código para hot-reload durante o desenvolvimento (ng serve)
+      # Para produção, a build do angular é copiada para o Nginx, então este volume é mais para dev.
+    networks:
+      - unihub-network
+
+volumes:
+  postgres_data: # Volume nomeado para persistir dados do PostgreSQL
+
+networks:
+  unihub-network:
+    driver: bridge
+
+# Para rodar:
+# 1. Crie um arquivo .env na raiz com suas variáveis (POSTGRES_USER, POSTGRES_PASSWORD, JWT_SECRET etc.) ou use os defaults.
+# 2. docker-compose up --build -d
+#
+# Para parar:
+# docker-compose down
+#
+# Para remover volumes (cuidado, apaga dados do banco):
+# docker-compose down -v 

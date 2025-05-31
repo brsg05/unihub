@@ -1,0 +1,34 @@
+<h2 mat-dialog-title class="text-xl font-semibold">{{ data.isEditMode ? 'Editar Cadeira' : 'Nova Cadeira' }}</h2>
+
+<mat-dialog-content [formGroup]="cadeiraForm" class="py-4">
+  <mat-form-field appearance="outline" class="w-full mb-3">
+    <mat-label>Nome da Cadeira</mat-label>
+    <input matInput formControlName="nome" placeholder="Ex: Programação Orientada a Objetos" required>
+    <mat-error *ngIf="cadeiraForm.get('nome')?.hasError('required')">
+      O nome da cadeira é obrigatório.
+    </mat-error>
+  </mat-form-field>
+
+  <mat-form-field appearance="outline" class="w-full mb-3">
+    <mat-label>Carga Horária (horas)</mat-label>
+    <input matInput type="number" formControlName="cargaHoraria" placeholder="Ex: 60" required min="1">
+    <mat-error *ngIf="cadeiraForm.get('cargaHoraria')?.hasError('required')">
+      A carga horária é obrigatória.
+    </mat-error>
+    <mat-error *ngIf="cadeiraForm.get('cargaHoraria')?.hasError('min')">
+      A carga horária deve ser maior que zero.
+    </mat-error>
+  </mat-form-field>
+
+  <mat-checkbox formControlName="isEletiva" class="mb-3">
+    É uma cadeira eletiva?
+  </mat-checkbox>
+
+</mat-dialog-content>
+
+<mat-dialog-actions align="end" class="p-3 bg-gray-50">
+  <button mat-stroked-button (click)="onCancel()" class="mr-2">Cancelar</button>
+  <button mat-raised-button color="primary" (click)="onSave()" [disabled]="!cadeiraForm.valid">
+    {{ data.isEditMode ? 'Salvar Alterações' : 'Criar Cadeira' }}
+  </button>
+</mat-dialog-actions> 

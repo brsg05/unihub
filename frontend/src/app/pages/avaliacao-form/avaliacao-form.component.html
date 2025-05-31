@@ -1,0 +1,78 @@
+<div class="container mx-auto p-4">
+  <div *ngIf="isLoading" class="flex justify-center items-center h-64">
+    <mat-spinner diameter="50"></mat-spinner>
+  </div>
+
+  <div *ngIf="errorMessage" class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative mb-4" role="alert">
+    <strong class="font-bold">Erro!</strong>
+    <span class="block sm:inline">{{ errorMessage }}</span>
+  </div>
+
+  <div *ngIf="!isLoading && professor && avaliacaoForm" class="avaliacao-form-card">
+    <mat-card>
+      <mat-card-header class="mb-4">
+        <mat-card-title class="text-2xl font-bold">
+          Avaliar Professor: {{ professor.nomeCompleto }}
+        </mat-card-title>
+        <mat-card-subtitle *ngIf="cadeiraNome" class="text-lg text-gray-600">
+          Cadeira: {{ cadeiraNome }}
+        </mat-card-subtitle>
+        <mat-card-subtitle *ngIf="!cadeiraNome" class="text-lg text-gray-600">
+          Cadeira ID: {{ cadeiraId }}
+        </mat-card-subtitle>
+      </mat-card-header>
+
+      <mat-card-content [formGroup]="avaliacaoForm">
+        <mat-form-field appearance="outline" class="w-full mb-4">
+          <mat-label>Período da Avaliação</mat-label>
+          <input matInput formControlName="periodo" placeholder="Ex: 2025.1" required>
+          <mat-error *ngIf="avaliacaoForm.get('periodo')?.hasError('required')">
+            Período é obrigatório.
+          </mat-error>
+        </mat-form-field>
+
+        <div formArrayName="avaliacoesCriterios">
+          <div *ngFor="let criterioFormGroup of avaliacoesCriteriosArray.controls; let i = index" [formGroupName]="i" class="mb-6 p-4 border rounded-md">
+            <h3 class="text-xl font-semibold mb-3">{{ criterioFormGroup.get('criterioNome')?.value }}</h3>
+            
+            <mat-form-field appearance="fill" class="w-full mb-2">
+              <mat-label>Nota (1-5)</mat-label>
+              <input matInput type="number" formControlName="nota" min="1" max="5" required>
+              <mat-icon matSuffix>star_rate</mat-icon>
+              <mat-error *ngIf="criterioFormGroup.get('nota')?.hasError('required')">Nota é obrigatória.</mat-error>
+              <mat-error *ngIf="criterioFormGroup.get('nota')?.hasError('min') || criterioFormGroup.get('nota')?.hasError('max')">
+                A nota deve ser entre 1 e 5.
+              </mat-error>
+            </mat-form-field>
+            
+            <!-- Alternativa para Nota com MatSlider -->
+            <!-- 
+            <mat-label>Nota: {{ criterioFormGroup.get('nota')?.value || '-' }}</mat-label>
+            <mat-slider min="1" max="5" step="1" discrete class="w-full mb-2">
+              <input matSliderThumb formControlName="nota">
+            </mat-slider> 
+            -->
+
+            <mat-form-field appearance="fill" class="w-full">
+              <mat-label>Comentário (opcional)</mat-label>
+              <textarea matInput formControlName="comentario" cdkTextareaAutosize #autosize="cdkTextareaAutosize" cdkAutosizeMinRows="2" cdkAutosizeMaxRows="5"></textarea>
+            </mat-form-field>
+          </div>
+        </div>
+
+        <div *ngIf="avaliacoesCriteriosArray.length === 0 && !isLoading" class="text-center text-gray-500 my-4">
+          <p>Nenhum critério de avaliação encontrado.</p>
+        </div>
+      </mat-card-content>
+
+      <mat-card-actions class="p-4 flex justify-end">
+        <button mat-stroked-button color="warn" (click)="cancelarAvaliacao()" class="mr-2">Cancelar</button>
+        <button mat-raised-button color="primary" (click)="onSubmit()" [disabled]="avaliacaoForm.invalid || isLoading">
+          <mat-icon *ngIf="!isLoading">send</mat-icon>
+          <mat-progress-spinner *ngIf="isLoading" diameter="20" mode="indeterminate" class="mr-2"></mat-progress-spinner>
+          {{ isLoading ? 'Enviando...' : 'Enviar Avaliação' }}
+        </button>
+      </mat-card-actions>
+    </mat-card>
+  </div>
+</div> 

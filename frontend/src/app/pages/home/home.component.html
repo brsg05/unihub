@@ -1,0 +1,53 @@
+<div class="home-container">
+  <section class="hero-section">
+    <h1>Welcome to UniHub Professor Evaluations!</h1>
+    <p>Find and evaluate your professors. Help others make informed decisions.</p>
+    
+    <form [formGroup]="searchForm" (ngSubmit)="onSearchSubmit()" class="search-bar-container">
+      <mat-form-field appearance="outline" class="search-input">
+        <mat-label>Search for a Professor</mat-label>
+        <input matInput formControlName="searchTerm" placeholder="Enter professor's name">
+        <mat-icon matSuffix>search</mat-icon>
+      </mat-form-field>
+      <button mat-raised-button color="primary" type="submit" class="search-button">Search</button>
+    </form>
+  </section>
+
+  <mat-divider></mat-divider>
+
+  <section class="top-professors-section">
+    <h2>Top Rated Professors</h2>
+    <div *ngIf="isLoadingTopProfessores" class="loading-spinner-container">
+      <mat-progress-spinner mode="indeterminate" diameter="50"></mat-progress-spinner>
+    </div>
+    
+    <div *ngIf="!isLoadingTopProfessores && topProfessores.length === 0" class="no-data-message">
+      <p>No top professors found at the moment.</p>
+    </div>
+
+    <div *ngIf="!isLoadingTopProfessores && topProfessores.length > 0" class="professors-grid">
+      <mat-card *ngFor="let prof of topProfessores" class="professor-card" [routerLink]="['/professor', prof.id]">
+        <mat-card-header>
+          <img mat-card-avatar [src]="prof.photoUrl || 'assets/images/default-avatar.png'" alt="{{prof.nomeCompleto}}">
+          <mat-card-title>{{ prof.nomeCompleto }}</mat-card-title>
+          <mat-card-subtitle *ngIf="prof.notaGeral !== undefined && prof.notaGeral !== null">
+            Overall Rating: {{ prof.notaGeral | number:'1.1-1' }} <mat-icon class="star-icon">star</mat-icon>
+          </mat-card-subtitle>
+           <mat-card-subtitle *ngIf="prof.notaGeral === undefined || prof.notaGeral === null">
+            Not rated yet
+          </mat-card-subtitle>
+        </mat-card-header>
+        <!-- Add more details if needed in the card content -->
+        <!-- <mat-card-content>
+          <p>Brief description or a key highlight.</p>
+        </mat-card-content> -->
+        <mat-card-actions align="end">
+            <button mat-button color="accent">View Details</button>
+        </mat-card-actions>
+      </mat-card>
+    </div>
+  </section>
+
+  <!-- You can add more sections here, e.g., recent evaluations, featured courses -->
+
+</div> 

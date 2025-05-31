@@ -1,0 +1,16 @@
+<h2 mat-dialog-title>Selecionar Cadeira</h2>
+<mat-dialog-content>
+  <p *ngIf="!data.cadeiras || data.cadeiras.length === 0">Nenhuma cadeira disponível para seleção.</p>
+  <mat-list role="list" *ngIf="data.cadeiras && data.cadeiras.length > 0">
+    <mat-list-item 
+      role="listitem" 
+      *ngFor="let cadeira of data.cadeiras" 
+      (click)="onCadeiraSelecionada(cadeira)" 
+      class="cursor-pointer hover:bg-gray-100 p-2 rounded">
+      {{ cadeira.nome }}
+    </mat-list-item>
+  </mat-list>
+</mat-dialog-content>
+<mat-dialog-actions align="end">
+  <button mat-button (click)="onCancelar()">Cancelar</button>
+</mat-dialog-actions> 

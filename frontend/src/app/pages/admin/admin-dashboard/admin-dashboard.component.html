@@ -1,0 +1,31 @@
+<div class="admin-dashboard-container p-4">
+  <h1 class="text-3xl font-bold mb-6">Painel Administrativo</h1>
+
+  <mat-tab-group animationDuration="0ms">
+    <mat-tab label="Gerenciar Critérios">
+      <ng-template matTabContent>
+        <app-admin-criterios class="mt-4"></app-admin-criterios>
+      </ng-template>
+    </mat-tab>
+    
+    <mat-tab label="Gerenciar Usuários">
+      <ng-template matTabContent>
+        <app-admin-users class="mt-4"></app-admin-users>
+      </ng-template>
+    </mat-tab>
+
+    <mat-tab label="Gerenciar Professores">
+      <ng-template matTabContent>
+        <app-admin-professores class="mt-4"></app-admin-professores>
+      </ng-template>
+    </mat-tab>
+    
+    <mat-tab label="Gerenciar Cadeiras">
+      <ng-template matTabContent>
+        <app-admin-cadeiras class="mt-4"></app-admin-cadeiras>      
+      </ng-template>
+    </mat-tab>
+  </mat-tab-group>
+</div>
+
+<!-- Placeholder for admin dashboard: CRUD for Professors, Criteria; Admin role assignment --> 

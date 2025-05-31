@@ -1,0 +1,46 @@
+<form [formGroup]="professorForm" (ngSubmit)="onSave()" class="admin-professor-form">
+  <h2 mat-dialog-title class="mb-4">{{ isEditMode ? 'Editar Professor' : 'Adicionar Novo Professor' }}</h2>
+
+  <mat-dialog-content class="mat-typography">
+    <div *ngIf="isLoading" class="flex justify-center items-center py-4">
+      <mat-progress-spinner diameter="40" mode="indeterminate"></mat-progress-spinner>
+    </div>
+
+    <div *ngIf="!isLoading">
+      <mat-form-field appearance="outline" class="w-full mb-3">
+        <mat-label>Nome Completo</mat-label>
+        <input matInput formControlName="nomeCompleto" required>
+        <mat-error *ngIf="professorForm.get('nomeCompleto')?.hasError('required')">
+          Nome completo é obrigatório.
+        </mat-error>
+      </mat-form-field>
+
+      <mat-form-field appearance="outline" class="w-full mb-3">
+        <mat-label>URL da Foto (opcional)</mat-label>
+        <input matInput formControlName="photoUrl">
+      </mat-form-field>
+
+      <mat-form-field appearance="outline" class="w-full mb-3">
+        <mat-label>Cadeiras</mat-label>
+        <mat-select formControlName="cadeiraIds" multiple>
+          <mat-option *ngFor="let cadeira of (allCadeiras$ | async)" [value]="cadeira.id">
+            {{ cadeira.nome }}
+          </mat-option>
+        </mat-select>
+        <mat-hint>Selecione as cadeiras que este professor ministra.</mat-hint>
+      </mat-form-field>
+    </div>
+  </mat-dialog-content>
+
+  <mat-dialog-actions align="end" class="pt-4">
+    <button mat-stroked-button (click)="onCancel()" type="button" [disabled]="isLoading">Cancelar</button>
+    <button mat-raised-button color="primary" type="submit" [disabled]="professorForm.invalid || isLoading">
+      <mat-icon *ngIf="!isLoading">save</mat-icon>
+      <span *ngIf="isLoading">
+        <mat-progress-spinner diameter="20" mode="indeterminate" class="inline-block mr-2"></mat-progress-spinner>
+        Salvando...
+      </span>
+      <span *ngIf="!isLoading">Salvar</span>
+    </button>
+  </mat-dialog-actions>
+</form> 

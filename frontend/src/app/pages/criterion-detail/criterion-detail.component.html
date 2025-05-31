@@ -1,0 +1,64 @@
+<div class="container mx-auto p-4">
+  <div *ngIf="isLoading && !isLoadingMore" class="flex justify-center items-center h-64">
+    <mat-spinner diameter="50"></mat-spinner>
+  </div>
+
+  <div *ngIf="errorMessage" class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative mb-4" role="alert">
+    <strong class="font-bold">Erro!</strong>
+    <span class="block sm:inline">{{ errorMessage }}</span>
+  </div>
+
+  <div *ngIf="!isLoading && professor && criterio">
+    <mat-card class="mb-6">
+      <mat-card-header>
+        <mat-card-title class="text-2xl font-bold">Critério: {{ criterio.nome }}</mat-card-title>
+        <mat-card-subtitle class="text-lg">Professor: {{ professor.nomeCompleto }}</mat-card-subtitle>
+      </mat-card-header>
+    </mat-card>
+
+    <h3 class="text-xl font-semibold mb-4">Histórico de Avaliações para este Critério:</h3>
+
+    <div *ngIf="avaliacoesMostradas.length > 0; else noEvaluations" class="space-y-4">
+      <mat-card *ngFor="let aval of avaliacoesMostradas" class="evaluation-entry">
+        <mat-card-header>
+          <mat-card-title class="text-lg">
+            Nota Atribuída: <span class="font-bold text-blue-600">{{ aval.nota | number:'1.1-1' }} ⭐</span>
+          </mat-card-title>
+          <mat-card-subtitle>
+            Avaliado em: {{ aval.dataAvaliacao | date:'dd/MM/yyyy' }} (Período: {{ aval.periodoAvaliacao }})
+            <span *ngIf="aval.nomeCadeira"> - Disciplina: {{ aval.nomeCadeira }}</span>
+          </mat-card-subtitle>
+        </mat-card-header>
+        <mat-card-content *ngIf="aval.comentariosGeraisDaAvaliacao && aval.comentariosGeraisDaAvaliacao.length > 0">
+          <h4 class="text-md font-semibold mt-2 mb-1">Comentários Gerais da Avaliação:</h4>
+          <mat-list>
+            <mat-list-item *ngFor="let comentario of aval.comentariosGeraisDaAvaliacao" class="text-sm">
+              <mat-icon matListItemIcon>comment</mat-icon>
+              <div matListItemTitle class="whitespace-pre-wrap">"{{ comentario.texto }}"</div>
+              <div matListItemLine class="text-xs text-gray-500">Score: {{ comentario.score }}</div>
+            </mat-list-item>
+          </mat-list>
+        </mat-card-content>
+        <mat-card-content *ngIf="!aval.comentariosGeraisDaAvaliacao || aval.comentariosGeraisDaAvaliacao.length === 0">
+            <p class="italic text-sm text-gray-500">Nenhum comentário geral fornecido para esta avaliação.</p>
+        </mat-card-content>
+      </mat-card>
+
+      <!-- Placeholder for infinite scroll trigger -->
+      <div (scrolled)="onScroll()" class="scroll-trigger" style="height: 50px;">
+        <div *ngIf="isLoadingMore" class="flex justify-center items-center py-4">
+          <mat-spinner diameter="30"></mat-spinner>
+        </div>
+      </div>
+
+    </div>
+
+    <ng-template #noEvaluations>
+      <div *ngIf="!isLoading" class="text-center py-8">
+        <mat-icon class="text-gray-400 text-5xl mb-2">history_edu</mat-icon>
+        <p class="text-gray-500">Ainda não há histórico de avaliações para este critério e professor.</p>
+      </div>
+    </ng-template>
+
+  </div>
+</div>

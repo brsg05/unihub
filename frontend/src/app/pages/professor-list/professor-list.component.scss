@@ -1,0 +1,96 @@
+.list-container {
+  padding: 20px;
+
+  h1 {
+    margin-bottom: 20px;
+  }
+}
+
+.filter-controls {
+  display: flex;
+  gap: 16px;
+  margin-bottom: 20px;
+  align-items: flex-start; // Align items to the top
+
+  .search-input {
+    flex-grow: 1;
+    max-width: 400px;
+  }
+
+  .filter-select {
+    min-width: 180px;
+  }
+
+  .periodo-input {
+    max-width: 200px;
+  }
+}
+
+.loading-shade {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 200px; // Or match table height
+}
+
+.table-container {
+  position: relative;
+  overflow: auto; // For responsiveness on small screens
+}
+
+.professor-avatar {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  object-fit: cover;
+}
+
+.star-icon {
+  font-size: 1.1em;
+  color: #fdd835; // Gold color for star
+  vertical-align: middle;
+  margin-left: 2px;
+}
+
+.mat-row .mat-cell {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.mat-header-row {
+  background-color: #f5f5f5;
+}
+
+.mat-row:hover {
+  background-color: #fafafa;
+}
+
+.mat-column-photo {
+  width: 80px;
+  padding-right: 16px !important;
+}
+
+.mat-column-nomeCompleto {
+  flex: 2;
+}
+
+.mat-column-notaGeral {
+  width: 180px;
+  text-align: center;
+}
+
+.mat-column-actions {
+  width: 100px;
+  text-align: right;
+}
+
+@media (max-width: 768px) {
+  .filter-controls {
+    flex-direction: column;
+    .search-input, .filter-select, .periodo-input {
+      width: 100%;
+      max-width: none;
+    }
+  }
+} 

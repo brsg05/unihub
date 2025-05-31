@@ -1,0 +1,114 @@
+.home-container {
+  padding-bottom: 40px;
+}
+
+.hero-section {
+  text-align: center;
+  padding: 40px 20px;
+  background-color: #f5f5f5; // Light grey background for hero
+  border-radius: 8px;
+  margin-bottom: 30px;
+
+  h1 {
+    font-size: 2.5em;
+    margin-bottom: 10px;
+    color: #3f51b5; // Primary color
+  }
+
+  p {
+    font-size: 1.2em;
+    color: #555;
+    margin-bottom: 30px;
+  }
+}
+
+.search-bar-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px; // Space between form field and button
+  max-width: 600px;
+  margin: 0 auto; // Center the search bar
+
+  .search-input {
+    flex-grow: 1;
+  }
+
+  .search-button {
+    height: 56px; // Match outline form field height
+  }
+}
+
+.top-professors-section {
+  h2 {
+    text-align: center;
+    font-size: 2em;
+    margin-bottom: 30px;
+    color: #444;
+  }
+}
+
+.loading-spinner-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 150px; // Adjust as needed
+}
+
+.no-data-message {
+  text-align: center;
+  color: #777;
+  font-style: italic;
+  padding: 20px;
+}
+
+.professors-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 20px;
+}
+
+.professor-card {
+  cursor: pointer;
+  transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+
+  &:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 16px rgba(0,0,0,0.15);
+  }
+
+  mat-card-header {
+    align-items: center; // Vertically align avatar and title
+  }
+
+  img[mat-card-avatar] {
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    object-fit: cover; // Ensure image covers the area without distortion
+    margin-right: 16px; // Space between avatar and title
+  }
+
+  mat-card-title {
+    font-size: 1.2em;
+  }
+
+  mat-card-subtitle {
+    display: flex;
+    align-items: center;
+    color: #666;
+    .star-icon {
+      font-size: 1.1em;
+      color: #fdd835; // Gold color for star
+      margin-left: 4px;
+      vertical-align: middle;
+    }
+  }
+
+  mat-card-actions {
+      padding-bottom: 8px !important; // Ensure button is not cut off
+  }
+}
+
+// Ensure you have a default avatar image in assets
+// e.g., frontend/src/assets/images/default-avatar.png 

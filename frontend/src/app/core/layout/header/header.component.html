@@ -1,0 +1,25 @@
+<mat-toolbar color="primary">
+  <button mat-icon-button [routerLink]="['/']" aria-label="Home">
+    <mat-icon>school</mat-icon>
+  </button>
+  <span>UniHub - Professor Evaluation</span>
+  <span class="spacer"></span>
+
+  <ng-container *ngIf="!currentUser">
+    <button mat-button [routerLink]="['/login']">Login</button>
+    <button mat-button [routerLink]="['/register']">Register</button>
+  </ng-container>
+
+  <ng-container *ngIf="currentUser">
+    <button mat-button [matMenuTriggerFor]="userMenu">
+      <mat-icon>account_circle</mat-icon>
+      {{ currentUser.username }}
+    </button>
+    <mat-menu #userMenu="matMenu">
+      <button mat-menu-item [routerLink]="['/profile']">Profile</button> <!-- Assuming a profile page -->
+      <button mat-menu-item *ngIf="isAdmin" [routerLink]="['/admin']">Admin Dashboard</button>
+      <button mat-menu-item (click)="logout()">Logout</button>
+    </mat-menu>
+  </ng-container>
+
+</mat-toolbar> 

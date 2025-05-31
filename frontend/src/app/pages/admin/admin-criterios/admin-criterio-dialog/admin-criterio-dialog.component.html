@@ -1,0 +1,18 @@
+<h2 mat-dialog-title class="text-xl font-semibold">{{ data.isEditMode ? 'Editar Critério' : 'Novo Critério' }}</h2>
+
+<mat-dialog-content [formGroup]="criterioForm" class="py-4">
+  <mat-form-field appearance="outline" class="w-full">
+    <mat-label>Nome do Critério</mat-label>
+    <input matInput formControlName="nome" placeholder="Ex: Clareza nas explicações" required>
+    <mat-error *ngIf="criterioForm.get('nome')?.hasError('required')">
+      O nome do critério é obrigatório.
+    </mat-error>
+  </mat-form-field>
+</mat-dialog-content>
+
+<mat-dialog-actions align="end" class="p-3 bg-gray-50">
+  <button mat-stroked-button (click)="onCancel()" class="mr-2">Cancelar</button>
+  <button mat-raised-button color="primary" (click)="onSave()" [disabled]="!criterioForm.valid">
+    {{ data.isEditMode ? 'Salvar Alterações' : 'Criar Critério' }}
+  </button>
+</mat-dialog-actions> 

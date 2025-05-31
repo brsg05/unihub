@@ -1,0 +1,42 @@
+/* Estilos para AdminProfessoresComponent */
+.admin-professores-container {
+  // Adicione estilos específicos se necessário
+}
+
+.mat-mdc-table {
+  width: 100%;
+}
+
+.mat-mdc-row .mat-mdc-cell {
+  padding: 12px 16px;
+}
+
+.mat-mdc-header-row .mat-mdc-header-cell {
+  padding: 12px 16px;
+  font-weight: 500;
+}
+
+.text-center {
+  text-align: center;
+}
+
+.justify-between {
+  justify-content: space-between;
+}
+
+.items-center {
+  align-items: center;
+}
+
+.mb-4 {
+  margin-bottom: 1rem; /* 16px */
+}
+
+.py-8 {
+    padding-top: 2rem;
+    padding-bottom: 2rem;
+}
+
+.overflow-auto {
+    overflow: auto;
+} 

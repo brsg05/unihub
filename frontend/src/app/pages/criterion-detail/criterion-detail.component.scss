@@ -1,0 +1,23 @@
+/* Styles for Criterion Detail Component */
+
+.evaluation-entry {
+  margin-bottom: 16px;
+}
+
+.mat-list-item .mat-icon {
+  margin-right: 8px; /* Add some space between icon and text in list items */
+}
+
+.scroll-trigger {
+  /* This is just a placeholder for the infinite scroll. 
+     If using a library, it might handle its own spinner or trigger element styles.
+     If implementing manually, you might observe this element entering viewport. */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 10px;
+}
+
+.whitespace-pre-wrap {
+    white-space: pre-wrap; /* Ensures long comments wrap and preserve line breaks */
+} 
