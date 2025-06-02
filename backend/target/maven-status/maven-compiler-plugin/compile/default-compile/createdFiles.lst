@@ -20,11 +20,14 @@ com\unihub\app\service\CriterioService.class
 com\unihub\app\repository\UserRepository.class
 com\unihub\app\entity\NotaCriterio.class
 com\unihub\app\dto\MessageResponse.class
+com\unihub\app\entity\Curso.class
 com\unihub\app\dto\HistoricoAvaliacaoCriterioDto.class
 com\unihub\app\dto\UpdateUserRoleRequest.class
 com\unihub\app\security\jwt\JwtUtils.class
+com\unihub\app\service\CursoService.class
 com\unihub\app\dto\AvaliacaoDto.class
 com\unihub\app\exception\ResourceNotFoundException.class
+com\unihub\app\dto\CursoDto.class
 com\unihub\app\UniHubApplication.class
 com\unihub\app\controller\ComentarioController.class
 com\unihub\app\dto\ProfessorDto.class
@@ -32,7 +35,9 @@ com\unihub\app\entity\Criterio.class
 com\unihub\app\repository\CriterioRepository.class
 com\unihub\app\dto\CriterioRequest.class
 com\unihub\app\dto\ComentarioPublicDto.class
+com\unihub\app\repository\CursoRepository.class
 com\unihub\app\controller\ProfessorController.class
+com\unihub\app\config\DataInitializer.class
 com\unihub\app\dto\JwtResponse.class
 com\unihub\app\dto\LoginRequest.class
 com\unihub\app\service\CadeiraService.class
@@ -63,6 +68,7 @@ com\unihub\app\service\AvaliacaoService.class
 com\unihub\app\security\jwt\AuthEntryPointJwt.class
 com\unihub\app\dto\ProfessorCadeiraRequest.class
 com\unihub\app\controller\AvaliacaoController.class
+com\unihub\app\controller\CursoController.class
 com\unihub\app\dto\AvaliacaoNotaPublicDto.class
 com\unihub\app\repository\CadeiraRepository.class
 com\unihub\app\security\services\UserDetailsServiceImpl.class

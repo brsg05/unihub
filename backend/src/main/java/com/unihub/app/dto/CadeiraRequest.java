@@ -20,4 +20,7 @@ public class CadeiraRequest {
 
     @NotNull
     private Boolean isEletiva;
+
+    @NotNull(message = "ID do Curso é obrigatório")
+    private Long cursoId;
 } 

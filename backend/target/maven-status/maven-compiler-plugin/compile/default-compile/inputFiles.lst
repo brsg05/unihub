@@ -7,6 +7,7 @@ C:\Users\Breno\Documents\MeusProjetos\unihub\backend\src\main\java\com\unihub\ap
 C:\Users\Breno\Documents\MeusProjetos\unihub\backend\src\main\java\com\unihub\app\security\jwt\AuthEntryPointJwt.java
 C:\Users\Breno\Documents\MeusProjetos\unihub\backend\src\main\java\com\unihub\app\service\AvaliacaoService.java
 C:\Users\Breno\Documents\MeusProjetos\unihub\backend\src\main\java\com\unihub\app\service\ComentarioService.java
+C:\Users\Breno\Documents\MeusProjetos\unihub\backend\src\main\java\com\unihub\app\dto\CursoDto.java
 C:\Users\Breno\Documents\MeusProjetos\unihub\backend\src\main\java\com\unihub\app\dto\RegisterRequest.java
 C:\Users\Breno\Documents\MeusProjetos\unihub\backend\src\main\java\com\unihub\app\entity\Comentario.java
 C:\Users\Breno\Documents\MeusProjetos\unihub\backend\src\main\java\com\unihub\app\dto\ComentarioSimplificadoDto.java
@@ -14,8 +15,10 @@ C:\Users\Breno\Documents\MeusProjetos\unihub\backend\src\main\java\com\unihub\ap
 C:\Users\Breno\Documents\MeusProjetos\unihub\backend\src\main\java\com\unihub\app\entity\NotaCriterio.java
 C:\Users\Breno\Documents\MeusProjetos\unihub\backend\src\main\java\com\unihub\app\dto\HistoricoAvaliacaoCriterioDto.java
 C:\Users\Breno\Documents\MeusProjetos\unihub\backend\src\main\java\com\unihub\app\repository\CriterioRepository.java
+C:\Users\Breno\Documents\MeusProjetos\unihub\backend\src\main\java\com\unihub\app\repository\CursoRepository.java
 C:\Users\Breno\Documents\MeusProjetos\unihub\backend\src\main\java\com\unihub\app\controller\CriterioController.java
 C:\Users\Breno\Documents\MeusProjetos\unihub\backend\src\main\java\com\unihub\app\dto\AvaliacaoCriterioInfoDto.java
+C:\Users\Breno\Documents\MeusProjetos\unihub\backend\src\main\java\com\unihub\app\controller\CursoController.java
 C:\Users\Breno\Documents\MeusProjetos\unihub\backend\src\main\java\com\unihub\app\entity\Professor.java
 C:\Users\Breno\Documents\MeusProjetos\unihub\backend\src\main\java\com\unihub\app\entity\Cadeira.java
 C:\Users\Breno\Documents\MeusProjetos\unihub\backend\src\main\java\com\unihub\app\dto\ComentarioRequest.java
@@ -38,6 +41,7 @@ C:\Users\Breno\Documents\MeusProjetos\unihub\backend\src\main\java\com\unihub\ap
 C:\Users\Breno\Documents\MeusProjetos\unihub\backend\src\main\java\com\unihub\app\UniHubApplication.java
 C:\Users\Breno\Documents\MeusProjetos\unihub\backend\src\main\java\com\unihub\app\security\services\UserDetailsServiceImpl.java
 C:\Users\Breno\Documents\MeusProjetos\unihub\backend\src\main\java\com\unihub\app\dto\ComentarioPublicDto.java
+C:\Users\Breno\Documents\MeusProjetos\unihub\backend\src\main\java\com\unihub\app\service\CursoService.java
 C:\Users\Breno\Documents\MeusProjetos\unihub\backend\src\main\java\com\unihub\app\service\UserService.java
 C:\Users\Breno\Documents\MeusProjetos\unihub\backend\src\main\java\com\unihub\app\dto\BackendCriterioDto.java
 C:\Users\Breno\Documents\MeusProjetos\unihub\backend\src\main\java\com\unihub\app\security\jwt\AuthTokenFilter.java
@@ -48,6 +52,7 @@ C:\Users\Breno\Documents\MeusProjetos\unihub\backend\src\main\java\com\unihub\ap
 C:\Users\Breno\Documents\MeusProjetos\unihub\backend\src\main\java\com\unihub\app\dto\AvaliacaoRequest.java
 C:\Users\Breno\Documents\MeusProjetos\unihub\backend\src\main\java\com\unihub\app\dto\NotaCriterioRequest.java
 C:\Users\Breno\Documents\MeusProjetos\unihub\backend\src\main\java\com\unihub\app\dto\UserDto.java
+C:\Users\Breno\Documents\MeusProjetos\unihub\backend\src\main\java\com\unihub\app\config\DataInitializer.java
 C:\Users\Breno\Documents\MeusProjetos\unihub\backend\src\main\java\com\unihub\app\controller\ProfessorController.java
 C:\Users\Breno\Documents\MeusProjetos\unihub\backend\src\main\java\com\unihub\app\entity\User.java
 C:\Users\Breno\Documents\MeusProjetos\unihub\backend\src\main\java\com\unihub\app\repository\CadeiraRepository.java
@@ -67,6 +72,7 @@ C:\Users\Breno\Documents\MeusProjetos\unihub\backend\src\main\java\com\unihub\ap
 C:\Users\Breno\Documents\MeusProjetos\unihub\backend\src\main\java\com\unihub\app\dto\CadeiraRequest.java
 C:\Users\Breno\Documents\MeusProjetos\unihub\backend\src\main\java\com\unihub\app\service\CadeiraService.java
 C:\Users\Breno\Documents\MeusProjetos\unihub\backend\src\main\java\com\unihub\app\dto\ProfessorRequest.java
+C:\Users\Breno\Documents\MeusProjetos\unihub\backend\src\main\java\com\unihub\app\entity\Curso.java
 C:\Users\Breno\Documents\MeusProjetos\unihub\backend\src\main\java\com\unihub\app\repository\ProfessorRepository.java
 C:\Users\Breno\Documents\MeusProjetos\unihub\backend\src\main\java\com\unihub\app\dto\CadeiraDto.java
 C:\Users\Breno\Documents\MeusProjetos\unihub\backend\src\main\java\com\unihub\app\repository\ComentarioRepository.java

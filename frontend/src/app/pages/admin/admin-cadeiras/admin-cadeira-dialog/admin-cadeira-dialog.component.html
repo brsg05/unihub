@@ -10,6 +10,18 @@
   </mat-form-field>
 
   <mat-form-field appearance="outline" class="w-full mb-3">
+    <mat-label>Curso</mat-label>
+    <mat-select formControlName="cursoId" required>
+      <mat-option *ngFor="let curso of (cursos$ | async)" [value]="curso.id">
+        {{ curso.nome }}
+      </mat-option>
+    </mat-select>
+    <mat-error *ngIf="cadeiraForm.get('cursoId')?.hasError('required')">
+      O curso é obrigatório.
+    </mat-error>
+  </mat-form-field>
+
+  <mat-form-field appearance="outline" class="w-full mb-3">
     <mat-label>Carga Horária (horas)</mat-label>
     <input matInput type="number" formControlName="cargaHoraria" placeholder="Ex: 60" required min="1">
     <mat-error *ngIf="cadeiraForm.get('cargaHoraria')?.hasError('required')">

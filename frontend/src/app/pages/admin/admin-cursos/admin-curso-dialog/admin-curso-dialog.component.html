@@ -1,0 +1,19 @@
+<h1 mat-dialog-title>{{ data.isEdit ? 'Editar Curso' : 'Adicionar Novo Curso' }}</h1>
+<div mat-dialog-content>
+  <form [formGroup]="cursoForm">
+    <mat-form-field appearance="fill" class="w-full">
+      <mat-label>Nome do Curso</mat-label>
+      <input matInput formControlName="nome" placeholder="Ex: Engenharia da Computação" required>
+      <mat-error *ngIf="cursoForm.get('nome')?.hasError('required')">
+        Nome é obrigatório.
+      </mat-error>
+      <mat-error *ngIf="cursoForm.get('nome')?.hasError('maxlength')">
+        Nome pode ter no máximo 150 caracteres.
+      </mat-error>
+    </mat-form-field>
+  </form>
+</div>
+<div mat-dialog-actions align="end">
+  <button mat-button (click)="onNoClick()">Cancelar</button>
+  <button mat-raised-button color="primary" [mat-dialog-close]="cursoForm.value" [disabled]="!cursoForm.valid">{{ data.isEdit ? 'Salvar' : 'Adicionar' }}</button>
+</div> 

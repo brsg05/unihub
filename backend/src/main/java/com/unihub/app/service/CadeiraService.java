@@ -3,9 +3,11 @@ package com.unihub.app.service;
 import com.unihub.app.dto.CadeiraDto;
 import com.unihub.app.dto.CadeiraRequest;
 import com.unihub.app.entity.Cadeira;
+import com.unihub.app.entity.Curso;
 import com.unihub.app.exception.BadRequestException;
 import com.unihub.app.exception.ResourceNotFoundException;
 import com.unihub.app.repository.CadeiraRepository;
+import com.unihub.app.service.CursoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -18,8 +20,14 @@ import java.util.stream.Collectors;
 @Service
 public class CadeiraService {
 
+    private final CadeiraRepository cadeiraRepository;
+    private final CursoService cursoService;
+
     @Autowired
-    private CadeiraRepository cadeiraRepository;
+    public CadeiraService(CadeiraRepository cadeiraRepository, CursoService cursoService) {
+        this.cadeiraRepository = cadeiraRepository;
+        this.cursoService = cursoService;
+    }
 
     @Transactional(readOnly = true)
     public Page<CadeiraDto> getAllCadeiras(Pageable pageable) {
@@ -27,7 +35,7 @@ public class CadeiraService {
     }
 
     @Transactional(readOnly = true)
-    public List<CadeiraDto> getAllCadeirasList() { // For internal use or non-paginated lists
+    public List<CadeiraDto> getAllCadeirasList() {
         return cadeiraRepository.findAll().stream().map(this::convertToDto).collect(Collectors.toList());
     }
 
@@ -40,14 +48,18 @@ public class CadeiraService {
 
     @Transactional
     public CadeiraDto createCadeira(CadeiraRequest cadeiraRequest) {
-        if (cadeiraRepository.existsByNome(cadeiraRequest.getNome())) {
-            throw new BadRequestException("Cadeira com nome '" + cadeiraRequest.getNome() + "' já existe.");
+        Curso curso = cursoService.getCursoEntityById(cadeiraRequest.getCursoId());
+        if (cadeiraRepository.existsByNomeAndCursoId(cadeiraRequest.getNome(), curso.getId())) {
+            throw new BadRequestException("Cadeira com nome '" + cadeiraRequest.getNome() + "' já existe para o curso '" + curso.getNome() + "'.");
         }
+
         Cadeira cadeira = new Cadeira();
         cadeira.setNome(cadeiraRequest.getNome());
         cadeira.setCargaHoraria(cadeiraRequest.getCargaHoraria());
         cadeira.setIsEletiva(cadeiraRequest.getIsEletiva());
-        return convertToDto(cadeiraRepository.save(cadeira));
+        cadeira.setCurso(curso);
+        Cadeira savedCadeira = cadeiraRepository.save(cadeira);
+        return convertToDto(savedCadeira);
     }
 
     @Transactional
@@ -55,28 +67,40 @@ public class CadeiraService {
         Cadeira cadeira = cadeiraRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Cadeira", "id", id));
 
-        // Check if name is being changed and if the new name already exists
-        if (!cadeira.getNome().equals(cadeiraRequest.getNome()) && cadeiraRepository.existsByNome(cadeiraRequest.getNome())) {
-            throw new BadRequestException("Outra cadeira com nome '" + cadeiraRequest.getNome() + "' já existe.");
+        Curso curso = cursoService.getCursoEntityById(cadeiraRequest.getCursoId());
+
+        if (!cadeira.getNome().equals(cadeiraRequest.getNome()) || !cadeira.getCurso().getId().equals(curso.getId())) {
+            if (cadeiraRepository.existsByNomeAndCursoId(cadeiraRequest.getNome(), curso.getId())) {
+                throw new BadRequestException("Outra cadeira com nome '" + cadeiraRequest.getNome() + "' já existe para o curso '" + curso.getNome() + "'.");
+            }
         }
 
         cadeira.setNome(cadeiraRequest.getNome());
         cadeira.setCargaHoraria(cadeiraRequest.getCargaHoraria());
         cadeira.setIsEletiva(cadeiraRequest.getIsEletiva());
-        return convertToDto(cadeiraRepository.save(cadeira));
+        cadeira.setCurso(curso);
+        Cadeira updatedCadeira = cadeiraRepository.save(cadeira);
+        return convertToDto(updatedCadeira);
     }
 
     @Transactional
     public void deleteCadeira(Long id) {
         Cadeira cadeira = cadeiraRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Cadeira", "id", id));
-        // Considerar o que acontece com Professores associados (cascade? ou impedir exclusão?)
-        // Por enquanto, a FK em professor_cadeiras tem ON DELETE CASCADE
         cadeiraRepository.delete(cadeira);
     }
 
     protected CadeiraDto convertToDto(Cadeira cadeira) {
-        return new CadeiraDto(cadeira.getId(), cadeira.getNome(), cadeira.getCargaHoraria(), cadeira.getIsEletiva());
+        CadeiraDto dto = new CadeiraDto();
+        dto.setId(cadeira.getId());
+        dto.setNome(cadeira.getNome());
+        dto.setCargaHoraria(cadeira.getCargaHoraria());
+        dto.setIsEletiva(cadeira.getIsEletiva());
+        if (cadeira.getCurso() != null) {
+            dto.setCursoId(cadeira.getCurso().getId());
+            dto.setCursoNome(cadeira.getCurso().getNome());
+        }
+        return dto;
     }
 
     protected Cadeira findCadeiraEntityById(Long id) {

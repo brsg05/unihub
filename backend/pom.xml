@@ -16,6 +16,7 @@
 
     <properties>
         <java.version>17</java.version>
+        <flyway.version>10.22.0</flyway.version> <!-- Define Flyway version -->
     </properties>
 
     <dependencies>
@@ -46,13 +47,13 @@
         <dependency>
             <groupId>org.flywaydb</groupId>
             <artifactId>flyway-core</artifactId>
-            <!-- Version managed by Spring Boot parent -->
+            <!-- Version managed by <flyway.version> property -->
         </dependency>
         <dependency>
             <groupId>org.flywaydb</groupId>
             <artifactId>flyway-database-postgresql</artifactId>
-             <version>10.14.0</version>
-            <!-- Version will be managed by Spring Boot parent via property, ensuring compatibility with flyway-core -->
+            <version>${flyway.version}</version> <!-- Explicitly use the property -->
+            <!-- Version managed by <flyway.version> property, ensuring compatibility with flyway-core -->
         </dependency>
 
         <!-- JWT Support -->

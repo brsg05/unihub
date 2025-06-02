@@ -193,9 +193,20 @@ public class ProfessorService {
 
 
     private ProfessorDto convertToDto(Professor professor) {
-        Set<CadeiraDto> cadeiraDtos = professor.getCadeiras() != null ? 
+        Set<CadeiraDto> cadeiraDtos = professor.getCadeiras() != null ?
             professor.getCadeiras().stream()
-            .map(c -> new CadeiraDto(c.getId(), c.getNome(), c.getCargaHoraria(), c.getIsEletiva()))
+            .map(c -> {
+                Long cursoId = (c.getCurso() != null) ? c.getCurso().getId() : null;
+                String cursoNome = (c.getCurso() != null) ? c.getCurso().getNome() : null;
+                // Cadeira.curso is @NotNull and optional=false, so cursoId should not be null here.
+                if (cursoId == null) {
+                     // This case should ideally not be reached.
+                    System.err.println("Critical Error: Cadeira with ID " + c.getId() + " has a null Curso associated, despite being mandatory.");
+                    // Depending on desired strictness, could throw an IllegalStateException.
+                    // For now, it will proceed and might lead to issues if CadeiraDto constructor expects non-null cursoId.
+                }
+                return new CadeiraDto(c.getId(), c.getNome(), c.getCargaHoraria(), c.getIsEletiva(), cursoId, cursoNome);
+            })
             .collect(Collectors.toSet()) : Collections.emptySet();
         return new ProfessorDto(professor.getId(), professor.getNomeCompleto(), professor.getPhotoUrl(), professor.getNotaGeral(), cadeiraDtos);
     }

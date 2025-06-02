@@ -8,6 +8,7 @@ import java.util.Optional;
 
 @Repository
 public interface CadeiraRepository extends JpaRepository<Cadeira, Long> {
-    Optional<Cadeira> findByNome(String nome);
-    Boolean existsByNome(String nome);
+    Optional<Cadeira> findByNomeAndCursoId(String nome, Long cursoId);
+    Boolean existsByNomeAndCursoId(String nome, Long cursoId);
+    Boolean existsByCursoId(Long cursoId);
 } 
