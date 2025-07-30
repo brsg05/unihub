@@ -46,3 +46,12 @@ Thumbs.db
 *.launch
 *.settings
 *.vscode/ 
+# Angular
+.angular/
+.angular/cache/
+frontend/.angular/
+frontend/.angular/cache/
+dist/
+frontend/dist/
+node_modules/
+
