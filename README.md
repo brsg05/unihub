@@ -47,3 +47,6 @@ Para configurar e rodar o projeto localmente, siga os pré-requisitos e os passo
 ## Links Úteis
 * **Pitch:** https://docs.google.com/presentation/d/1FhDKo8NnOXeDlc4lSyfXoKXEryCRTBLtU2Rb-G411ww/edit?usp=sharing
 * **Relatório Final:** Em breve
+* **Vídeo Apresentação da Aplicação:**
+  * Vídeo 1: https://drive.google.com/file/d/1XkxlNT3zELLlm6KhapnDSa6Uibrk7FyO/view
+  * Vídeo 2: https://drive.google.com/file/d/1gPvf0gjAnhBl7lnbVEh8KMcRNhlALwob/view
