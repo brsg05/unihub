@@ -5,7 +5,7 @@
     <parent>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-parent</artifactId>
-        <version>3.2.0</version> <!-- Use uma versão recente e estável do Spring Boot -->
+        <version>3.5.3</version> <!-- Use uma versão recente e estável do Spring Boot -->
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
     <groupId>com.unihub</groupId>
@@ -14,10 +14,10 @@
     <name>unihub</name>
     <description>Sistema de Avaliação de Professores</description>
 
-    <properties>
-        <java.version>17</java.version>
-        <flyway.version>10.22.0</flyway.version> <!-- Define Flyway version -->
-    </properties>
+<!--    <properties>-->
+<!--        <java.version>17</java.version>-->
+<!--        <flyway.version>10.22.0</flyway.version> &lt;!&ndash; Define Flyway version &ndash;&gt;-->
+<!--    </properties>-->
 
     <dependencies>
         <!-- Spring Boot Starters -->
@@ -44,17 +44,17 @@
             <artifactId>postgresql</artifactId>
             <scope>runtime</scope>
         </dependency>
-        <dependency>
-            <groupId>org.flywaydb</groupId>
-            <artifactId>flyway-core</artifactId>
-            <!-- Version managed by <flyway.version> property -->
-        </dependency>
-        <dependency>
-            <groupId>org.flywaydb</groupId>
-            <artifactId>flyway-database-postgresql</artifactId>
-            <version>${flyway.version}</version> <!-- Explicitly use the property -->
-            <!-- Version managed by <flyway.version> property, ensuring compatibility with flyway-core -->
-        </dependency>
+<!--        <dependency>-->
+<!--            <groupId>org.flywaydb</groupId>-->
+<!--            <artifactId>flyway-core</artifactId>-->
+<!--            &lt;!&ndash; Version managed by <flyway.version> property &ndash;&gt;-->
+<!--        </dependency>-->
+<!--        <dependency>-->
+<!--            <groupId>org.flywaydb</groupId>-->
+<!--            <artifactId>flyway-database-postgresql</artifactId>-->
+<!--            <version>${flyway.version}</version> &lt;!&ndash; Explicitly use the property &ndash;&gt;-->
+<!--            &lt;!&ndash; Version managed by <flyway.version> property, ensuring compatibility with flyway-core &ndash;&gt;-->
+<!--        </dependency>-->
 
         <!-- JWT Support -->
         <dependency>
@@ -69,12 +69,20 @@
             <version>0.11.5</version>
             <scope>runtime</scope>
         </dependency>
+
         <dependency>
             <groupId>io.jsonwebtoken</groupId>
             <artifactId>jjwt-jackson</artifactId> <!-- or jjwt-gson if Gson is preferred -->
             <version>0.11.5</version>
             <scope>runtime</scope>
         </dependency>
+
+        <dependency>
+                <groupId>jakarta.validation</groupId>
+                <artifactId>jakarta.validation-api</artifactId>
+                <version>3.1.1</version>
+        </dependency>
+
 
         <!-- Lombok para reduzir boilerplate -->
         <dependency>
@@ -108,6 +116,26 @@
             <groupId>org.springdoc</groupId>
             <artifactId>springdoc-openapi-starter-webmvc-ui</artifactId>
             <version>2.2.0</version>
+        </dependency>
+
+        <dependency>
+            <groupId>io.jsonwebtoken</groupId>
+            <artifactId>jjwt-api</artifactId>
+            <version>0.12.6</version>
+        </dependency>
+
+        <dependency>
+            <groupId>io.jsonwebtoken</groupId>
+            <artifactId>jjwt-impl</artifactId>
+            <version>0.12.6</version>
+            <scope>runtime</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>io.jsonwebtoken</groupId>
+            <artifactId>jjwt-jackson</artifactId>
+            <version>0.12.6</version>
+            <scope>runtime</scope>
         </dependency>
 
     </dependencies>

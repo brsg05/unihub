@@ -68,8 +68,7 @@ The project is divided into two main parts:
 
 The backend exposes RESTful API endpoints under `/api`. Key controllers include:
 
-*   `/api/auth`: Authentication (login, register).
-*   `/api/users`: User management (Admin only).
+*   `/api/users`: User management (Admin only) and Authentication (login, register).
 *   `/api/professores`: Professor management and public listing.
 *   `/api/cadeiras`: Course management and public listing.
 *   `/api/criterios`: Criteria management and public listing.
@@ -91,6 +90,8 @@ Refer to the Swagger UI (`/swagger-ui/index.html` on the running backend) for de
 *   Maven
 *   Lombok
 *   Swagger/OpenAPI (Springdoc)
+*   Mockito
+*   JUnit
 
 ### Frontend
 
@@ -99,10 +100,6 @@ Refer to the Swagger UI (`/swagger-ui/index.html` on the running backend) for de
 *   Angular Material
 *   RxJS
 *   HTML, SCSS
-
-## Contributing
-
-(Details on how to contribute, coding standards, pull request process, etc., can be added here if this were an open project.)
 
 ## Diagrama de Entidades e Relacionamentos (ERD)
 

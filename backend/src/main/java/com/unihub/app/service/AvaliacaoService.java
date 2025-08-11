@@ -5,11 +5,12 @@ import com.unihub.app.entity.*;
 import com.unihub.app.exception.BadRequestException;
 import com.unihub.app.exception.ResourceNotFoundException;
 import com.unihub.app.repository.*;
-import com.unihub.app.security.services.UserDetailsImpl;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -41,9 +42,11 @@ public class AvaliacaoService {
 
     @Transactional
     public AvaliacaoDto createAvaliacao(AvaliacaoRequest avaliacaoRequest) {
-        UserDetailsImpl userDetails = (UserDetailsImpl) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        User currentUser = userRepository.findById(userDetails.getId())
-                .orElseThrow(() -> new ResourceNotFoundException("User", "id", userDetails.getId()));
+
+        UserDetails userDetails = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+
+        User currentUser = userRepository.findByEmail(userDetails.getUsername())
+                .orElseThrow(() -> new ResourceNotFoundException("User", "Email", userDetails.getUsername()));
 
         Professor professor = professorRepository.findById(avaliacaoRequest.getProfessorId())
                 .orElseThrow(() -> new ResourceNotFoundException("Professor", "id", avaliacaoRequest.getProfessorId()));

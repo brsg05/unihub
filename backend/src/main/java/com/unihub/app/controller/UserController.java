@@ -1,13 +1,15 @@
 package com.unihub.app.controller;
 
-import com.unihub.app.dto.UpdateUserRoleRequest;
-import com.unihub.app.dto.UserDto;
+import com.unihub.app.dto.*;
+import com.unihub.app.entity.ERole;
+import com.unihub.app.entity.User;
 import com.unihub.app.service.UserService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
@@ -23,6 +25,24 @@ public class UserController {
 
     @Autowired
     private UserService userService;
+
+    @PostMapping("/register") // POST /manguetrip/api/users
+    public ResponseEntity<UserDto> createUser(@RequestBody RegisterRequest requestDTO) {
+        try {
+            UserDto newUser = userService.save(requestDTO);
+            return ResponseEntity.status(HttpStatus.CREATED).body(newUser);
+        } catch (IllegalArgumentException e) {
+            return ResponseEntity.badRequest().body(null); // Return 400 for business logic errors
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
+        }
+    }
+
+    @PostMapping("/login")
+    public String login(@RequestBody LoginRequest requestDTO) {
+        System.out.println(requestDTO);
+        return userService.verify(requestDTO);
+    }
 
     @GetMapping
     @PreAuthorize("hasRole('ADMIN')")
@@ -44,4 +64,7 @@ public class UserController {
     public ResponseEntity<UserDto> updateUserRole(@PathVariable Long id, @Valid @RequestBody UpdateUserRoleRequest roleRequest) {
         return ResponseEntity.ok(userService.updateUserRole(id, roleRequest));
     }
+
+
+
 } 
