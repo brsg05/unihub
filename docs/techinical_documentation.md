@@ -8,6 +8,7 @@ Autor: Ithalo Rannieri Araujo Soares
 - [1. Visão Geral do Produto](#1-visão-geral-do-produto)
   - [O Problema](#o-problema)
   - [A Solução](#a-solução)
+  - [Proposta de Valor](#proposta-de-valor)
   - [Público-Alvo](#público-alvo)
   - [Personas](#personas)
 - [2. Arquitetura do Sistema](#2-arquitetura-do-sistema)
@@ -37,6 +38,9 @@ A falta de informações detalhadas e confiáveis sobre as disciplinas, para al�
 
 ### A Solução
 O UniHub oferece uma solução centralizada e confiável, onde os alunos podem encontrar informações estruturadas sobre as disciplinas. As avaliações são baseadas em experiências reais de outros alunos, cobrindo aspectos como dificuldade, carga de trabalho, didática do professor e metodologia de avaliação. A plataforma promove a colaboração e a formação de uma comunidade acadêmica mais informada.
+
+### Proposta de Valor
+
 
 ### Público-Alvo
 * **Alunos de graduação:** Principalmente calouros e veteranos que precisam escolher disciplinas a cada semestre.Ex-alunos também são bem-vindos para contribuir com suas experiências e lições aprendidas.
