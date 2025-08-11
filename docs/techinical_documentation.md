@@ -26,6 +26,7 @@ Autor: Ithalo Rannieri Araujo Soares
     - [O que deu certo](#o-que-deu-certo)
     - [O que deu errado](#o-que-deu-errado)
   - [4.3 Próximos passos](#43-próximos-passos)
+- [5. Informações Gerais e Metodologia](#5-informações-gerais-e-metodologia)
 
 ## 1\. Visão Geral do Produto
 ---
@@ -245,3 +246,12 @@ Tudo que foi planejado até o presente momento, foi realizado. Algumas decisões
 
 ### 4.3 Próximos passos
 Lançar o MVP com o escopo de usuário restrito à alunos do Centro de Informática. Realizar análises e ajustes, quando necessário, e aumentar o escopo de usuários para alunos da Universidade Federal de Pernambuco.
+
+## 5. Informações Gerais e Metodologia
+Este documento é parte de um projeto de software que segue uma metodologia ágil. O time é composto por dois membros, com papéis e responsabilidades bem definidos:
+
+* **Ithalo Araujo** (iras@cin.ufpe.br): Atua como Gerente de Produtos. Foi responsável por toda a documentação técnica, análise de negócios, pesquisas com usuários, análise e especificação de requisitos e outros artefatos de documentação e negócios.
+
+* **Breno Ramos** (brsg05@cin.ufpe.br): Atua como Desenvolvedor. Foi responsável por todo o desenvolvimento e implementação de testes da solução.
+
+> O projeto contou com o suporte de ferramentas de Inteligência Artificial (LLMs), as quais foram utilizadas de forma ética e estratégica para agilizar o processo de documentação e análise, permitindo que a equipe se concentrasse em atividades de maior valor.
