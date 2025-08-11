@@ -49,11 +49,11 @@ O UniHub oferece uma solução centralizada e confiável, onde os alunos podem e
 
     * **Necessidades:** Ela busca uma plataforma centralizada e fácil de usar, onde possa encontrar avaliações detalhadas sobre as disciplinas, incluindo a metodologia de avaliação e a didática dos professores. Seu principal objetivo é tomar decisões de matrícula mais conscientes, evitando disciplinas que seriam mais "pesadas" do que o esperado.
 
-* Persona 2: João, aluno blocado do curso de Engenharia da Computação.<br>
+* Persona 2: João, 20 anos, aluno blocado do curso de Engenharia da Computação.<br>
 
     * **Contexto:** Embora não tenha a liberdade de escolher suas matérias devido a seu status _blocado_, ele se sente despreparado para as exigências de cada disciplina. A ementa oficial não oferece uma visão prática da quantidade de entregas, dos projetos ou do nível de dificuldade.
 
-    * **Necessidades:** Ele precisa de uma fonte de informações para se antecipar e se preparar melhor para as disciplinas. Gostaria de ler relatos de outros alunos sobre os desafios práticos das matérias e obter dicas sobre como se organizar. Para ele, a plataforma seria um "guia de sobrevivência" para a sua jornada acadêmica.
+    * **Necessidades:** Está prestes a iniciar sua primeira experiência profissional como estagiário e, disposto a perder o status de blocado, está em dúvida de como planejar sua matrícula para o próximo semestre. Ele precisa de uma fonte de informações para se antecipar e se preparar melhor para as disciplinas. Gostaria de ler relatos de outros alunos sobre os desafios práticos das matérias e obter dicas sobre como se organizar. Para ele, a plataforma seria um "guia de sobrevivência" para a sua jornada acadêmica.
 
 * Persona 3: Carlos, 35 anos, gestor de marketing.<br>
 
