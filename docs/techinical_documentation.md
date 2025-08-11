@@ -91,7 +91,7 @@ Este diagrama detalha a jornada do usuário na funcionalidade principal do UniHu
             B --> C{"Login / Cadastro"}
             C -- Sim --> D["Buscar Disciplina"]
             D --> E["Visualizar Avaliações"]
-            E --> F["Contribuir com Avaliação"]
+            E --> F["Contribuir com Avaliação de Disciplina e Professor"]
             F --> G["Envio da Avaliação"]
             G --> H["Página de Avaliações Atualizada"]
             H --> I((Fim))
@@ -105,11 +105,11 @@ Este diagrama detalha a jornada do usuário na funcionalidade principal do UniHu
 
 3. Ao encontrar a disciplina, ele acessa a Página de Avaliações para Visualizar o conteúdo existente.
 
-4. O usuário pode então contribuir com uma avaliação.
+4. O usuário pode então Contribuir com uma Avaliação da Disciplina e do Professor que a leciona.
 
-5. O envio da avaliação é processado.
+5. O Envio da Avaliação é processado.
 
-6. A página de avaliações é atualizada com a nova contribuição.
+6. A Página de Avaliações é atualizada com a nova contribuição.
 
 #### 2.2.2. Fluxo de Dados (Data Flow)
 Este diagrama descreve como a informação se move entre os principais componentes da nova arquitetura.
@@ -259,3 +259,5 @@ Este documento é parte de um projeto de software que segue uma metodologia ági
 * **Breno Ramos** (brsg05@cin.ufpe.br): Atua como Desenvolvedor. Foi responsável por todo o desenvolvimento e implementação de testes da solução.
 
 > O projeto contou com o suporte de ferramentas de Inteligência Artificial (LLMs), as quais foram utilizadas de forma ética e estratégica para agilizar o processo de documentação e análise, permitindo que a equipe se concentrasse em atividades de maior valor.
+
+Link para apresentação: https://www.canva.com/design/DAGvVkWLBXI/EW5kdw8g49yFu-LXqzs4og/view?utm_content=DAGvVkWLBXI&utm_campaign=designshare&utm_medium=link2&utm_source=uniquelinks&utlId=h1631fbb0b6#11
