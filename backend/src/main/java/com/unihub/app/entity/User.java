@@ -46,8 +46,9 @@ public class User {
     private String email;
 
     @Enumerated(EnumType.STRING)
-    @Column(nullable = false, length = 25)
-    private ERole role;
+    @Column(name = "role",nullable = false)
+    private ERole role = ERole.ROLE_USER;
+
 
     @OneToMany(mappedBy = "user")
     private Set<Avaliacao> avaliacoes = new HashSet<>();
@@ -60,10 +61,10 @@ public class User {
     @Column(name = "updated_at", nullable = false)
     private LocalDateTime updatedAt;
 
-    public User(String username, String email, String password, ERole role) {
+    public User(String username, String email, String password) {
         this.username = username;
         this.email = email;
         this.password = password;
-        this.role = role;
+        this.role = ERole.ROLE_USER;
     }
 } 
