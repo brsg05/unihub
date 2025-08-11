@@ -31,14 +31,14 @@ export class ErrorInterceptor implements HttpInterceptor {
         } else {
           // Server-side errors
           errorMessage = `Error: ${error.status} - ${error.error?.message || error.message}`;
-          if (error.status === 401 && !request.url.includes('/auth/login')) {
+          if (error.status === 401 && !request.url.includes('/users/login')) {
             // Auto logout if 401 response returned from api and not from login attempt
             this.snackBar.open('Your session has expired or you are unauthorized. Please login again.', 'Close', { duration: 7000 });
             this.authService.logout(); // This will navigate to login
           }
         }
         // Avoid showing snackbar for login failures if handled in component
-        if (!request.url.includes('/auth/login') || error.status !== 401) {
+        if (!request.url.includes('/users/login') || error.status !== 401) {
              this.snackBar.open(errorMessage, 'Close', {
                 duration: 5000,
                 panelClass: ['error-snackbar'] 
@@ -48,4 +48,4 @@ export class ErrorInterceptor implements HttpInterceptor {
       })
     );
   }
-} 
+}
