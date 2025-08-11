@@ -1,5 +1,6 @@
 package com.unihub.app.dto;
 
+import com.unihub.app.entity.ERole;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
@@ -21,4 +22,6 @@ public class RegisterRequest {
     @NotBlank
     @Size(min = 6, max = 40)
     private String password;
+
+    private ERole role = ERole.ROLE_USER; // Default role is USER
 } 
