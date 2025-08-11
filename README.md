@@ -1,328 +1,46 @@
 # Unihub
+O UniHub é uma plataforma de compartilhamento de conhecimento acadêmico que visa conectar alunos e ex-alunos para promover um aprendizado colaborativo. A plataforma funciona como um repositório centralizado de avaliações e experiências sobre disciplinas e professores, permitindo que os estudantes tomem decisões de matrícula mais conscientes e informadas.
 
-Unihub is a web application designed for university students and staff to manage and share information about courses, professors, and evaluations.
+## O Problema
+No ambiente universitário, a escolha das disciplinas a cada semestre é uma decisão crucial para os alunos. No entanto, a falta de informações práticas e a dispersão dos dados entre grupos de mensagens e conversas informais criam um cenário de incerteza, dificultando a tomada de decisões conscientes. A ementa oficial, por si só, raramente oferece a visão completa sobre a metodologia, a carga de trabalho ou a dificuldade real de uma disciplina.
 
-## Project Structure
+A pesquisa de validação de ideia, que incluiu 18 estudantes universitários, revelou um problema significativo: **o impacto da falta de informações práticas e centralizadas sobre as disciplinas no momento da matrícula.** Os resultados mostraram que:
 
-The project is divided into two main parts:
+* 83,3% dos alunos buscam informações com colegas ou em grupos de mensagens (WhatsApp, Telegram), o que demonstra a necessidade de uma fonte confiável e centralizada.
 
-*   **`backend`**: A Java Spring Boot application providing the RESTful API.
-*   **`frontend`**: An Angular application for the user interface.
+* 100% dos alunos não consideram a ementa oficial da UFPE suficiente para a tomada de decisão.
 
-## Prerequisites
+* 94,4% dos alunos se sentiriam confortáveis em compartilhar suas experiências para ajudar outros colegas.
 
-### Backend (Java Spring Boot)
+* 72,2% dos alunos usariam uma plataforma como o UniHub.
 
-*   Java Development Kit (JDK) - Version 17 or later
-*   Apache Maven - Version 3.6 or later
-*   A running PostgreSQL database instance.
+Esse cenário gera incerteza, frustração e pode levar a escolhas de disciplinas desalinhadas com o perfil e as expectativas dos alunos. **O UniHub resolve esse problema ao fornecer uma plataforma confiável e estruturada com insights valiosos de outros estudantes, garantindo que a decisão de matrícula seja baseada em informações concretas.**
 
-### Frontend (Angular)
+## A Solução
+O UniHub é uma plataforma que permite aos alunos avaliar disciplinas sob diferentes perspectivas, incluindo:
 
-*   Node.js - Version 18.x or later (includes npm)
-*   Angular CLI - Version 17.x or later
+* Dificuldade e complexidade
+* Quantidade de avaliações e frequência
+* Metodologia adotada pelo professor
 
-## Setup and Running
+A solução oferece um espaço onde alunos veteranos e ex-alunos podem compartilhar suas "lições aprendidas", criando um vasto repositório de conhecimento. O conteúdo é gerado pelos próprios usuários, tornando a plataforma uma comunidade colaborativa e autossustentável.
 
-### Backend
+## Desafios Enfrentados
+O principal desafio identificado foi garantir a confiabilidade e a anonimidade das avaliações. As respostas dos usuários na pesquisa de validação indicaram que eles se sentiriam mais confortáveis em compartilhar suas opiniões se pudessem fazê-lo de forma anônima, mas com a garantia de que a pessoa realmente cursou a disciplina.
 
-1.  **Database Configuration**:
-    *   Navigate to `backend/src/main/resources/`.
-    *   Rename `application-example.properties` to `application.properties`.
-    *   Update `application.properties` with your PostgreSQL database connection details (URL, username, password). Ensure the database schema/database specified in the URL exists.
+Para superar isso, a solução propõe um sistema de autenticação segura que valide o vínculo do aluno com a universidade, mas que permita a postagem de avaliações de forma anônima. Isso equilibra a confiança e a privacidade, garantindo que o conteúdo seja genuíno e que os usuários se sintam seguros para contribuir.
 
-2.  **Build and Run**:
-    *   Open a terminal in the `backend` directory.
-    *   Run `mvn spring-boot:run` to start the backend server.
-    *   The API will typically be available at `http://localhost:8080`.
-    *   API documentation (Swagger UI) can be accessed at `http://localhost:8080/swagger-ui/index.html`.
+## Decisões Técnicas, de Design e seus _trade-offs_
+O projeto foi concebido com o auxílio de inteligência artificial e _prompt engineering_, que atuou como uma ferramenta de apoio e não como um agente resolvedor único. Essa abordagem ética garantiu que as decisões estratégicas fossem tomadas pela equipe, com a IA acelerando a documentação e a prototipação. Para mais detalhes, consultar a [Documentação Técnica](docs/technical_documentation.md).
 
-### Frontend
+## Como contribuir
+O _UniHub_ é um projeto de código aberto e colaborativo. **Contribuições são sempre bem-vindas**, seja através de sugestões de melhoria, relato de bugs ou novas funcionalidades. Para mais detalhes, por favor, consulte o nosso [guia de contribuição](docs/contribute.md) ou abra uma issue no repositório.
 
-1.  **Install Dependencies**:
-    *   Open a terminal in the `frontend` directory.
-    *   Run `npm install` to download project dependencies.
+## Como Buildar
+Para configurar e rodar o projeto localmente, siga os pré-requisitos e os passos de instalação detalhados no [arquivo de build](docs/build.md). O processo envolve a clonagem do repositório, a instalação das dependências do backend e do frontend, e a inicialização dos dois servidores em terminais separados.
 
-2.  **Run Development Server**:
-    *   Run `ng serve` or `npm start`.
-    *   The application will typically be available at `http://localhost:4200`.
+## Nosso Time
+* **Ithalo Araujo** (iras@cin.ufpe.br): Atua como Gerente de Produtos. Foi responsável por toda a documentação técnica, análise de negócios, pesquisas com usuários, análise e especificação de requisitos e outros artefatos de documentação e negócios.
 
-## Key Features
-
-*   User authentication and role-based authorization (User, Admin).
-*   **Admin Dashboard**:
-    *   Manage Users (view users, update roles).
-    *   Manage Courses (`Cadeiras`): CRUD operations.
-    *   Manage Criteria (`Critérios`): CRUD operations for evaluation criteria.
-    *   Manage Professors (`Professores`): CRUD operations.
-*   **Public Pages**:
-    *   View lists of professors, courses.
-    *   View detailed professor pages, including courses they teach and overall ratings per criterion.
-    *   View detailed course pages.
-    *   View evaluation history for a specific criterion of a professor.
-*   **User Features**:
-    *   Submit evaluations for professors on specific courses and criteria.
-    *   View evaluations and comments.
-
-## API Endpoints
-
-The backend exposes RESTful API endpoints under `/api`. Key controllers include:
-
-*   `/api/users`: User management (Admin only) and Authentication (login, register).
-*   `/api/professores`: Professor management and public listing.
-*   `/api/cadeiras`: Course management and public listing.
-*   `/api/criterios`: Criteria management and public listing.
-*   `/api/avaliacoes`: Submission and retrieval of evaluations.
-*   `/api/comentarios`: Comment management (currently includes voting).
-
-Refer to the Swagger UI (`/swagger-ui/index.html` on the running backend) for detailed API documentation.
-
-## Technologies Used
-
-### Backend
-
-*   Java 17
-*   Spring Boot 3.x
-    *   Spring Web
-    *   Spring Data JPA
-    *   Spring Security
-*   PostgreSQL
-*   Maven
-*   Lombok
-*   Swagger/OpenAPI (Springdoc)
-*   Mockito
-*   JUnit
-
-### Frontend
-
-*   Angular 17.x
-*   TypeScript
-*   Angular Material
-*   RxJS
-*   HTML, SCSS
-
-## Diagrama de Entidades e Relacionamentos (ERD)
-
-```mermaid
-erDiagram
-    USUARIO {
-        BIGINT id PK
-        VARCHAR username UK
-        VARCHAR password
-        VARCHAR email UK
-        VARCHAR role "Enum: USER, ADMIN"
-    }
-
-    PROFESSOR {
-        BIGINT id PK
-        VARCHAR nomeCompleto
-        VARCHAR photoUrl
-        DECIMAL notaGeral "Calculada"
-    }
-
-    CADEIRA {
-        BIGINT id PK
-        VARCHAR nome
-        INT cargaHoraria
-        BOOLEAN isEletiva
-    }
-
-    PROFESSOR_CADEIRAS {
-        BIGINT professor_id FK
-        BIGINT cadeira_id FK
-    }
-
-    CRITERIO {
-        BIGINT id PK
-        VARCHAR nome UK
-    }
-
-    AVALIACAO {
-        BIGINT id PK
-        TIMESTAMP data
-        VARCHAR periodo "Ex: 2023.1"
-        BIGINT usuario_id FK
-        BIGINT professor_id FK
-        BIGINT cadeira_id FK
-    }
-
-    NOTA_CRITERIO {
-        BIGINT id PK
-        BIGINT avaliacao_id FK
-        BIGINT criterio_id FK
-        INT nota "1-5 or 1-10"
-    }
-
-    COMENTARIO {
-        BIGINT id PK
-        TEXT texto
-        BIGINT avaliacao_id FK "Avaliação à qual o comentário está ligado"
-        BIGINT criterio_id FK "Critério específico do comentário"
-        INT votosPositivos
-        INT votosNegativos
-    }
-
-    USUARIO ||--o{ AVALIACAO : realiza
-    PROFESSOR ||--o{ AVALIACAO : é_avaliado_em
-    CADEIRA ||--o{ AVALIACAO : referente_a
-    PROFESSOR }o--o{ PROFESSOR_CADEIRAS : leciona
-    CADEIRA }o--o{ PROFESSOR_CADEIRAS : é_lecionada_por
-    AVALIACAO ||--|{ NOTA_CRITERIO : possui_notas_por
-    CRITERIO ||--o{ NOTA_CRITERIO : é_avaliado_via
-    AVALIACAO ||--o{ COMENTARIO : pode_ter_comentario_sobre
-    CRITERIO ||--o{ COMENTARIO : pode_ter_comentario_especifico_sobre
-    ADMINISTRADOR (USUARIO) }|--|{ CRITERIO : gerencia
-    ADMINISTRADOR (USUARIO) }|--|{ PROFESSOR : gerencia
-
-```
-
-## Descrições das Entidades
-
-*   **Usuário:**
-    *   `id`: Identificador único.
-    *   `username`: Nome de usuário para login (único).
-    *   `password`: Senha criptografada.
-    *   `email`: Email do usuário (único).
-    *   `role`: Papel do usuário no sistema (`USER` ou `ADMIN`).
-*   **Professor:**
-    *   `id`: Identificador único.
-    *   `nomeCompleto`: Nome completo do professor.
-    *   `photoUrl`: URL para a foto do professor.
-    *   `notaGeral`: Média aritmética das notas de todos os critérios avaliados para este professor (calculado).
-*   **Cadeira:** (Disciplina)
-    *   `id`: Identificador único.
-    *   `nome`: Nome da cadeira.
-    *   `cargaHoraria`: Carga horária da cadeira.
-    *   `isEletiva`: Indica se a cadeira é eletiva.
-*   **Professor_Cadeiras:** Tabela de junção para o relacionamento N-M entre Professor e Cadeira.
-    *   `professor_id`: Chave estrangeira para Professor.
-    *   `cadeira_id`: Chave estrangeira para Cadeira.
-*   **Critério:**
-    *   `id`: Identificador único.
-    *   `nome`: Nome do critério de avaliação (ex: Didática, Assiduidade). Criado apenas por ADMIN.
-*   **Avaliação:**
-    *   `id`: Identificador único.
-    *   `data`: Data e hora da avaliação.
-    *   `periodo`: Período acadêmico da avaliação (ex: "2023.1").
-    *   `usuario_id`: Chave estrangeira para Usuário que realizou a avaliação (mantido anônimo no frontend).
-    *   `professor_id`: Chave estrangeira para Professor avaliado.
-    *   `cadeira_id`: Chave estrangeira para Cadeira relacionada à avaliação.
-*   **NotaCritério:**
-    *   `id`: Identificador único.
-    *   `avaliacao_id`: Chave estrangeira para Avaliação.
-    *   `criterio_id`: Chave estrangeira para Critério.
-    *   `nota`: Nota atribuída ao critério específico nesta avaliação.
-*   **Comentário:**
-    *   `id`: Identificador único.
-    *   `texto`: Conteúdo do comentário.
-    *   `avaliacao_id`: Chave estrangeira para Avaliação.
-    *   `criterio_id`: Chave estrangeira para o Critério ao qual o comentário se refere.
-    *   `votosPositivos`: Número de votos positivos no comentário.
-    *   `votosNegativos`: Número de votos negativos no comentário.
-
-## Fluxos de Usuário Principais
-
-1.  **Registro de Novo Usuário:**
-    *   Usuário acessa a página de registro.
-    *   Preenche formulário (username, email, senha).
-    *   Sistema valida os dados e cria a conta com `role=USER`.
-    *   Usuário é redirecionado para login ou página principal.
-2.  **Login de Usuário:**
-    *   Usuário acessa a página de login.
-    *   Fornece username/email e senha.
-    *   Sistema valida as credenciais.
-    *   Se válido, um token JWT é gerado e retornado. Usuário é redirecionado.
-3.  **Avaliar Professor (Usuário Logado):**
-    *   Usuário navega para a página de um professor ou lista de professores.
-    *   Seleciona um professor e uma cadeira que ele leciona.
-    *   Acessa o formulário de avaliação para o período corrente.
-    *   Preenche as notas para todos os critérios obrigatórios.
-    *   Opcionalmente, adiciona comentários para cada critério.
-    *   Submete a avaliação. O sistema registra a avaliação de forma anônima (associação com usuário apenas no backend).
-4.  **Visualizar Avaliações de Professor (Público):**
-    *   Qualquer visitante acessa a página de um professor.
-    *   Visualiza a `notaGeral` do professor.
-    *   Vê uma tabela com cada `Critério`, sua nota média e o principal comentário (ordenado por score `votosPositivos - votosNegativos`).
-    *   Pode navegar para a página de um critério específico para ver mais detalhes e comentários.
-5.  **Administração de Professores (Admin Logado):**
-    *   Admin acessa o Dashboard de Administração.
-    *   Pode Criar, Ler, Atualizar e Deletar (CRUD) Professores.
-    *   Pode associar Cadeiras a Professores.
-6.  **Administração de Critérios (Admin Logado):**
-    *   Admin acessa o Dashboard de Administração.
-    *   Pode Criar, Ler, Atualizar e Deletar (CRUD) Critérios de avaliação.
-7.  **Atribuir Papel de Admin (Admin Logado):**
-    *   Admin acessa a seção de gerenciamento de usuários no Dashboard.
-    *   Pode alterar o `role` de um usuário para `ADMIN`.
-
-## Estrutura do Repositório (Planejada)
-
-```
-/
-├── backend/ (Java Spring Boot)
-│   ├── src/
-│   │   └── main/
-│   │       ├── java/com/unihub/app/
-│   │       │   ├── config/
-│   │       │   ├── controller/
-│   │       │   ├── dto/
-│   │       │   ├── entity/
-│   │       │   ├── exception/
-│   │       │   ├── repository/
-│   │       │   ├── service/
-│   │       │   └── UniHubApplication.java
-│   │       └── resources/
-│   │           ├── application.properties
-│   │           └── static/
-│   │           └── templates/
-│   ├── pom.xml
-│   └── Dockerfile
-├── frontend/ (Angular)
-│   ├── src/
-│   │   ├── app/
-│   │   │   ├── admin/
-│   │   │   ├── auth/
-│   │   │   ├── professor/
-│   │   │   ├── shared/
-│   │   │   ├── app-routing.module.ts
-│   │   │   ├── app.component.html
-│   │   │   ├── app.component.ts
-│   │   │   └── app.module.ts
-│   │   ├── assets/
-│   │   ├── environments/
-│   │   ├── index.html
-│   │   ├── main.ts
-│   │   └── styles.css
-│   ├── angular.json
-│   ├── package.json
-│   ├── tsconfig.json
-│   └── Dockerfile
-├── db/
-│   ├── migrations/
-│   │   └── V1__create_tables.sql
-│   └── seeds/
-│       └── V1__initial_data.sql
-├── docs/
-│   └── api-spec.md (Ou integrado ao Swagger/OpenAPI no backend)
-├── docker-compose.yml
-└── README.md
-```
-
-## Tecnologias
-
-*   **Backend:** Java Spring Boot (Spring Data JPA, Spring Security com JWT)
-*   **Frontend:** Angular (TypeScript, RxJS, Angular Material)
-*   **Banco de Dados:** PostgreSQL
-*   **Deploy:** Docker & Docker Compose
-
-## Instruções de Deploy (Preliminar)
-
-1.  Clone o repositório.
-2.  Certifique-se de ter Docker e Docker Compose instalados.
-3.  Configure as variáveis de ambiente necessárias (ex: `POSTGRES_USER`, `POSTGRES_PASSWORD`, `JWT_SECRET`) em um arquivo `.env` na raiz do projeto ou diretamente no `docker-compose.yml` para desenvolvimento.
-4.  Execute `docker-compose up --build -d` na raiz do projeto.
-5.  Acesse o frontend em `http://localhost:4200` (porta padrão do Angular).
-6.  Acesse o backend em `http://localhost:8080` (porta padrão do Spring Boot).
-
----
-*Esta documentação será expandida e refinada conforme o desenvolvimento avança.* 
+* **Breno Ramos** (brsg05@cin.ufpe.br): Atua como Desenvolvedor. Foi responsável por todo o desenvolvimento e implementação de testes da solução.
+  
