@@ -5,7 +5,6 @@ import com.unihub.app.entity.User;
 import com.unihub.app.exception.ResourceNotFoundException;
 import com.unihub.app.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -25,10 +24,9 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 public class UserService {
 
-    @Autowired
-    private UserRepository userRepository;
+    private final UserRepository userRepository;
 
-    private BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder(12);
+    private final BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder(12);
 
     private final AuthenticationManager authenticationManager;
 
@@ -83,10 +81,7 @@ public class UserService {
         User user = convertToEntity(requestDTO);
 
         // HASHING DA SENHA: Crucial para segurança!
-        // No lugar de 'requestDTO.getPassword()', você usaria:
-        // user.setPassword(passwordEncoder.encode(requestDTO.getPassword()));
-        // Por enquanto, apenas um placeholder para compilação:
-        user.setPassword(passwordEncoder.encode(requestDTO.getPassword())); // Apenas para testes, SUBSTITUA por um HASH REAL!
+        user.setPassword(passwordEncoder.encode(requestDTO.getPassword()));
 
         try {
             User savedUser = userRepository.save(user);
@@ -124,4 +119,4 @@ public class UserService {
         }
         return "Failed";
     }
-} 
+}
