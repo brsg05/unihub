@@ -50,3 +50,4 @@ Para configurar e rodar o projeto localmente, siga os pré-requisitos e os passo
 * **Vídeo Apresentação da Aplicação:**
   * Vídeo 1: https://drive.google.com/file/d/1XkxlNT3zELLlm6KhapnDSa6Uibrk7FyO/view
   * Vídeo 2: https://drive.google.com/file/d/1gPvf0gjAnhBl7lnbVEh8KMcRNhlALwob/view
+  * Vídeo 3: https://drive.google.com/file/d/18hwJtpkBlO6A5S9LkgY6_vVP8N1IFVg7/view
