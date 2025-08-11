@@ -259,5 +259,3 @@ Este documento é parte de um projeto de software que segue uma metodologia ági
 * **Breno Ramos** (brsg05@cin.ufpe.br): Atua como Desenvolvedor. Foi responsável por todo o desenvolvimento e implementação de testes da solução.
 
 > O projeto contou com o suporte de ferramentas de Inteligência Artificial (LLMs), as quais foram utilizadas de forma ética e estratégica para agilizar o processo de documentação e análise, permitindo que a equipe se concentrasse em atividades de maior valor.
-
-Link para apresentação: https://www.canva.com/design/DAGvVkWLBXI/EW5kdw8g49yFu-LXqzs4og/view?utm_content=DAGvVkWLBXI&utm_campaign=designshare&utm_medium=link2&utm_source=uniquelinks&utlId=h1631fbb0b6#1

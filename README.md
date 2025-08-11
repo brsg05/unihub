@@ -43,4 +43,7 @@ Para configurar e rodar o projeto localmente, siga os pré-requisitos e os passo
 * **Ithalo Araujo** (iras@cin.ufpe.br): Atua como Gerente de Produtos. Foi responsável por toda a documentação técnica, análise de negócios, pesquisas com usuários, análise e especificação de requisitos e outros artefatos de documentação e negócios.
 
 * **Breno Ramos** (brsg05@cin.ufpe.br): Atua como Desenvolvedor. Foi responsável por todo o desenvolvimento e implementação de testes da solução.
-  
+
+## Links Úteis
+* **Pitch:** https://docs.google.com/presentation/d/1FhDKo8NnOXeDlc4lSyfXoKXEryCRTBLtU2Rb-G411ww/edit?usp=sharing
+* **Relatório Final:** Em breve
