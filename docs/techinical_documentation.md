@@ -245,7 +245,11 @@ Tudo que foi planejado até o presente momento, foi realizado. Algumas decisões
 * **Adesão à Estratégia de Tecnologia:** Inicialmente, foi planejado o uso de uma plataforma no-code (Bubble.io) para o protótipo. No entanto, por decisão de negócio e pelas características da entrega, a arquitetura foi migrada para um stack de desenvolvimento tradicional (Angular, Spring Boot), o que gerou um atraso na fase de prototipagem, mas resultou em uma solução mais robusta e escalável a longo prazo.
 
 ### 4.3 Próximos passos
-Lançar o MVP com o escopo de usuário restrito à alunos do Centro de Informática. Realizar análises e ajustes, quando necessário, e aumentar o escopo de usuários para alunos da Universidade Federal de Pernambuco.
+* Lançar o MVP com o escopo de usuário restrito à alunos do Centro de Informática com foco em validação e coleta de feedbacks iniciais.
+* Realizar ajustes e novas análises com base nos feedbacks coletados.
+* Aumentar o escopo de usuários para alunos da Universidade Federal de Pernambuco.
+* Fomentar engajamento contínuo fora do período de matrícula (pico de acesso esperado).
+* Captar novas receitas com parceiros do setor educacional.
 
 ## 5. Informações Gerais e Metodologia
 Este documento é parte de um projeto de software que segue uma metodologia ágil. O time é composto por dois membros, com papéis e responsabilidades bem definidos:
