@@ -1,53 +1,176 @@
-<div class="home-container">
+<div class="modern-home">
+  <!-- Hero Section -->
   <section class="hero-section">
-    <h1>Welcome to UniHub Professor Evaluations!</h1>
-    <p>Find and evaluate your professors. Help others make informed decisions.</p>
-    
-    <form [formGroup]="searchForm" (ngSubmit)="onSearchSubmit()" class="search-bar-container">
-      <mat-form-field appearance="outline" class="search-input">
-        <mat-label>Search for a Professor</mat-label>
-        <input matInput formControlName="searchTerm" placeholder="Enter professor's name">
-        <mat-icon matSuffix>search</mat-icon>
-      </mat-form-field>
-      <button mat-raised-button color="primary" type="submit" class="search-button">Search</button>
-    </form>
-  </section>
-
-  <mat-divider></mat-divider>
-
-  <section class="top-professors-section">
-    <h2>Top Rated Professors</h2>
-    <div *ngIf="isLoadingTopProfessores" class="loading-spinner-container">
-      <mat-progress-spinner mode="indeterminate" diameter="50"></mat-progress-spinner>
-    </div>
-    
-    <div *ngIf="!isLoadingTopProfessores && topProfessores.length === 0" class="no-data-message">
-      <p>No top professors found at the moment.</p>
-    </div>
-
-    <div *ngIf="!isLoadingTopProfessores && topProfessores.length > 0" class="professors-grid">
-      <mat-card *ngFor="let prof of topProfessores" class="professor-card" [routerLink]="['/professor', prof.id]">
-        <mat-card-header>
-          <img mat-card-avatar [src]="prof.photoUrl || 'assets/images/default-avatar.png'" alt="{{prof.nomeCompleto}}">
-          <mat-card-title>{{ prof.nomeCompleto }}</mat-card-title>
-          <mat-card-subtitle *ngIf="prof.notaGeral !== undefined && prof.notaGeral !== null">
-            Overall Rating: {{ prof.notaGeral | number:'1.1-1' }} <mat-icon class="star-icon">star</mat-icon>
-          </mat-card-subtitle>
-           <mat-card-subtitle *ngIf="prof.notaGeral === undefined || prof.notaGeral === null">
-            Not rated yet
-          </mat-card-subtitle>
-        </mat-card-header>
-        <!-- Add more details if needed in the card content -->
-        <!-- <mat-card-content>
-          <p>Brief description or a key highlight.</p>
-        </mat-card-content> -->
-        <mat-card-actions align="end">
-            <button mat-button color="accent">View Details</button>
-        </mat-card-actions>
-      </mat-card>
+    <div class="container">
+      <div class="row align-items-center min-vh-75">
+        <div class="col-12 col-lg-6">
+          <h1 class="hero-title">Encontre e avalie os melhores professores</h1>
+          <p class="hero-subtitle">UniHub conecta estudantes com avaliações reais de professores. Tome decisões informadas sobre suas disciplinas e compartilhe sua experiência.</p>
+          
+          <!-- Search Form -->
+          <div class="hero-search">
+            <form [formGroup]="searchForm" (ngSubmit)="onSearchSubmit()" class="search-container">
+              <div class="search-input-group">
+                <mat-form-field appearance="outline" class="search-field">
+                  <mat-label>Buscar professor</mat-label>
+                  <input matInput formControlName="searchTerm" placeholder="Ex: João Silva, Maria Santos...">
+                  <button mat-icon-button matSuffix type="button" aria-label="Limpar"
+                          *ngIf="searchForm?.value?.searchTerm"
+                          (click)="searchForm.get('searchTerm')?.setValue('')">
+                    <mat-icon>close</mat-icon>
+                  </button>
+                  <mat-icon matSuffix *ngIf="!searchForm?.value?.searchTerm">search</mat-icon>
+                </mat-form-field>
+                <button mat-raised-button color="primary" type="submit" class="search-btn">
+                  <mat-icon>search</mat-icon>
+                  <span class="d-none d-sm-inline ms-1">Buscar</span>
+                </button>
+              </div>
+            </form>
+          </div>
+        </div>
+        <div class="col-12 col-lg-6 text-center">
+          <div class="hero-illustration">
+            <i class="bi bi-mortarboard hero-icon"></i>
+            <div class="floating-elements">
+              <div class="element element-1"><i class="bi bi-star-fill"></i></div>
+              <div class="element element-2"><i class="bi bi-chat-dots"></i></div>
+              <div class="element element-3"><i class="bi bi-people"></i></div>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
   </section>
 
-  <!-- You can add more sections here, e.g., recent evaluations, featured courses -->
+  <!-- Features Section -->
+  <section class="features-section">
+    <div class="container">
+      <div class="text-center mb-5">
+        <h2 class="section-title">Por que usar o UniHub?</h2>
+        <p class="section-subtitle">Tudo que você precisa para escolher os melhores professores</p>
+      </div>
+      
+      <div class="row g-4">
+        <div class="col-12 col-md-4">
+          <div class="feature-card">
+            <div class="feature-icon">
+              <i class="bi bi-search"></i>
+            </div>
+            <h3 class="feature-title">Busca Inteligente</h3>
+            <p class="feature-text">Encontre professores por nome, disciplina ou critérios específicos de avaliação.</p>
+          </div>
+        </div>
+        <div class="col-12 col-md-4">
+          <div class="feature-card">
+            <div class="feature-icon">
+              <i class="bi bi-star-fill"></i>
+            </div>
+            <h3 class="feature-title">Avaliações Detalhadas</h3>
+            <p class="feature-text">Sistema completo de notas por critério: didática, pontualidade, clareza e muito mais.</p>
+          </div>
+        </div>
+        <div class="col-12 col-md-4">
+          <div class="feature-card">
+            <div class="feature-icon">
+              <i class="bi bi-shield-check"></i>
+            </div>
+            <h3 class="feature-title">Comunidade Confiável</h3>
+            <p class="feature-text">Avaliações verificadas por estudantes reais para garantir autenticidade.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
 
-</div> 
+  <!-- How it Works -->
+  <section class="how-it-works-section">
+    <div class="container">
+      <div class="text-center mb-5">
+        <h2 class="section-title">Como funciona</h2>
+        <p class="section-subtitle">Simples em 3 passos</p>
+      </div>
+      
+      <div class="row g-4">
+        <div class="col-12 col-md-4">
+          <div class="step-card">
+            <div class="step-number">1</div>
+            <div class="step-content">
+              <h3 class="step-title">Busque</h3>
+              <p class="step-text">Digite o nome do professor ou navegue pelas disciplinas disponíveis.</p>
+            </div>
+          </div>
+        </div>
+        <div class="col-12 col-md-4">
+          <div class="step-card">
+            <div class="step-number">2</div>
+            <div class="step-content">
+              <h3 class="step-title">Avalie</h3>
+              <p class="step-text">Dê notas por critério e deixe comentários sobre sua experiência.</p>
+            </div>
+          </div>
+        </div>
+        <div class="col-12 col-md-4">
+          <div class="step-card">
+            <div class="step-number">3</div>
+            <div class="step-content">
+              <h3 class="step-title">Ajude</h3>
+              <p class="step-text">Sua avaliação ajuda outros estudantes a fazerem melhores escolhas.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Featured Professors -->
+  <section class="featured-section">
+    <div class="container">
+      <div class="d-flex align-items-center justify-content-between mb-4">
+        <div>
+          <h2 class="section-title mb-1">Professores em Destaque</h2>
+          <p class="text-muted mb-0">Os mais bem avaliados da nossa comunidade</p>
+        </div>
+        <a routerLink="/professores" class="btn btn-outline-primary">
+          Ver todos
+          <i class="bi bi-arrow-right ms-1"></i>
+        </a>
+      </div>
+
+      <div *ngIf="isLoadingTopProfessores" class="d-flex justify-content-center my-5">
+        <mat-progress-spinner mode="indeterminate" diameter="50"></mat-progress-spinner>
+      </div>
+
+      <div *ngIf="!isLoadingTopProfessores && topProfessores.length === 0" class="empty-state">
+        <i class="bi bi-mortarboard empty-icon"></i>
+        <h3>Nenhum professor em destaque</h3>
+        <p>Seja o primeiro a avaliar um professor!</p>
+        <a routerLink="/professores" class="btn btn-primary">Explorar Professores</a>
+      </div>
+
+      <div *ngIf="!isLoadingTopProfessores && topProfessores.length > 0" class="row g-3">
+        <div class="col-12 col-sm-6 col-lg-4" *ngFor="let prof of topProfessores">
+          <div class="professor-card" [routerLink]="['/professor', prof.id]">
+            <div class="prof-avatar">
+              <img [src]="prof.photoUrl || 'assets/images/default-avatar.png'" [alt]="prof.nomeCompleto">
+            </div>
+            <div class="prof-info">
+              <h4 class="prof-name">{{ prof.nomeCompleto }}</h4>
+              <div class="prof-rating" *ngIf="prof.notaGeral != null">
+                <i class="bi bi-star-fill star-icon"></i>
+                <span class="rating-value">{{ prof.notaGeral | number:'1.1-1' }}</span>
+              </div>
+              <div class="prof-rating" *ngIf="prof.notaGeral == null">
+                <span class="no-rating">Ainda não avaliado</span>
+              </div>
+            </div>
+            <div class="prof-action">
+              <i class="bi bi-arrow-right"></i>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+</div>
