@@ -1,23 +1,484 @@
-/* Estilos para o formulário de avaliação */
-.avaliacao-form-card {
-  max-width: 700px;
-  margin: 2rem auto;
+/* Loading and Error States */
+.loading-container {
+  min-height: 60vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #f8f9fa;
 }
 
+.error-alert {
+  display: flex;
+  align-items: center;
+  gap: 1.5rem;
+  background: white;
+  border-radius: 12px;
+  padding: 2rem;
+  box-shadow: 0 4px 20px rgba(220, 53, 69, 0.1);
+  border-left: 4px solid #dc3545;
+  
+  .error-icon {
+    font-size: 3rem;
+    color: #dc3545;
+    flex-shrink: 0;
+  }
+  
+  .error-content {
+    h4 {
+      color: #212529;
+      margin-bottom: 0.5rem;
+    }
+    
+    p {
+      color: #6c757d;
+      margin-bottom: 1.5rem;
+    }
+  }
+}
+
+/* Header Section */
+.evaluation-header {
+  background: linear-gradient(135deg, #dc3545 0%, #c82333 100%);
+  color: white;
+  padding: 3rem 0 2rem;
+  margin-bottom: 2rem;
+  
+  .header-content {
+    .page-title {
+      font-size: 2.5rem;
+      font-weight: 700;
+      margin-bottom: 1rem;
+      line-height: 1.2;
+    }
+    
+    .professor-info {
+      display: flex;
+      flex-direction: column;
+      gap: 0.5rem;
+      
+      .professor-name {
+        font-size: 1.25rem;
+        font-weight: 600;
+        display: flex;
+        align-items: center;
+        opacity: 0.95;
+      }
+      
+      .subject-info {
+        font-size: 1rem;
+        display: flex;
+        align-items: center;
+        opacity: 0.85;
+      }
+    }
+  }
+  
+  .btn-outline-secondary {
+    border-color: rgba(255, 255, 255, 0.5);
+    color: white;
+    
+    &:hover {
+      background: rgba(255, 255, 255, 0.1);
+      border-color: white;
+      color: white;
+    }
+  }
+}
+
+/* Form Container */
+.form-container {
+  padding: 0 0 4rem;
+}
+
+/* Form Sections */
+.form-section {
+  margin-bottom: 3rem;
+  
+  .section-header {
+    margin-bottom: 2rem;
+    
+    .section-title {
+      font-size: 1.5rem;
+      font-weight: 600;
+      color: #212529;
+      margin-bottom: 0.5rem;
+      display: flex;
+      align-items: center;
+      
+      i {
+        color: #dc3545;
+      }
+    }
+    
+    .section-description {
+      color: #6c757d;
+      font-size: 1rem;
+      margin: 0;
+      line-height: 1.5;
+    }
+  }
+  
+  .section-content {
+    background: white;
+    border-radius: 12px;
+    padding: 2rem;
+    box-shadow: 0 2px 12px rgba(0, 0, 0, 0.08);
+  }
+}
+
+/* Criteria Cards */
+.criteria-list {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+}
+
+.criteria-card {
+  background: white;
+  border-radius: 12px;
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.08);
+  border: 1px solid #e9ecef;
+  overflow: hidden;
+  transition: all 0.2s ease;
+  
+  &:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+  }
+}
+
+.criteria-header {
+  background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+  padding: 1.5rem 2rem;
+  border-bottom: 1px solid #e9ecef;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  
+  .criteria-name {
+    font-size: 1.25rem;
+    font-weight: 600;
+    color: #212529;
+    margin: 0;
+  }
+  
+  .rating-preview {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    
+    .stars-display {
+      display: flex;
+      gap: 0.25rem;
+      
+      i {
+        font-size: 1.25rem;
+        color: #ffc107;
+        
+        &.bi-star {
+          color: #dee2e6;
+        }
+      }
+    }
+    
+    .rating-text {
+      font-weight: 600;
+      color: #dc3545;
+      font-size: 1rem;
+    }
+  }
+}
+
+.criteria-content {
+  padding: 2rem;
+}
+
+/* Rating Section */
+.rating-section {
+  .form-label {
+    font-weight: 600;
+    color: #212529;
+    margin-bottom: 1rem;
+    display: block;
+  }
+  
+  .interactive-rating {
+    .rating-buttons {
+      display: flex;
+      gap: 0.5rem;
+      margin-bottom: 1rem;
+      flex-wrap: wrap;
+    }
+    
+    .rating-btn {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 0.25rem;
+      background: white;
+      border: 2px solid #e9ecef;
+      border-radius: 8px;
+      padding: 1rem 0.75rem;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      min-width: 60px;
+      
+      i {
+        font-size: 1.5rem;
+        color: #dee2e6;
+        transition: color 0.2s ease;
+      }
+      
+      span {
+        font-size: 0.875rem;
+        font-weight: 600;
+        color: #6c757d;
+        transition: color 0.2s ease;
+      }
+      
+      &:hover {
+        border-color: #ffc107;
+        transform: translateY(-2px);
+        
+        i {
+          color: #ffc107;
+        }
+        
+        span {
+          color: #212529;
+        }
+      }
+      
+      &.active {
+        border-color: #ffc107;
+        background: linear-gradient(135deg, #fff3cd 0%, #ffeaa7 100%);
+        
+        i {
+          color: #ffc107;
+        }
+        
+        span {
+          color: #212529;
+        }
+      }
+    }
+    
+    .rating-labels {
+      display: flex;
+      justify-content: space-between;
+      font-size: 0.75rem;
+      color: #6c757d;
+      
+      .label-start,
+      .label-end {
+        font-weight: 500;
+      }
+    }
+  }
+  
+  .error-message {
+    color: #dc3545;
+    font-size: 0.875rem;
+    margin-top: 0.5rem;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    
+    &::before {
+      content: "⚠";
+      font-size: 1rem;
+    }
+  }
+}
+
+/* Comment Section */
+.comment-section {
+  .form-label {
+    font-weight: 600;
+    color: #212529;
+    margin-bottom: 1rem;
+    display: block;
+  }
+  
+  .mat-mdc-form-field {
+    .mat-mdc-form-field-subscript-wrapper {
+      .mat-mdc-form-field-hint-wrapper {
+        .mat-mdc-form-field-hint {
+          color: #6c757d;
+          font-size: 0.875rem;
+        }
+      }
+    }
+  }
+}
+
+/* Empty States */
+.empty-criteria {
+  text-align: center;
+  padding: 4rem 2rem;
+  background: white;
+  border-radius: 12px;
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.08);
+  
+  .empty-icon {
+    font-size: 4rem;
+    color: #dee2e6;
+    margin-bottom: 1.5rem;
+  }
+  
+  h4 {
+    color: #495057;
+    margin-bottom: 1rem;
+  }
+  
+  p {
+    color: #6c757d;
+    margin: 0;
+  }
+}
+
+/* Submit Section */
+.submit-section {
+  margin-top: 3rem;
+}
+
+.submit-card {
+  background: white;
+  border-radius: 12px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+  padding: 2rem;
+  text-align: center;
+  
+  .submit-header {
+    margin-bottom: 2rem;
+    
+    .submit-title {
+      font-size: 1.5rem;
+      font-weight: 600;
+      color: #212529;
+      margin-bottom: 0.5rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      
+      i {
+        color: #28a745;
+      }
+    }
+    
+    .submit-description {
+      color: #6c757d;
+      font-size: 1rem;
+      margin: 0;
+      line-height: 1.5;
+    }
+  }
+  
+  .submit-actions {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 1rem;
+    
+    .btn-lg {
+      padding: 0.75rem 2rem;
+      font-size: 1.1rem;
+      font-weight: 600;
+      border-radius: 8px;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+    
+    .btn-primary {
+      min-width: 200px;
+      
+      &:disabled {
+        opacity: 0.6;
+        cursor: not-allowed;
+      }
+    }
+  }
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .evaluation-header {
+    padding: 2rem 0 1.5rem;
+    text-align: center;
+    
+    .page-title {
+      font-size: 2rem;
+    }
+    
+    .professor-info {
+      align-items: center;
+    }
+  }
+  
+  .criteria-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 1rem;
+    
+    .rating-preview {
+      align-self: flex-start;
+    }
+  }
+  
+  .criteria-content {
+    padding: 1.5rem;
+  }
+  
+  .rating-buttons {
+    justify-content: center;
+  }
+  
+  .submit-actions {
+    flex-direction: column;
+    
+    .btn-lg {
+      width: 100%;
+      justify-content: center;
+    }
+  }
+  
+  .section-content {
+    padding: 1.5rem;
+  }
+}
+
+/* Material Form Field Customizations */
 .mat-mdc-form-field {
-    width: 100%;
+  .mat-mdc-text-field-wrapper {
+    .mat-mdc-form-field-flex {
+      .mat-mdc-form-field-infix {
+        .mat-mdc-input-element {
+          color: #212529;
+        }
+      }
+    }
+  }
 }
 
-.mat-mdc-slider {
-    width: 100%;
-}
-
-.border {
-    border-width: 1px;
-    border-style: solid;
-    border-color: #e5e7eb; /* gray-200 */
-}
-
-.rounded-md {
-    border-radius: 0.375rem; /* 6px */
+/* Custom scrollbar for textareas */
+textarea {
+  &::-webkit-scrollbar {
+    width: 8px;
+  }
+  
+  &::-webkit-scrollbar-track {
+    background: #f1f1f1;
+    border-radius: 4px;
+  }
+  
+  &::-webkit-scrollbar-thumb {
+    background: #c1c1c1;
+    border-radius: 4px;
+    
+    &:hover {
+      background: #a8a8a8;
+    }
+  }
 } 

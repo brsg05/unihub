@@ -201,6 +201,42 @@ export class AvaliacaoFormComponent implements OnInit, OnDestroy {
     }
   }
 
+  /**
+   * Reload initial data (for error retry)
+   */
+  loadData(): void {
+    this.errorMessage = null;
+    this.loadInitialData();
+  }
+
+  /**
+   * Set rating for a specific criteria
+   */
+  setRating(criterioIndex: number, rating: number): void {
+    const criterioControl = this.avaliacoesCriteriosArray.at(criterioIndex);
+    if (criterioControl) {
+      criterioControl.get('nota')?.setValue(rating);
+      criterioControl.get('nota')?.markAsTouched();
+    }
+  }
+
+  /**
+   * Get array for filled stars display
+   */
+  getStarsArray(rating: number): number[] {
+    const filledStars = Math.floor(rating || 0);
+    return Array(filledStars).fill(0).map((_, i) => i + 1);
+  }
+
+  /**
+   * Get array for empty stars display
+   */
+  getEmptyStarsArray(rating: number): number[] {
+    const filledStars = Math.floor(rating || 0);
+    const emptyStars = 5 - filledStars;
+    return Array(emptyStars).fill(0).map((_, i) => filledStars + i + 1);
+  }
+
   ngOnDestroy(): void {
     this.routeSub?.unsubscribe();
     this.criteriosSub?.unsubscribe();
