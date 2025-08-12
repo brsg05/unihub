@@ -207,7 +207,9 @@
       display: flex;
       gap: 0.5rem;
       margin-bottom: 1rem;
-      flex-wrap: wrap;
+      flex-wrap: nowrap;
+      justify-content: flex-start;
+      align-items: center;
     }
     
     .rating-btn {
@@ -218,10 +220,12 @@
       background: white;
       border: 2px solid #e9ecef;
       border-radius: 8px;
-      padding: 1rem 0.75rem;
+      padding: 0.75rem 0.5rem;
       cursor: pointer;
       transition: all 0.2s ease;
-      min-width: 60px;
+      min-width: 50px;
+      flex: 1;
+      max-width: 70px;
       
       i {
         font-size: 1.5rem;
@@ -479,6 +483,29 @@ textarea {
     
     &:hover {
       background: #a8a8a8;
+    }
+  }
+}
+
+/* Responsive adjustments for star rating */
+@media (max-width: 576px) {
+  .interactive-rating {
+    .rating-buttons {
+      gap: 0.25rem;
+    }
+    
+    .rating-btn {
+      padding: 0.5rem 0.25rem;
+      min-width: 40px;
+      max-width: 60px;
+      
+      i {
+        font-size: 1.25rem;
+      }
+      
+      span {
+        font-size: 0.75rem;
+      }
     }
   }
 } 
