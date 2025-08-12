@@ -45,7 +45,7 @@ Para configurar e rodar o projeto localmente, siga os pré-requisitos e os passo
 * **Breno Ramos** (brsg05@cin.ufpe.br): Atua como Desenvolvedor. Foi responsável por todo o desenvolvimento e implementação de testes da solução.
 
 ## Links Úteis
-* **Pitch:** https://docs.google.com/presentation/d/1FhDKo8NnOXeDlc4lSyfXoKXEryCRTBLtU2Rb-G411ww/edit?usp=sharing
+* [**Pitch:**](docs/unihub_pitch.pdf) https://docs.google.com/presentation/d/1FhDKo8NnOXeDlc4lSyfXoKXEryCRTBLtU2Rb-G411ww/edit?usp=sharing
 * **Relatório Final:** Em breve
 * **Vídeo Apresentação da Aplicação:**
   * Vídeo 1: https://drive.google.com/file/d/1XkxlNT3zELLlm6KhapnDSa6Uibrk7FyO/view
