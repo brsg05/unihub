@@ -1,17 +1,15 @@
-.spacer {
-  flex: 1 1 auto;
+/* Header uses Bootstrap navbar classes; keep high z-index for overlay over content */
+.navbar.sticky-top {
+  z-index: 1020;
 }
 
-mat-toolbar {
-  position: sticky;
-  top: 0;
-  z-index: 1000; // Ensure header stays on top
+/* Red/white branding */
+.navbar.bg-primary {
+  background-color: #c1121f !important; /* brand red */
 }
-
-button mat-icon-button {
-  margin-right: 8px;
+.navbar .navbar-brand, .navbar .nav-link, .navbar .navbar-toggler {
+  color: #fff !important;
 }
-
-.mat-menu-item mat-icon {
-  margin-right: 8px;
-} 
+.navbar .nav-link.active, .navbar .nav-link:hover {
+  color: #f8d7da !important;
+}
