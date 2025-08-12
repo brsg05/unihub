@@ -18,6 +18,24 @@ import { MatDialog, MatDialogModule } from '@angular/material/dialog';
 import { SelecionarCadeiraDialogComponent, SelecionarCadeiraDialogData } from './selecionar-cadeira-dialog/selecionar-cadeira-dialog.component';
 import { RouterLink } from '@angular/router';
 
+// Mock interfaces for missing data
+interface Comment {
+  id: number;
+  texto: string;
+  autor: string;
+  dataComentario: string;
+  votosPositivos: number;
+  votosNegativos: number;
+  userVote: 'positive' | 'negative' | null;
+}
+
+interface CriterioWithComments {
+  criterio: any;
+  mediaNotas: number;
+  topComentario?: Comment;
+  comentarios: Comment[];
+}
+
 @Component({
   selector: 'app-professor-detail',
   standalone: true,
@@ -43,13 +61,19 @@ export class ProfessorDetailComponent implements OnInit, OnDestroy {
   private routeSub: Subscription | undefined;
   private professorSub: Subscription | undefined;
 
+  // Mock data for missing functionality
+  mockCriteriosWithComments: CriterioWithComments[] = [];
+  mockGeneralComments: Comment[] = [];
+
   constructor(
     private route: ActivatedRoute,
     private router: Router,
     private professorService: ProfessorService,
     private snackBar: MatSnackBar,
     private dialog: MatDialog
-  ) { }
+  ) { 
+    this.initializeMockData();
+  }
 
   ngOnInit(): void {
     this.routeSub = this.route.paramMap.subscribe(params => {
@@ -70,6 +94,7 @@ export class ProfessorDetailComponent implements OnInit, OnDestroy {
     this.professorSub = this.professorService.getProfessorById(id).subscribe({
       next: (data: ProfessorDetailDto) => {
         this.professor = data;
+        this.createMockCriteriosWithComments(); // Create mock data based on actual professor data
         this.isLoading = false;
       },
       error: (error: HttpErrorResponse) => {
@@ -128,6 +153,146 @@ export class ProfessorDetailComponent implements OnInit, OnDestroy {
     ], {
       state: { cadeiraNome: cadeira.nome }
     });
+  }
+
+  /**
+   * Helper method to reload professor data
+   */
+  loadProfessorData(): void {
+    const id = this.route.snapshot.paramMap.get('id');
+    if (id) {
+      this.fetchProfessorDetails(+id);
+    }
+  }
+
+  /**
+   * Helper method to generate filled stars array for rating display
+   */
+  getStars(rating: number): any[] {
+    const fullStars = Math.floor(rating);
+    return new Array(fullStars);
+  }
+
+  /**
+   * Helper method to generate empty stars array for rating display
+   */
+  getEmptyStars(rating: number): any[] {
+    const fullStars = Math.floor(rating);
+    const emptyStars = 5 - fullStars;
+    return new Array(emptyStars);
+  }
+
+  /**
+   * Initialize mock data for demonstration purposes
+   */
+  private initializeMockData(): void {
+    // Mock general comments
+    this.mockGeneralComments = [
+      {
+        id: 1,
+        texto: "Excelente professor! Suas aulas são muito didáticas e ele sempre está disponível para esclarecer dúvidas.",
+        autor: "João Silva",
+        dataComentario: "2024-08-01",
+        votosPositivos: 15,
+        votosNegativos: 2,
+        userVote: null
+      },
+      {
+        id: 2,
+        texto: "Professor muito competente, mas às vezes suas explicações são um pouco rápidas demais.",
+        autor: "Maria Santos",
+        dataComentario: "2024-07-28",
+        votosPositivos: 8,
+        votosNegativos: 3,
+        userVote: null
+      },
+      {
+        id: 3,
+        texto: "Recomendo muito! Professor que realmente se importa com o aprendizado dos alunos.",
+        autor: "Carlos Oliveira",
+        dataComentario: "2024-07-25",
+        votosPositivos: 12,
+        votosNegativos: 1,
+        userVote: null
+      }
+    ];
+
+    // Mock criteria with comments will be populated after professor data loads
+  }
+
+  /**
+   * Create mock criteria with comments based on actual professor data
+   */
+  private createMockCriteriosWithComments(): void {
+    if (!this.professor || !this.professor.criteriosComMedias) return;
+
+    this.mockCriteriosWithComments = this.professor.criteriosComMedias.map((criterioOriginal, index) => {
+      const mockComments: Comment[] = [
+        {
+          id: index * 10 + 1,
+          texto: `Este professor demonstra ${criterioOriginal.criterio.nome.toLowerCase()} excepcional em suas aulas.`,
+          autor: "Estudante Anônimo",
+          dataComentario: "2024-08-05",
+          votosPositivos: Math.floor(Math.random() * 20) + 5,
+          votosNegativos: Math.floor(Math.random() * 5),
+          userVote: null
+        },
+        {
+          id: index * 10 + 2,
+          texto: `Concordo parcialmente. O professor tem boas qualidades em ${criterioOriginal.criterio.nome.toLowerCase()}, mas pode melhorar.`,
+          autor: "Maria Costa",
+          dataComentario: "2024-08-03",
+          votosPositivos: Math.floor(Math.random() * 15) + 3,
+          votosNegativos: Math.floor(Math.random() * 7),
+          userVote: null
+        }
+      ];
+
+      return {
+        criterio: criterioOriginal.criterio,
+        mediaNotas: criterioOriginal.mediaNotas,
+        topComentario: mockComments[0],
+        comentarios: mockComments
+      };
+    });
+  }
+
+  /**
+   * Vote on a comment (positive or negative)
+   */
+  voteOnComment(comment: Comment, voteType: 'positive' | 'negative'): void {
+    // Remove previous vote if exists
+    if (comment.userVote === 'positive') {
+      comment.votosPositivos--;
+    } else if (comment.userVote === 'negative') {
+      comment.votosNegativos--;
+    }
+
+    // Apply new vote
+    if (comment.userVote === voteType) {
+      // User is removing their vote
+      comment.userVote = null;
+    } else {
+      // User is adding/changing their vote
+      if (voteType === 'positive') {
+        comment.votosPositivos++;
+      } else {
+        comment.votosNegativos++;
+      }
+      comment.userVote = voteType;
+    }
+
+    // Show feedback
+    const action = comment.userVote ? 'adicionado' : 'removido';
+    const type = voteType === 'positive' ? 'positivo' : 'negativo';
+    this.snackBar.open(`Voto ${type} ${action}!`, 'Fechar', { duration: 2000 });
+  }
+
+  /**
+   * Get net votes (positive - negative) for a comment
+   */
+  getNetVotes(comment: Comment): number {
+    return comment.votosPositivos - comment.votosNegativos;
   }
 
   ngOnDestroy(): void {
