@@ -1,5 +1,5 @@
 /* You can add global styles to this file, and also import other style files */
-@import "@angular/material/prebuilt-themes/indigo-pink.css";
+@import 'styles/material-theme.scss';
 
 html, body {
   height: 100%;
@@ -8,10 +8,13 @@ html, body {
 body {
   margin: 0;
   font-family: Roboto, "Helvetica Neue", sans-serif;
+  background-color: #ffffff;
+  color: #212529;
 }
 
-.container {
-  padding: 20px;
+main.container {
+  padding-top: 1rem;
+  padding-bottom: 2rem;
 }
 
 .mat-form-field {
@@ -32,9 +35,28 @@ body {
   width: 100%;
 }
 
-.mat-elevation-z8 {
-  margin-top: 16px;
-  margin-bottom: 16px;
+.mat-elevation-z8 { margin: 1rem 0; }
+
+/* Brand helpers */
+:root {
+  --brand-primary: #c1121f; /* red */
+  --brand-primary-dark: #9b0e19;
+  --brand-accent: #6c757d; /* gray accents */
+}
+
+.bg-brand-primary { background-color: var(--brand-primary) !important; }
+.text-brand-primary { color: var(--brand-primary) !important; }
+.btn-brand-primary {
+  /* Use alongside Bootstrap's .btn: class="btn btn-brand-primary" */
+  background-color: var(--brand-primary) !important;
+  border-color: var(--brand-primary) !important;
+  color: #fff !important;
+}
+.btn-brand-primary:hover,
+.btn-brand-primary:focus {
+  background-color: var(--brand-primary-dark) !important;
+  border-color: var(--brand-primary-dark) !important;
+  color: #fff !important;
 }
 
 .action-buttons button {

@@ -1,0 +1,23 @@
+@use '@angular/material' as mat;
+
+// 1) Core styles
+@include mat.core();
+
+// 2) Define color palettes (red as primary)
+$primary-palette: mat.define-palette(mat.$red-palette, 600, 500, 700);
+$accent-palette: mat.define-palette(mat.$grey-palette, 600);
+$warn-palette: mat.define-palette(mat.$deep-orange-palette);
+
+// 3) Create light theme (Material v15+ API)
+$unihub-theme: mat.define-light-theme((
+  color: (
+    primary: $primary-palette,
+    accent: $accent-palette,
+    warn: $warn-palette,
+  ),
+  typography: mat.define-typography-config(),
+  density: 0
+));
+
+// 4) Apply theme to all components
+@include mat.all-component-themes($unihub-theme);
