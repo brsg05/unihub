@@ -150,6 +150,110 @@ export class CriterionEvaluationPageComponent implements OnInit, OnDestroy {
     this.loadEvaluations().subscribe(); // Reload, though backend might not use this sort parameter yet
   }
 
+  /**
+   * Reset all filters to default values
+   */
+  resetFilters(): void {
+    this.currentPeriodo = null;
+    this.currentSort = null;
+    this.currentPage = 0;
+    this.loadEvaluations().subscribe();
+  }
+
+  /**
+   * Calculate average rating from all evaluations
+   */
+  getAverageRating(): number {
+    if (!this.evaluations.length) return 0;
+    
+    // Since evaluations might have multiple criteria ratings, we need to find the specific criterion
+    const ratings = this.evaluations
+      .map(evaluation => {
+        // Find the specific criterion rating in notas array
+        const criterionRating = evaluation.notas?.find(nota => nota.criterioNome === this.criterio?.nome);
+        return criterionRating?.nota || 0;
+      })
+      .filter(rating => rating > 0);
+    
+    return ratings.length > 0 ? ratings.reduce((sum, rating) => sum + rating, 0) / ratings.length : 0;
+  }
+
+  /**
+   * Get stars array for rating display
+   */
+  getStarsArray(rating: number): number[] {
+    const filledStars = Math.floor(rating || 0);
+    return Array(filledStars).fill(0).map((_, i) => i + 1);
+  }
+
+  /**
+   * Get empty stars array for rating display
+   */
+  getEmptyStarsArray(rating: number): number[] {
+    const filledStars = Math.floor(rating || 0);
+    const emptyStars = 5 - filledStars;
+    return Array(emptyStars).fill(0).map((_, i) => filledStars + i + 1);
+  }
+
+  /**
+   * TrackBy function for evaluations
+   */
+  trackByEvaluationId(index: number, evaluation: AvaliacaoPublic): number {
+    return evaluation.id;
+  }
+
+  /**
+   * TrackBy function for comments
+   */
+  trackByCommentId(index: number, comment: any): number {
+    return comment.id;
+  }
+
+  /**
+   * Vote on a comment (mock implementation)
+   */
+  voteComment(comment: any, voteType: 'up' | 'down'): void {
+    // Mock implementation - in real app this would call a service
+    if (!comment.upvotes) comment.upvotes = 0;
+    if (!comment.downvotes) comment.downvotes = 0;
+    if (!comment.userVote) comment.userVote = null;
+    
+    // Remove previous vote
+    if (comment.userVote === 'up') comment.upvotes--;
+    if (comment.userVote === 'down') comment.downvotes--;
+    
+    // Apply new vote or remove if same
+    if (comment.userVote === voteType) {
+      comment.userVote = null;
+    } else {
+      comment.userVote = voteType;
+      if (voteType === 'up') comment.upvotes++;
+      else comment.downvotes++;
+    }
+    
+    const action = comment.userVote ? 'adicionado' : 'removido';
+    this.snackBar.open(`Voto ${action}!`, 'Fechar', { duration: 2000 });
+  }
+
+  /**
+   * Report a comment (mock implementation)
+   */
+  reportComment(comment: any): void {
+    // Mock implementation - in real app this would open a dialog or call a service
+    this.snackBar.open('Comentário reportado! Nossa equipe irá revisar.', 'Fechar', { duration: 3000 });
+  }
+
+  /**
+   * Get the rating for a specific criterion in an evaluation
+   */
+  getCriterionRating(evaluation: AvaliacaoPublic): number {
+    const criterionName = this.criterio?.nome;
+    if (!criterionName) return 0;
+    
+    const criterionRating = evaluation.notas?.find(nota => nota.criterioNome === criterionName);
+    return criterionRating?.nota || 0;
+  }
+
   ngOnDestroy(): void {
     this.routeSub?.unsubscribe();
     this.evaluationsSub?.unsubscribe();

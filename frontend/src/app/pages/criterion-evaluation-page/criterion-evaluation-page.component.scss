@@ -1,43 +1,110 @@
-.criterion-evaluation-container {
-  // General container styles
+/* Loading State */
+.loading-container {
+  min-height: 60vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #f8f9fa;
 }
 
-.filters-container {
-  // Styles for filter layout
+/* Page Header */
+.page-header {
+  background: linear-gradient(135deg, #dc3545 0%, #c82333 100%);
+  color: white;
+  padding: 3rem 0 2rem;
+  margin-bottom: 2rem;
+  
+  .header-navigation {
+    margin-bottom: 1rem;
+    
+    .back-btn {
+      background: rgba(255, 255, 255, 0.15);
+      border: 1px solid rgba(255, 255, 255, 0.3);
+      color: white;
+      padding: 0.5rem 1rem;
+      border-radius: 20px;
+      text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+      transition: all 0.2s ease;
+      
+      &:hover {
+        background: rgba(255, 255, 255, 0.25);
+        color: white;
+        text-decoration: none;
+        transform: translateX(-2px);
+      }
+    }
+  }
+  
+  .header-content {
+    .page-title {
+      font-size: 2.5rem;
+      font-weight: 700;
+      margin-bottom: 0.5rem;
+      line-height: 1.2;
+    }
+    
+    .page-subtitle {
+      font-size: 1.1rem;
+      opacity: 0.9;
+      margin-bottom: 1rem;
+    }
+    
+    .professor-info {
+      display: flex;
+      align-items: center;
+      font-size: 1rem;
+      opacity: 0.85;
+    }
+  }
+  
+  .stats-summary {
+    display: flex;
+    gap: 2rem;
+    justify-content: flex-end;
+    
+    .stat-item {
+      text-align: center;
+      
+      .stat-number {
+        font-size: 2rem;
+        font-weight: 700;
+        line-height: 1;
+        margin-bottom: 0.25rem;
+      }
+      
+      .stat-label {
+        font-size: 0.875rem;
+        opacity: 0.8;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+      }
+    }
+  }
 }
 
+/* Rest of styles continue... */
 .evaluation-card {
-  transition: box-shadow 0.3s ease-in-out;
+  background: white;
+  border-radius: 12px;
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.08);
+  transition: all 0.3s ease;
+  
   &:hover {
-    box-shadow: 0 4px 20px rgba(0,0,0,0.12);
+    transform: translateY(-2px);
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
   }
 }
 
-.comment-item {
-  // Custom styling for each comment list item if needed
-  &:last-child {
-    border-bottom: none;
-  }
-}
-
-// Ensure chips are vertically aligned well within list item lines
-.mat-mdc-list-item .mat-mdc-chip-set {
-  display: inline-flex;
-  vertical-align: middle;
-  margin-left: 4px;
-}
-
-.text-primary {
-    color: var(--primary-color, #3f51b5); // Use your app's primary color variable or a default
-}
-
-// Responsive adjustments for filters or cards can be added here
-@media (max-width: 600px) {
-  .filters-container {
-    flex-direction: column;
-    align-items: stretch;
-    .mat-form-field {
-      width: 100%;
+/* Responsive Design */
+@media (max-width: 768px) {
+  .page-header {
+    padding: 2rem 0 1.5rem;
+    text-align: center;
+    
+    .page-title {
+      font-size: 2rem;
     }
   }
 } 
