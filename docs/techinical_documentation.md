@@ -222,6 +222,8 @@ Esta seção lista as principais tecnologias utilizadas no desenvolvimento do pr
     *   `votosPositivos`: Número de votos positivos no comentário.
     *   `votosNegativos`: Número de votos negativos no comentário.
 
+O diagrama completo de Relacionamento entre Entidades pode ser encontrado [aqui](diagrams/modelo_er.md)
+
 #### 3.1.3. Fluxos de Usuário Principais
 1.  **Registro de Novo Usuário:**
     *   Usuário acessa a página de registro.
