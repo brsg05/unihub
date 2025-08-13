@@ -16,7 +16,7 @@ Para iniciar o servidor de desenvolvimento, execute:
 ```
 npm start
 ```
-A aplicação estará disponível em [http://localhost:3000](http://localhost:3000).
+A aplicação estará disponível em [http://localhost:4200](http://localhost:4200).
 
 ### Buildando para _"produção"_
 Execute:
