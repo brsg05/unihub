@@ -20,7 +20,7 @@
         </div>
         <h3>Oops! Algo deu errado</h3>
         <p>{{ errorMessage }}</p>
-        <button class="btn btn-primary" (click)="loadProfessorData()">
+        <button class="btn btn-primary" (click)="errorMessage = null; isLoading = true">
           <i class="bi bi-arrow-clockwise me-2"></i>
           Tentar Novamente
         </button>
@@ -49,8 +49,9 @@
               <div class="rating-display">
                 <span class="rating-number">{{ professor.notaGeral | number:'1.1-1' }}</span>
                 <div class="rating-stars">
-                  <i class="bi bi-star-fill" *ngFor="let star of getStars(professor.notaGeral)"></i>
-                  <i class="bi bi-star" *ngFor="let star of getEmptyStars(professor.notaGeral)"></i>
+                  <i class="bi" 
+                     *ngFor="let filled of getStarsArray(professor.notaGeral)"
+                     [ngClass]="filled ? 'bi-star-fill' : 'bi-star'"></i>
                 </div>
               </div>
               <span class="rating-label">Avaliação Geral</span>
@@ -109,7 +110,7 @@
               Compartilhe sua experiência e ajude outros estudantes a conhecerem melhor este professor.
             </p>
             <button class="btn btn-primary btn-evaluate" (click)="iniciarAvaliacao()">
-              <i class="bi bi-rate_review me-2"></i>
+              <i class="bi bi-star me-2"></i>
               Avaliar Professor
             </button>
           </div>
@@ -118,34 +119,60 @@
         <!-- Main Content Area -->
         <div class="col-lg-8">
           <!-- Disciplines Card -->
-          <div class="content-card" *ngIf="professor.cadeiras && professor.cadeiras.length > 0">
+          <div class="content-card" *ngIf="professor.cadeiraNotas && professor.cadeiraNotas.length > 0">
             <div class="card-header">
               <h3 class="card-title">
                 <i class="bi bi-journal-text me-2"></i>
-                Disciplinas Ministradas
+                Disciplinas e Avaliações
               </h3>
+              <p class="card-subtitle text-muted">
+                Notas específicas por disciplina ministrada
+              </p>
             </div>
-            <div class="disciplines-grid">
-              <div class="discipline-item" *ngFor="let cadeira of professor.cadeiras">
-                <div class="discipline-icon">
-                  <i class="bi bi-book-half"></i>
-                </div>
-                <div class="discipline-info">
-                  <h5 class="discipline-name">{{ cadeira.nome }}</h5>
-                  <div class="discipline-details">
-                    <span class="badge badge-hours">{{ cadeira.cargaHoraria }}h</span>
-                    <span class="badge" 
-                          [ngClass]="cadeira.isEletiva ? 'badge-elective' : 'badge-mandatory'">
-                      {{ cadeira.isEletiva ? 'Eletiva' : 'Obrigatória' }}
-                    </span>
+            <div class="disciplines-with-ratings">
+              <div class="discipline-rating-item" *ngFor="let cadeiraNote of professor.cadeiraNotas; trackBy: trackByCadeiraId">
+                <div class="rating-header">
+                  <div class="discipline-info">
+                    <h5>{{ cadeiraNote.cadeiraNome }}</h5>
+                    <div class="discipline-details">
+                      <span class="course-name">{{ cadeiraNote.cursoNome }}</span>
+                      <span class="badge badge-hours">{{ cadeiraNote.cargaHoraria }}h</span>
+                      <span class="badge" 
+                            [ngClass]="cadeiraNote.isEletiva ? 'badge-elective' : 'badge-mandatory'">
+                        {{ cadeiraNote.isEletiva ? 'Eletiva' : 'Obrigatória' }}
+                      </span>
+                    </div>
                   </div>
+                  <div class="rating-display">
+                    <span class="rating-number-large">{{ cadeiraNote.notaMedia | number:'1.1-1' }}</span>
+                    <div class="rating-stars-large">
+                      <i class="bi" 
+                         *ngFor="let filled of getStarsArray(cadeiraNote.notaMedia)"
+                         [ngClass]="filled ? 'bi-star-fill' : 'bi-star'"></i>
+                    </div>
+                    <span class="evaluation-count">{{ cadeiraNote.totalAvaliacoes }} avaliações</span>
+                  </div>
+                </div>
+                <div class="discipline-actions">
+                  <button class="btn btn-outline-primary" (click)="avaliarProfessor(cadeiraNote.cadeiraId)">
+                    <i class="bi bi-star me-1"></i>
+                    Avaliar
+                  </button>
+                  <button class="btn btn-outline-success" (click)="verComentarios(cadeiraNote.cadeiraId)">
+                    <i class="bi bi-chat-dots me-1"></i>
+                    Ver Comentários
+                  </button>
+                  <button class="btn btn-outline-info" (click)="verEstatisticasCadeira(cadeiraNote.cadeiraId)">
+                    <i class="bi bi-bar-chart me-1"></i>
+                    Estatísticas
+                  </button>
                 </div>
               </div>
             </div>
           </div>
 
           <!-- Criteria Evaluation Card -->
-          <div class="content-card" *ngIf="mockCriteriosWithComments && mockCriteriosWithComments.length > 0">
+          <div class="content-card" *ngIf="professor.criteriosComMedias && professor.criteriosComMedias.length > 0">
             <div class="card-header">
               <h3 class="card-title">
                 <i class="bi bi-clipboard-check me-2"></i>
@@ -153,15 +180,10 @@
               </h3>
             </div>
             <div class="criteria-list">
-              <div class="criteria-item" *ngFor="let criterioMedia of mockCriteriosWithComments">
+              <div class="criteria-item" *ngFor="let criterioMedia of professor.criteriosComMedias; trackBy: trackByCriterioId">
                 <div class="criteria-main">
                   <div class="criteria-info">
-                    <h5 class="criteria-name">
-                      <a [routerLink]="['/professores', professor.id, 'criterios', criterioMedia.criterio.id, 'avaliacoes']" 
-                         class="criteria-link">
-                        {{ criterioMedia.criterio.nome }}
-                      </a>
-                    </h5>
+                    <h5 class="criteria-name">{{ criterioMedia.criterio.nome }}</h5>
                     <div class="criteria-rating">
                       <span class="rating-badge" 
                             [ngClass]="{
@@ -173,38 +195,61 @@
                         {{ criterioMedia.mediaNotas | number:'1.1-1' }}
                       </span>
                       <div class="rating-stars-small">
-                        <i class="bi bi-star-fill" *ngFor="let star of getStars(criterioMedia.mediaNotas)"></i>
-                        <i class="bi bi-star" *ngFor="let star of getEmptyStars(criterioMedia.mediaNotas)"></i>
+                        <i class="bi" 
+                           *ngFor="let filled of getStarsArray(criterioMedia.mediaNotas)"
+                           [ngClass]="filled ? 'bi-star-fill' : 'bi-star'"></i>
                       </div>
                     </div>
                   </div>
+                  
+                  <!-- Comentário Principal -->
                   <div class="criteria-comment" *ngIf="criterioMedia.topComentario">
                     <div class="comment-bubble">
                       <p class="comment-text">"{{ criterioMedia.topComentario.texto }}"</p>
                       <div class="comment-meta">
-                        <span class="comment-author">{{ criterioMedia.topComentario.autor }}</span>
-                        <div class="comment-votes">
-                          <button class="vote-btn" 
-                                  [ngClass]="{'active': criterioMedia.topComentario.userVote === 'positive'}"
-                                  (click)="voteOnComment(criterioMedia.topComentario!, 'positive')">
-                            <i class="bi bi-hand-thumbs-up"></i>
-                            <span>{{ criterioMedia.topComentario.votosPositivos }}</span>
+                        <span class="comment-author">Comentário destacado</span>
+                        <span class="net-votes">{{ criterioMedia.topComentario.score }} pontos</span>
+                        <div class="comment-actions">
+                          <button class="btn btn-sm btn-outline-success" 
+                                  (click)="voteComment(criterioMedia.topComentario.id, 'positive')"
+                                  title="Votar positivamente">
+                            <i class="bi bi-arrow-up"></i>
                           </button>
-                          <button class="vote-btn" 
-                                  [ngClass]="{'active': criterioMedia.topComentario.userVote === 'negative'}"
-                                  (click)="voteOnComment(criterioMedia.topComentario!, 'negative')">
-                            <i class="bi bi-hand-thumbs-down"></i>
-                            <span>{{ criterioMedia.topComentario.votosNegativos }}</span>
+                          <button class="btn btn-sm btn-outline-danger"
+                                  (click)="voteComment(criterioMedia.topComentario.id, 'negative')"
+                                  title="Votar negativamente">
+                            <i class="bi bi-arrow-down"></i>
                           </button>
-                          <span class="net-votes">{{ getNetVotes(criterioMedia.topComentario) }} votos</span>
+                          <button class="btn btn-sm btn-outline-primary"
+                                  (click)="verMaisComentarios(criterioMedia.criterio.id)">
+                            <i class="bi bi-chat-dots me-1"></i>
+                            {{ isCriterioExpanded(criterioMedia.criterio.id) ? 'Ver menos' : 'Ver mais comentários' }}
+                          </button>
                         </div>
                       </div>
                     </div>
                   </div>
+                  
+                  <!-- Sem comentário -->
                   <div class="criteria-comment" *ngIf="!criterioMedia.topComentario">
                     <div class="no-comment">
                       <i class="bi bi-chat-dots me-2"></i>
-                      <span>Comentários disponíveis em breve</span>
+                      <span>Seja o primeiro a comentar neste critério!</span>
+                      <button class="btn btn-sm btn-outline-primary ms-2"
+                              (click)="avaliarProfessor(0)">
+                        <i class="bi bi-plus me-1"></i>
+                        Avaliar
+                      </button>
+                    </div>
+                  </div>
+
+                  <!-- Seção expandida de comentários -->
+                  <div class="expanded-comments" *ngIf="isCriterioExpanded(criterioMedia.criterio.id)">
+                    <div class="expanded-header">
+                      <h6>Comentários sobre {{ criterioMedia.criterio.nome }}</h6>
+                      <small class="text-muted">
+                        Esta funcionalidade será implementada em breve para mostrar todos os comentários deste critério.
+                      </small>
                     </div>
                   </div>
                 </div>
@@ -213,7 +258,7 @@
           </div>
 
           <!-- No Criteria Data -->
-          <div class="content-card" *ngIf="!mockCriteriosWithComments || mockCriteriosWithComments.length === 0">
+          <div class="content-card" *ngIf="!professor.criteriosComMedias || professor.criteriosComMedias.length === 0">
             <div class="empty-state">
               <div class="empty-icon">
                 <i class="bi bi-clipboard-x"></i>
@@ -226,64 +271,8 @@
               </button>
             </div>
           </div>
-
-          <!-- General Comments Card -->
-          <div class="content-card" *ngIf="mockGeneralComments && mockGeneralComments.length > 0">
-            <div class="card-header">
-              <h3 class="card-title">
-                <i class="bi bi-chat-dots me-2"></i>
-                Comentários Gerais
-              </h3>
-              <span class="comments-count">{{ mockGeneralComments.length }} comentários</span>
-            </div>
-            <div class="comments-section">
-              <div class="comment-item" *ngFor="let comment of mockGeneralComments">
-                <div class="comment-content">
-                  <p class="comment-text">{{ comment.texto }}</p>
-                  <div class="comment-footer">
-                    <div class="comment-info">
-                      <span class="comment-author">{{ comment.autor }}</span>
-                      <span class="comment-date">{{ comment.dataComentario | date:'dd/MM/yyyy' }}</span>
-                    </div>
-                    <div class="comment-actions">
-                      <button class="vote-btn" 
-                              [ngClass]="{'active': comment.userVote === 'positive'}"
-                              (click)="voteOnComment(comment, 'positive')"
-                              title="Voto positivo">
-                        <i class="bi bi-hand-thumbs-up"></i>
-                        <span>{{ comment.votosPositivos }}</span>
-                      </button>
-                      <button class="vote-btn" 
-                              [ngClass]="{'active': comment.userVote === 'negative'}"
-                              (click)="voteOnComment(comment, 'negative')"
-                              title="Voto negativo">
-                        <i class="bi bi-hand-thumbs-down"></i>
-                        <span>{{ comment.votosNegativos }}</span>
-                      </button>
-                      <span class="net-votes-display" 
-                            [ngClass]="{
-                              'positive': getNetVotes(comment) > 0,
-                              'negative': getNetVotes(comment) < 0,
-                              'neutral': getNetVotes(comment) === 0
-                            }">
-                        {{ getNetVotes(comment) >= 0 ? '+' : '' }}{{ getNetVotes(comment) }}
-                      </span>
-                    </div>
-                  </div>
-                </div>
-              </div>
-              
-              <!-- Add Comment Button -->
-              <div class="add-comment-section">
-                <button class="btn btn-outline-primary">
-                  <i class="bi bi-plus-circle me-2"></i>
-                  Adicionar Comentário
-                </button>
-              </div>
-            </div>
-          </div>
         </div>
       </div>
     </div>
   </div>
-</div> 
+</div>

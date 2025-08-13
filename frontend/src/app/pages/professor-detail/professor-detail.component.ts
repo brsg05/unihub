@@ -1,8 +1,9 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { ProfessorService } from '../../core/services/professor.service';
+import { ProfessorService } from '../../services/professor.service';
+import { ComentarioService } from '../../core/services/comentario.service';
 import { ProfessorDetailDto } from '../../models/professor.model';
-import { Cadeira } from '../../models/cadeira.model';
+import { CadeiraSimplificada } from '../../models/cadeira.model';
 import { Subscription } from 'rxjs';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { HttpErrorResponse } from '@angular/common/http';
@@ -15,26 +16,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatDividerModule } from '@angular/material/divider';
 import { MatButtonModule } from '@angular/material/button';
 import { MatDialog, MatDialogModule } from '@angular/material/dialog';
-import { SelecionarCadeiraDialogComponent, SelecionarCadeiraDialogData } from './selecionar-cadeira-dialog/selecionar-cadeira-dialog.component';
-import { RouterLink } from '@angular/router';
-
-// Mock interfaces for missing data
-interface Comment {
-  id: number;
-  texto: string;
-  autor: string;
-  dataComentario: string;
-  votosPositivos: number;
-  votosNegativos: number;
-  userVote: 'positive' | 'negative' | null;
-}
-
-interface CriterioWithComments {
-  criterio: any;
-  mediaNotas: number;
-  topComentario?: Comment;
-  comentarios: Comment[];
-}
+import { CadeiraSelectionDialogComponent, CadeiraSelectionDialogData } from './cadeira-selection-dialog/cadeira-selection-dialog.component';
 
 @Component({
   selector: 'app-professor-detail',
@@ -48,8 +30,7 @@ interface CriterioWithComments {
     MatIconModule,
     MatDividerModule,
     MatButtonModule,
-    MatDialogModule,
-    RouterLink
+    MatDialogModule
   ],
   templateUrl: './professor-detail.component.html',
   styleUrls: ['./professor-detail.component.scss']
@@ -58,22 +39,18 @@ export class ProfessorDetailComponent implements OnInit, OnDestroy {
   professor: ProfessorDetailDto | null = null;
   isLoading = true;
   errorMessage: string | null = null;
+  expandedCriterios: Set<number> = new Set(); // Para controlar quais critérios estão expandidos
   private routeSub: Subscription | undefined;
   private professorSub: Subscription | undefined;
-
-  // Mock data for missing functionality
-  mockCriteriosWithComments: CriterioWithComments[] = [];
-  mockGeneralComments: Comment[] = [];
 
   constructor(
     private route: ActivatedRoute,
     private router: Router,
     private professorService: ProfessorService,
+    private comentarioService: ComentarioService,
     private snackBar: MatSnackBar,
     private dialog: MatDialog
-  ) { 
-    this.initializeMockData();
-  }
+  ) { }
 
   ngOnInit(): void {
     this.routeSub = this.route.paramMap.subscribe(params => {
@@ -94,7 +71,6 @@ export class ProfessorDetailComponent implements OnInit, OnDestroy {
     this.professorSub = this.professorService.getProfessorById(id).subscribe({
       next: (data: ProfessorDetailDto) => {
         this.professor = data;
-        this.createMockCriteriosWithComments(); // Create mock data based on actual professor data
         this.isLoading = false;
       },
       error: (error: HttpErrorResponse) => {
@@ -115,188 +91,145 @@ export class ProfessorDetailComponent implements OnInit, OnDestroy {
       return;
     }
 
-    const cadeiras = this.professor.cadeiras;
-
-    if (!cadeiras || cadeiras.length === 0) {
-      this.snackBar.open('Este professor não possui cadeiras para avaliação.', 'Fechar', { duration: 3000 });
+    if (!this.professor.cadeiras || this.professor.cadeiras.length === 0) {
+      this.snackBar.open('Este professor não possui disciplinas cadastradas.', 'Fechar', { duration: 3000 });
       return;
     }
 
-    if (cadeiras.length === 1) {
-      this.prosseguirParaAvaliacao(cadeiras[0]);
-    } else {
-      const dialogRef = this.dialog.open<SelecionarCadeiraDialogComponent, SelecionarCadeiraDialogData, { selectedCadeira?: Cadeira }>(
-        SelecionarCadeiraDialogComponent,
-        {
-          width: '400px',
-          data: { cadeiras: cadeiras }
-        }
-      );
-
-      dialogRef.afterClosed().subscribe(result => {
-        if (result && result.selectedCadeira) {
-          this.prosseguirParaAvaliacao(result.selectedCadeira);
-        }
-      });
+    // Se só há uma cadeira, navegar diretamente
+    if (this.professor.cadeiras.length === 1) {
+      this.router.navigate(['/avaliar/professor', this.professor.id, 'cadeira', this.professor.cadeiras[0].id]);
+      return;
     }
+
+    // Se há múltiplas cadeiras, abrir modal de seleção
+    this.openCadeiraSelectionModal();
   }
 
-  prosseguirParaAvaliacao(cadeira: Cadeira): void {
+  openCadeiraSelectionModal(): void {
+    if (!this.professor || !this.professor.cadeiras) return;
+
+    const dialogData: CadeiraSelectionDialogData = {
+      cadeiras: this.professor.cadeiras,
+      professorNome: this.professor.nomeCompleto
+    };
+
+    const dialogRef = this.dialog.open(CadeiraSelectionDialogComponent, {
+      width: '600px',
+      maxWidth: '90vw',
+      data: dialogData,
+      disableClose: false
+    });
+
+    dialogRef.afterClosed().subscribe((selectedCadeira: CadeiraSimplificada | undefined) => {
+      if (selectedCadeira) {
+        // Navegar para avaliação com a cadeira selecionada
+        this.router.navigate(['/avaliar/professor', this.professor!.id, 'cadeira', selectedCadeira.id]);
+      }
+    });
+  }
+
+  verComentarios(cadeiraId: number): void {
     if (!this.professor) return;
+    
+    // Navegar para página de comentários específicos da cadeira
+    this.router.navigate(['/professor', this.professor.id, 'cadeira', cadeiraId, 'comentarios']);
+  }
 
-    console.log(`Prosseguindo para avaliação do professor ${this.professor.nomeCompleto} (ID: ${this.professor.id}) na cadeira ${cadeira.nome} (ID: ${cadeira.id})`);
-    this.router.navigate([
-      '/avaliar/professor', 
-      this.professor.id, 
-      'cadeira', 
-      cadeira.id
-    ], {
-      state: { cadeiraNome: cadeira.nome }
+  verEstatisticasCadeira(cadeiraId: number): void {
+    if (!this.professor) return;
+    
+    // Navegar para a página da cadeira
+    this.router.navigate(['/cadeira', cadeiraId]);
+  }
+
+  avaliarProfessor(cadeiraId: number): void {
+    if (!this.professor) return;
+    
+    // Navegar diretamente para avaliação da cadeira específica
+    this.router.navigate(['/avaliar/professor', this.professor.id, 'cadeira', cadeiraId]);
+  }
+
+  // Helper methods para o template
+  getStarsArray(rating: number): boolean[] {
+    const stars = [];
+    for (let i = 1; i <= 5; i++) {
+      stars.push(i <= rating);
+    }
+    return stars;
+  }
+
+  getStars(rating: number): boolean[] {
+    const filled = [];
+    for (let i = 1; i <= Math.floor(rating); i++) {
+      filled.push(true);
+    }
+    return filled;
+  }
+
+  getEmptyStars(rating: number): boolean[] {
+    const empty = [];
+    for (let i = Math.floor(rating) + 1; i <= 5; i++) {
+      empty.push(false);
+    }
+    return empty;
+  }
+
+  trackByCadeiraId(index: number, item: any): number {
+    return item.cadeiraId;
+  }
+
+  trackByCriterioId(index: number, item: any): number {
+    return item.criterio.id;
+  }
+
+  // Methods for voting (placeholder)
+  voteComment(commentId: number, voteType: 'positive' | 'negative'): void {
+    const voteMethod = voteType === 'positive' ? 
+      this.comentarioService.upvoteComentario(commentId) : 
+      this.comentarioService.downvoteComentario(commentId);
+
+    voteMethod.subscribe({
+      next: (updatedComment) => {
+        this.snackBar.open(`Voto ${voteType === 'positive' ? 'positivo' : 'negativo'} registrado!`, 'Fechar', { duration: 2000 });
+        // Atualizar o comentário no professor se necessário
+        this.updateCommentInProfessor(updatedComment);
+      },
+      error: (error) => {
+        this.snackBar.open('Erro ao registrar voto.', 'Fechar', { duration: 3000 });
+        console.error('Error voting on comment:', error);
+      }
     });
   }
 
-  /**
-   * Helper method to reload professor data
-   */
-  loadProfessorData(): void {
-    const id = this.route.snapshot.paramMap.get('id');
-    if (id) {
-      this.fetchProfessorDetails(+id);
-    }
+  verMaisComentarios(criterioId: number): void {
+    if (!this.professor) return;
+    
+    // Navegar para a página de comentários por critério
+    this.router.navigate(['/professor', this.professor.id, 'criterio', criterioId, 'comentarios']);
   }
 
-  /**
-   * Helper method to generate filled stars array for rating display
-   */
-  getStars(rating: number): any[] {
-    const fullStars = Math.floor(rating);
-    return new Array(fullStars);
+  isCriterioExpanded(criterioId: number): boolean {
+    return this.expandedCriterios.has(criterioId);
   }
 
-  /**
-   * Helper method to generate empty stars array for rating display
-   */
-  getEmptyStars(rating: number): any[] {
-    const fullStars = Math.floor(rating);
-    const emptyStars = 5 - fullStars;
-    return new Array(emptyStars);
-  }
-
-  /**
-   * Initialize mock data for demonstration purposes
-   */
-  private initializeMockData(): void {
-    // Mock general comments
-    this.mockGeneralComments = [
-      {
-        id: 1,
-        texto: "Excelente professor! Suas aulas são muito didáticas e ele sempre está disponível para esclarecer dúvidas.",
-        autor: "João Silva",
-        dataComentario: "2024-08-01",
-        votosPositivos: 15,
-        votosNegativos: 2,
-        userVote: null
-      },
-      {
-        id: 2,
-        texto: "Professor muito competente, mas às vezes suas explicações são um pouco rápidas demais.",
-        autor: "Maria Santos",
-        dataComentario: "2024-07-28",
-        votosPositivos: 8,
-        votosNegativos: 3,
-        userVote: null
-      },
-      {
-        id: 3,
-        texto: "Recomendo muito! Professor que realmente se importa com o aprendizado dos alunos.",
-        autor: "Carlos Oliveira",
-        dataComentario: "2024-07-25",
-        votosPositivos: 12,
-        votosNegativos: 1,
-        userVote: null
-      }
-    ];
-
-    // Mock criteria with comments will be populated after professor data loads
-  }
-
-  /**
-   * Create mock criteria with comments based on actual professor data
-   */
-  private createMockCriteriosWithComments(): void {
+  private updateCommentInProfessor(updatedComment: any): void {
     if (!this.professor || !this.professor.criteriosComMedias) return;
-
-    this.mockCriteriosWithComments = this.professor.criteriosComMedias.map((criterioOriginal, index) => {
-      const mockComments: Comment[] = [
-        {
-          id: index * 10 + 1,
-          texto: `Este professor demonstra ${criterioOriginal.criterio.nome.toLowerCase()} excepcional em suas aulas.`,
-          autor: "Estudante Anônimo",
-          dataComentario: "2024-08-05",
-          votosPositivos: Math.floor(Math.random() * 20) + 5,
-          votosNegativos: Math.floor(Math.random() * 5),
-          userVote: null
-        },
-        {
-          id: index * 10 + 2,
-          texto: `Concordo parcialmente. O professor tem boas qualidades em ${criterioOriginal.criterio.nome.toLowerCase()}, mas pode melhorar.`,
-          autor: "Maria Costa",
-          dataComentario: "2024-08-03",
-          votosPositivos: Math.floor(Math.random() * 15) + 3,
-          votosNegativos: Math.floor(Math.random() * 7),
-          userVote: null
-        }
-      ];
-
-      return {
-        criterio: criterioOriginal.criterio,
-        mediaNotas: criterioOriginal.mediaNotas,
-        topComentario: mockComments[0],
-        comentarios: mockComments
-      };
-    });
-  }
-
-  /**
-   * Vote on a comment (positive or negative)
-   */
-  voteOnComment(comment: Comment, voteType: 'positive' | 'negative'): void {
-    // Remove previous vote if exists
-    if (comment.userVote === 'positive') {
-      comment.votosPositivos--;
-    } else if (comment.userVote === 'negative') {
-      comment.votosNegativos--;
-    }
-
-    // Apply new vote
-    if (comment.userVote === voteType) {
-      // User is removing their vote
-      comment.userVote = null;
-    } else {
-      // User is adding/changing their vote
-      if (voteType === 'positive') {
-        comment.votosPositivos++;
-      } else {
-        comment.votosNegativos++;
+    
+    // Encontrar e atualizar o comentário na estrutura do professor
+    this.professor.criteriosComMedias.forEach(criterioMedia => {
+      if (criterioMedia.topComentario && criterioMedia.topComentario.id === updatedComment.id) {
+        criterioMedia.topComentario.score = updatedComment.score;
       }
-      comment.userVote = voteType;
-    }
-
-    // Show feedback
-    const action = comment.userVote ? 'adicionado' : 'removido';
-    const type = voteType === 'positive' ? 'positivo' : 'negativo';
-    this.snackBar.open(`Voto ${type} ${action}!`, 'Fechar', { duration: 2000 });
-  }
-
-  /**
-   * Get net votes (positive - negative) for a comment
-   */
-  getNetVotes(comment: Comment): number {
-    return comment.votosPositivos - comment.votosNegativos;
+    });
   }
 
   ngOnDestroy(): void {
-    this.routeSub?.unsubscribe();
-    this.professorSub?.unsubscribe();
+    if (this.routeSub) {
+      this.routeSub.unsubscribe();
+    }
+    if (this.professorSub) {
+      this.professorSub.unsubscribe();
+    }
   }
-} 
+}

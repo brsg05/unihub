@@ -165,6 +165,16 @@ export class ProfessorListComponent implements OnInit, AfterViewInit, OnDestroy 
     return this.filterForm.get('filterType')?.value === 'periodo';
   }
 
+  getAverageRating(): number {
+    if (this.dataSource.data.length === 0) return 0;
+    
+    const ratedProfessors = this.dataSource.data.filter(prof => prof.notaGeral !== null && prof.notaGeral !== undefined);
+    if (ratedProfessors.length === 0) return 0;
+    
+    const sum = ratedProfessors.reduce((acc, prof) => acc + (prof.notaGeral || 0), 0);
+    return sum / ratedProfessors.length;
+  }
+
   ngOnDestroy(): void {
     this.destroy$.next();
     this.destroy$.complete();
