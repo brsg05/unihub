@@ -28,11 +28,15 @@ Autor: Ithalo Rannieri Araujo Soares
     - [3.2.1. User Stories](#321-user-stories)
     - [3.2.2. Plano de Testes (BDD - Behavior-Driven Development)](#322-plano-de-testes-bdd---behavior-driven-development)
 - [4. Relatório de Lições Aprendidas](#4-relatório-de-lições-aprendidas)
-  - [4.1 Planejado vs. Realizado](#41-planejado-vs-realizado)
-  - [4.2 O que deu certo vs. O que deu errado](#42-o-que-deu-certo-vs-o-que-deu-errado)
+  - [4.1. Planejado vs. Realizado](#41-planejado-vs-realizado)
+    - [Planejado](#planejado)
+    - [Realizado](#realizado)
+  - [4.2. Decisões técnicas e seus _trade-offs_](#42-decisões-técnicas-e-seus-trade-offs)
+  - [4.3. O que deu certo vs. O que deu errado](#43-o-que-deu-certo-vs-o-que-deu-errado)
     - [O que deu certo](#o-que-deu-certo)
     - [O que deu errado](#o-que-deu-errado)
-  - [4.3 Próximos passos](#43-próximos-passos)
+  - [4.3. Desafios Enfrentados](#43-desafios-enfrentados)
+  - [4.4. Próximos passos](#44-próximos-passos)
 - [5. Informações Gerais e Metodologia](#5-informações-gerais-e-metodologia)
 
 ## 1\. Visão Geral do Produto
@@ -342,25 +346,51 @@ E a avaliação deve aparecer na página da disciplina com o nome "Estudante An�
 ## 4\. Relatório de Lições Aprendidas
 Este projeto, embora em fase inicial, forneceu aprendizados valiosos sobre a concepção e o desenvolvimento de um produto. Abaixo, destacamos o que deu certo, o que deu errado e as diferenças entre o que foi planejado e o que foi de fato realizado.
 
-### 4.1 Planejado vs. Realizado
-Tudo que foi planejado até o presente momento, foi realizado. Algumas decisões técnicas envolveram:
+### 4.1. Planejado vs. Realizado
+#### Planejado
+- login;
+- avaliação de disciplinas;
+- avaliação de professores;
+- implementação de campo para adsense (monetização);
+- modalidade premium (sem ads);
+- autenticação por e-mail;
+- pesquisa de validação de hipótese;
+- estilização com bootstrap;
+- pesquisa de validação de hipótese.
+  
+#### Realizado
+- login;
+- avaliação de disciplinas;
+- avaliação de professores;
+- avaliação anônima;
+- estilização com bootstrap;
+- pesquisa de validação de hipótese.
 
-* **Tecnologia:** A transição de um ambiente no-code (ideia inicial) para uma arquitetura com Angular, Spring Boot e PostgreSQL foi a maior mudança. Embora tenha aumentado o tempo de desenvolvimento, permitiu maior controle sobre a escalabilidade e a personalização da plataforma.
+### 4.2. Decisões técnicas e seus _trade-offs_
+* **Tecnologia:** A transição de um ambiente no-code (ideia inicial) para uma arquitetura com Angular, Spring Boot e PostgreSQL foi a maior mudança. Embora tenha aumentado o tempo de desenvolvimento, permitiu maior controle sobre a escalabilidade e a personalização da plataforma;
+  
+* **Plataforma:** Inicialmente o objetivo era que o projeto fosse mobile-first. No entanto, devido a decisão estratéfica do time de desenvolvimento, definiu-se que a aplicação seria web.
 
 * **Time:** O planejamento inicial não previa a utilização de ferramentas de IA como parte do fluxo de trabalho. A inclusão dessas ferramentas na prática demonstrou ser uma otimização significativa, acelerando a criação de documentação e a análise de requisitos.
 
-### 4.2 O que deu certo vs. O que deu errado
+### 4.3. O que deu certo vs. O que deu errado
 #### O que deu certo
 * **Validação da Ideia:** A pesquisa com usuários confirmou a existência de um problema real e a demanda por uma solução como o UniHub. Os dados coletados foram cruciais para validar a hipótese inicial e direcionar o desenvolvimento.
 
 * **Colaboração e Especialização:** A divisão de responsabilidades, com o gerente de produtos focado na análise de negócio e o desenvolvedor no código, permitiu que cada um se concentrasse em sua área de expertise, otimizando o fluxo de trabalho.
 
-* **Utilização de IA:** O uso de ferramentas de IA para a geração de documentação e outros artefatos de negócio demonstrou ser uma prática eficiente e ética para acelerar a fase de planejamento e especificação, permitindo focar em tarefas de maior complexidade.
+* **Utilização de IA:** O uso de ferramentas de IA para a geração de documentação e outros artefatos de negócio demonstrou ser uma prática eficiente e ética para acelerar a fase de planejamento e especificação, permitindo focar em tarefas de maior complexidade. O mesmo se aplicou para o desenvolvimento técnico _"ai supported"_;
 
 #### O que deu errado
 * **Adesão à Estratégia de Tecnologia:** Inicialmente, foi planejado o uso de uma plataforma no-code (Bubble.io) para o protótipo. No entanto, por decisão de negócio e pelas características da entrega, a arquitetura foi migrada para um stack de desenvolvimento tradicional (Angular, Spring Boot), o que gerou um atraso na fase de prototipagem, mas resultou em uma solução mais robusta e escalável a longo prazo.
+* **Implementação da camada de segurança;**
+* **Planejamento e implementação de pipelines de CI/CD;**
 
-### 4.3 Próximos passos
+### 4.3. Desafios Enfrentados
+- Implementação de pipelines de DevOps e DevSecOps por pouco background técnico do time;
+- Desenvolvimento _"ai supported"_ pode ser mais custoso do que a construção de artefatos "from scratch".
+  
+### 4.4. Próximos passos
 * Lançar o MVP com o escopo de usuário restrito à alunos do Centro de Informática com foco em validação e coleta de feedbacks iniciais.
 * Realizar ajustes e novas análises com base nos feedbacks coletados.
 * Aumentar o escopo de usuários para alunos da Universidade Federal de Pernambuco.
