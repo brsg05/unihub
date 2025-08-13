@@ -18,6 +18,9 @@ Autor: Ithalo Rannieri Araujo Soares
     - [2.2.2. Fluxo de Dados (Data Flow)](#222-fluxo-de-dados-data-flow)
 - [3. Detalhes Técnicos e de Implementação](#3-detalhes-técnicos-e-de-implementação)
   - [3.1. Tecnologias e Dependências](#31-tecnologias-e-dependências)
+    - [3.1.x Tecnologias Utilizadas](#31x-tecnologias-utilizadas)
+    - [Backend](#backend)
+    - [Frontend](#frontend)
 - [3.1.xAPI Endpoints](#31xapi-endpoints)
   - [3.2. Requisitos e Qualidade](#32-requisitos-e-qualidade)
     - [3.2.1. User Stories](#321-user-stories)
@@ -141,21 +144,27 @@ Este diagrama descreve como a informação se move entre os principais component
 ### 3.1. Tecnologias e Dependências
 Esta seção lista as principais tecnologias utilizadas no desenvolvimento do protótipo funcional.
 
-* **Linguagens de Programação:** TypeScript (para o front-end), Java (para o back-end).
+#### 3.1.x Tecnologias Utilizadas
+#### Backend
+*   Java 17;
+*   Spring Boot 3.x: Spring Data JPA para acesso a dados, Spring Security para autenticação e autorização, Lombok para reduzir código boilerplate:
+    *   Spring Web;
+    *   Spring Data JPA;
+    *   Spring Security;
+*   PostgreSQL: Atualmente, a camada de dados utiliza dados mockados para facilitar o desenvolvimento e os testes iniciais.
+*   Maven;
+*   Lombok;
+*   Swagger/OpenAPI (Springdoc);
+*   Mockito;
+*   JUnit (tests).
 
-* **Frameworks:**
-    * **Front-end:** Angular para a aplicação web.
-    * **Back-end:** Spring Boot para a criação da API REST.
-
-* **Bancos de Dados:** PostgreSQL para persistência de dados. Atualmente, a camada de dados utiliza dados mockados para facilitar o desenvolvimento e os testes iniciais.
-
-* **Ferramentas de Build:**
-    * **Front-end:** Node.js e npm.
-    * **Back-end:** Maven ou Gradle.
-
-* **Bibliotecas e Pacotes:**
-    * **Front-end (Angular):** RxJS para programação reativa, Angular Material para componentes de UI.
-    * **Back-end (Spring Boot):** Spring Data JPA para acesso a dados, Spring Security para autenticação e autorização, Lombok para reduzir código boilerplate.
+#### Frontend
+*   Angular 17.x: RxJS para programação reativa, Angular Material para componentes de UI;
+*   TypeScript;
+*   Angular Material;
+*   Bootstrap;
+*   RxJS;
+*   HTML, SCSS.
 
 ## 3.1.xAPI Endpoints
 The backend exposes RESTful API endpoints under `/api`. Key controllers include:
