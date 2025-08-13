@@ -1,3 +1,10 @@
+<div style="text-align: center;">
+  <figure>
+    <img src="docs/unihub_banner.png"
+         alt="UhiHub Banner" width="240" height="240">
+  </figure>
+</div>
+
 # Unihub
 O UniHub é uma plataforma de compartilhamento de conhecimento acadêmico que visa conectar alunos e ex-alunos para promover um aprendizado colaborativo. A plataforma funciona como um repositório centralizado de avaliações e experiências sobre disciplinas e professores, permitindo que os estudantes tomem decisões de matrícula mais conscientes e informadas.
 
