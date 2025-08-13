@@ -51,6 +51,8 @@ public class Comentario {
         this.texto = texto;
         this.avaliacao = avaliacao;
         this.criterio = criterio;
+        this.votosPositivos = 0;
+        this.votosNegativos = 0;
     }
 
     public int getScore() {

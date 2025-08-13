@@ -15,4 +15,12 @@ public interface NotaCriterioRepository extends JpaRepository<NotaCriterio, Long
     // Para calcular a nota geral de um professor
     @Query("SELECT AVG(nc.nota) FROM NotaCriterio nc JOIN nc.avaliacao a WHERE a.professor.id = :professorId")
     Double calculateAverageNotaByProfessorId(@Param("professorId") Long professorId);
+
+    // Para calcular a nota média de um professor em uma cadeira específica
+    @Query("SELECT AVG(nc.nota) FROM NotaCriterio nc JOIN nc.avaliacao a WHERE a.professor.id = :professorId AND a.cadeira.id = :cadeiraId")
+    Double calculateAverageNotaByProfessorAndCadeira(@Param("professorId") Long professorId, @Param("cadeiraId") Long cadeiraId);
+
+    // Para contar o número total de avaliações de um professor em uma cadeira
+    @Query("SELECT COUNT(DISTINCT a) FROM Avaliacao a WHERE a.professor.id = :professorId AND a.cadeira.id = :cadeiraId")
+    Long countAvaliacoesByProfessorAndCadeira(@Param("professorId") Long professorId, @Param("cadeiraId") Long cadeiraId);
 } 
