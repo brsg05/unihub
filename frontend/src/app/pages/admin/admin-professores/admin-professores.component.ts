@@ -96,7 +96,10 @@ export class AdminProfessoresComponent implements OnInit {
       AdminProfessorFormComponent,
       {
         width: '600px',
-        data: { professor: null }, // Novo professor
+        data: { 
+          professor: undefined, // Novo professor
+          cadeiras: [] // Array vazio para novo professor
+        },
         disableClose: true // Evitar fechar clicando fora
       }
     );
@@ -113,7 +116,10 @@ export class AdminProfessoresComponent implements OnInit {
       AdminProfessorFormComponent,
       {
         width: '600px',
-        data: { professor: professor }, // Professor existente para edição
+        data: { 
+          professor: professor as any, // Cast para resolver tipo
+          cadeiras: [] // Array vazio - pode ser carregado dentro do componente
+        },
         disableClose: true
       }
     );
