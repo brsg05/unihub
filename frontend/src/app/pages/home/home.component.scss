@@ -5,6 +5,9 @@
     background: #f8f9fa;
     color: #212529;
     position: relative;
+    min-height: 60vh;
+    display: flex;
+    align-items: center;
     
     .container {
       padding-top: 80px;
@@ -28,20 +31,33 @@
 
   .hero-search {
     max-width: 600px;
+    margin: 0 auto; // Center the search container
     
     .search-container {
       .search-input-group {
         display: flex;
         gap: 0.75rem;
-        align-items: end;
+        align-items: stretch; // Make both elements same height
         
         .search-field {
           flex: 1;
           
-          .mat-mdc-form-field {
+          ::ng-deep .mat-mdc-form-field {
             .mat-mdc-text-field-wrapper {
               background-color: white;
               border-radius: 12px;
+            }
+            
+            // Remove default margins and ensure consistent height
+            &.mat-mdc-form-field-appearance-outline {
+              .mat-mdc-form-field-flex {
+                height: 56px;
+                align-items: center;
+              }
+              
+              .mat-mdc-form-field-subscript-wrapper {
+                display: none; // Remove hint/error space that causes misalignment
+              }
             }
           }
         }
@@ -51,6 +67,10 @@
           padding: 0 24px;
           border-radius: 12px;
           font-weight: 600;
+          flex-shrink: 0;
+          display: flex;
+          align-items: center;
+          justify-content: center;
         }
       }
     }
@@ -58,9 +78,10 @@
 
   .hero-illustration {
     position: relative;
+    margin-top: 2rem;
     
     .hero-icon {
-      font-size: 8rem;
+      font-size: 6rem;
       color: #dee2e6;
       animation: float 6s ease-in-out infinite;
     }
@@ -79,22 +100,22 @@
         
         &.element-1 {
           top: 20%;
-          left: 10%;
-          font-size: 1.5rem;
+          left: 20%;
+          font-size: 1.2rem;
           animation-delay: -1s;
         }
         
         &.element-2 {
           top: 60%;
-          right: 20%;
-          font-size: 2rem;
+          right: 25%;
+          font-size: 1.5rem;
           animation-delay: -2s;
         }
         
         &.element-3 {
           bottom: 30%;
           left: 30%;
-          font-size: 1.8rem;
+          font-size: 1.3rem;
           animation-delay: -3s;
         }
       }
@@ -260,7 +281,7 @@
         gap: 0.25rem;
         
         .star-icon {
-          color: #ffc107;
+          color: #e74c3c;
           font-size: 1rem;
         }
         
@@ -315,6 +336,21 @@
     .hero-section .container {
       padding-top: 60px;
       padding-bottom: 60px;
+    }
+    
+    .hero-search {
+      .search-container {
+        .search-input-group {
+          flex-direction: column;
+          align-items: stretch;
+          
+          .search-btn {
+            margin-bottom: 0;
+            height: 48px;
+            margin-top: 0.75rem;
+          }
+        }
+      }
     }
     
     .features-section,
