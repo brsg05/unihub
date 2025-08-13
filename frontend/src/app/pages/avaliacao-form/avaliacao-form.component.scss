@@ -173,7 +173,7 @@
       
       i {
         font-size: 1.25rem;
-        color: #ffc107;
+        color: #e74c3c;
         
         &.bi-star {
           color: #dee2e6;
@@ -241,11 +241,11 @@
       }
       
       &:hover {
-        border-color: #ffc107;
+        border-color: #e74c3c;
         transform: translateY(-2px);
         
         i {
-          color: #ffc107;
+          color: #e74c3c;
         }
         
         span {
@@ -254,11 +254,11 @@
       }
       
       &.active {
-        border-color: #ffc107;
-        background: linear-gradient(135deg, #fff3cd 0%, #ffeaa7 100%);
+        border-color: #e74c3c;
+        background: linear-gradient(135deg, #fadbd8 0%, #f1948a 100%);
         
         i {
-          color: #ffc107;
+          color: #e74c3c;
         }
         
         span {

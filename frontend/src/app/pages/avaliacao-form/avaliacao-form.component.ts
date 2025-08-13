@@ -91,7 +91,7 @@ export class AvaliacaoFormComponent implements OnInit, OnDestroy {
     this.isLoading = true;
     this.professorSub = this.professorService.getProfessorById(this.professorId).subscribe({
       next: prof => {
-        this.professor = prof;
+        this.professor = prof as any; // Temporary cast to avoid type errors
         // Se não passamos cadeiraNome, e Cadeira não vem com ProfessorDto simples, teríamos que buscar Cadeira
         if (!this.cadeiraNome) {
           // Lógica para buscar detalhes da cadeira se necessário, ou assumir que o ID é suficiente para o backend.
