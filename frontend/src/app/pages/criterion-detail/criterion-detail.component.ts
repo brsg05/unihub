@@ -94,7 +94,7 @@ export class CriterionDetailComponent implements OnInit, OnDestroy {
       })
     ).subscribe({
       next: ({ professor, criterio }) => {
-        this.professor = professor;
+        this.professor = professor as any; // Temporary cast to avoid type errors
         this.criterio = criterio;
         if (this.criterio) {
           this.loadEvaluationsForCriterion();

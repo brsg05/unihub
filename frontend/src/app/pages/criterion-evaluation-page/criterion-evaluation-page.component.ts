@@ -84,7 +84,7 @@ export class CriterionEvaluationPageComponent implements OnInit, OnDestroy {
   }
 
   loadProfessorDetails(): void {
-    this.professorSub = this.professorService.getProfessorById(this.professorId).subscribe(prof => this.professor = prof);
+    this.professorSub = this.professorService.getProfessorById(this.professorId).subscribe(prof => this.professor = prof as any);
   }
 
   loadCriterioDetails(): void {
