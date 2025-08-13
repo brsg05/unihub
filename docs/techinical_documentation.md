@@ -77,7 +77,7 @@ O UniHub oferece uma solução centralizada e confiável, onde os alunos podem e
 
 ## 2\. Arquitetura do Sistema
 ### 2.1. Visão Arquitetural
-A arquitetura do UniHub adota um padrão de aplicação de três camadas (cliente-servidor-banco de dados). A aplicação é dividida em dois componentes principais: o front-end, desenvolvido com Angular, e o back-end, construído com Spring Boot. Essa separação permite maior escalabilidade, flexibilidade e a possibilidade de equipes de desenvolvimento trabalharem de forma independente. O front-end se comunica com o back-end através de uma API RESTful, e o back-end gerencia a lógica de negócio e a persistência dos dados em um banco de dados relacional.
+A arquitetura do UniHub adota um padrão de aplicação de três camadas (cliente-servidor-banco de dados). A aplicação é dividida em dois componentes principais: o front-end, desenvolvido com Angular, e o back-end, construído com Spring Boot. Essa separação permite maior escalabilidade, flexibilidade e a possibilidade de equipes de desenvolvimento trabalharem de forma independente. O front-end se comunica com o back-end através de uma API RESTful, e o back-end gerencia a lógica de negócio e a persistência dos dados em um banco de dados relacional. Para mais detalhes, consultar os diagramas de contexto, contêiners e componentes [aqui](diagrams/c4_model.md).
 
 ```mermaid
         C4Container
