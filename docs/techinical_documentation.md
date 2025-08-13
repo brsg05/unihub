@@ -18,6 +18,7 @@ Autor: Ithalo Rannieri Araujo Soares
     - [2.2.2. Fluxo de Dados (Data Flow)](#222-fluxo-de-dados-data-flow)
 - [3. Detalhes Técnicos e de Implementação](#3-detalhes-técnicos-e-de-implementação)
   - [3.1. Tecnologias e Dependências](#31-tecnologias-e-dependências)
+- [3.1.xAPI Endpoints](#31xapi-endpoints)
   - [3.2. Requisitos e Qualidade](#32-requisitos-e-qualidade)
     - [3.2.1. User Stories](#321-user-stories)
     - [3.2.2. Plano de Testes (BDD - Behavior-Driven Development)](#322-plano-de-testes-bdd---behavior-driven-development)
@@ -155,6 +156,16 @@ Esta seção lista as principais tecnologias utilizadas no desenvolvimento do pr
 * **Bibliotecas e Pacotes:**
     * **Front-end (Angular):** RxJS para programação reativa, Angular Material para componentes de UI.
     * **Back-end (Spring Boot):** Spring Data JPA para acesso a dados, Spring Security para autenticação e autorização, Lombok para reduzir código boilerplate.
+
+## 3.1.xAPI Endpoints
+The backend exposes RESTful API endpoints under `/api`. Key controllers include:
+
+*   `/api/users`: Gerenciamento de usuários (admin only) e autenticação (login, register);
+*   `/api/professores`: Gerenciamento de professores e listagem pública;
+*   `/api/cadeiras`: Gerenciamento de cursos e listagem pública;
+*   `/api/criterios`: Gerenciamento de critérios e listagem pública;
+*   `/api/avaliacoes`: Submissão e recuperação de informações;
+*   `/api/comentarios`: Gerenciamento de comentários.
 
 ### 3.2. Requisitos e Qualidade
 A estratégia de requisitos e garantia de qualidade do projeto é baseada em Behavior-Driven Development (BDD), com os requisitos funcionais e não-funcionais (RNF) sendo documentados como User Stories. A implementação do protótipo será guiada por essas histórias, com testes unitários (TDD) implementados nos componentes, sempre que aplicável.
