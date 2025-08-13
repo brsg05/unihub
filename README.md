@@ -1,4 +1,4 @@
-<div style="text-align: center;">
+<div style="display: flex; justify-content: center; align-items: center;">
   <figure>
     <img src="docs/unihub_banner.png"
          alt="UhiHub Banner" width="240" height="240">
