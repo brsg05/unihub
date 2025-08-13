@@ -37,6 +37,8 @@ import { HomeComponent } from './pages/home/home.component';
 import { LoginComponent } from './pages/auth/login/login.component';
 import { RegisterComponent } from './pages/auth/register/register.component';
 import { ProfessorListComponent } from './pages/professor-list/professor-list.component';
+import { CadeiraListComponent } from './pages/cadeira-list/cadeira-list.component';
+import { CadeiraDetailComponent } from './pages/cadeira-detail/cadeira-detail.component';
 // ProfessorDetailComponent and CriterionDetailComponent are standalone
 // import { AdminDashboardComponent } from './pages/admin/admin-dashboard/admin-dashboard.component'; // No longer declared here
 
@@ -52,6 +54,8 @@ import { ProfessorListComponent } from './pages/professor-list/professor-list.co
     LoginComponent,
     RegisterComponent,
     ProfessorListComponent,
+    CadeiraListComponent,
+    CadeiraDetailComponent,
     // ProfessorDetailComponent,
     // CriterionDetailComponent,
     // AdminDashboardComponent,
