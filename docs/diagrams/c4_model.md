@@ -54,13 +54,13 @@ Este diagrama mostra a estrutura interna do contêiner "API Backend", detalhando
         title Diagrama de Componentes do Backend do UniHub
 
         Container(backend, "API Backend", "Spring Boot", "API RESTful que gerencia a lógica de negócio, autenticação e acesso a dados.")
-        {
+        
             Component(controller, "Controller", "Spring MVC", "Expõe os endpoints da API REST.")
             Component(service, "Service", "Java", "Implementa a lógica de negócio da aplicação.")
             Component(repository, "Repository", "Spring Data JPA", "Abstrai o acesso ao banco de dados.")
             Component(domain, "Domínio/Modelo", "Java", "Representa as entidades de negócio e DTOs.")
             Component(security, "Security", "Spring Security, JWT", "Gerencia a autenticação e autorização stateless.")
-        }
+        
         
         ContainerDb(database, "Banco de Dados", "PostgreSQL", "Armazena informações de usuários, disciplinas e avaliações.")
         Component(frontend, "Aplicação Web", "Angular", "Consome a API.")
