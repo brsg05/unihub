@@ -13,8 +13,10 @@ public class ComentarioDto {
     private Long avaliacaoId;
     private Long criterioId;
     private String criterioNome; // Adicionado para conveniência
+    private String cadeiraNome; // Nome da cadeira
     private Integer votosPositivos;
     private Integer votosNegativos;
     private Integer score;
     private LocalDateTime createdAt;
+    private String userVoteType; // "UPVOTE", "DOWNVOTE" ou null
 } 

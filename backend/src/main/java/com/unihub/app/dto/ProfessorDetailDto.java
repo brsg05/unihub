@@ -20,5 +20,6 @@ public class ProfessorDetailDto {
     private String photoUrl;
     private BigDecimal notaGeral;
     private List<CadeiraSimplificadaDto> cadeiras; // Renomeado de cadeirasLecionadas
+    private List<CadeiraNotaDto> cadeiraNotas; // Nova propriedade para as notas por cadeira
     private List<BackendCriterioComMediaDto> criteriosComMedias; // Alterado de avaliacoesPorCriterio e usa novo DTO
 } 
