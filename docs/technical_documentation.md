@@ -8,7 +8,6 @@ Autor: Ithalo Rannieri Araujo Soares
 - [1. Visão Geral do Produto](#1-visão-geral-do-produto)
   - [O Problema](#o-problema)
   - [A Solução](#a-solução)
-  - [Proposta de Valor](#proposta-de-valor)
   - [Público-Alvo](#público-alvo)
   - [Personas](#personas)
 - [2. Arquitetura do Sistema](#2-arquitetura-do-sistema)
@@ -18,15 +17,25 @@ Autor: Ithalo Rannieri Araujo Soares
     - [2.2.2. Fluxo de Dados (Data Flow)](#222-fluxo-de-dados-data-flow)
 - [3. Detalhes Técnicos e de Implementação](#3-detalhes-técnicos-e-de-implementação)
   - [3.1. Tecnologias e Dependências](#31-tecnologias-e-dependências)
+    - [3.1.1. Tecnologias Utilizadas](#311-tecnologias-utilizadas)
+    - [Backend](#backend)
+    - [Frontend](#frontend)
+    - [3.1.2. Descrições das Entidades](#312-descrições-das-entidades)
+    - [3.1.3. Fluxos de Usuário Principais](#313-fluxos-de-usuário-principais)
+- [3.1.4. API Endpoints](#314-api-endpoints)
   - [3.2. Requisitos e Qualidade](#32-requisitos-e-qualidade)
     - [3.2.1. User Stories](#321-user-stories)
     - [3.2.2. Plano de Testes (BDD - Behavior-Driven Development)](#322-plano-de-testes-bdd---behavior-driven-development)
 - [4. Relatório de Lições Aprendidas](#4-relatório-de-lições-aprendidas)
-  - [4.1 Planejado vs. Realizado](#41-planejado-vs-realizado)
-  - [4.2 O que deu certo vs. O que deu errado](#42-o-que-deu-certo-vs-o-que-deu-errado)
+  - [4.1. Planejado vs. Realizado](#41-planejado-vs-realizado)
+    - [Planejado](#planejado)
+    - [Realizado](#realizado)
+  - [4.2. Decisões técnicas e seus _trade-offs_](#42-decisões-técnicas-e-seus-trade-offs)
+  - [4.3. O que deu certo vs. O que deu errado](#43-o-que-deu-certo-vs-o-que-deu-errado)
     - [O que deu certo](#o-que-deu-certo)
     - [O que deu errado](#o-que-deu-errado)
-  - [4.3 Próximos passos](#43-próximos-passos)
+  - [4.3. Desafios Enfrentados](#43-desafios-enfrentados)
+  - [4.4. Próximos passos](#44-próximos-passos)
 - [5. Informações Gerais e Metodologia](#5-informações-gerais-e-metodologia)
 
 ## 1\. Visão Geral do Produto
@@ -38,9 +47,6 @@ A falta de informações detalhadas e confiáveis sobre as disciplinas, para al�
 
 ### A Solução
 O UniHub oferece uma solução centralizada e confiável, onde os alunos podem encontrar informações estruturadas sobre as disciplinas. As avaliações são baseadas em experiências reais de outros alunos, cobrindo aspectos como dificuldade, carga de trabalho, didática do professor e metodologia de avaliação. A plataforma promove a colaboração e a formação de uma comunidade acadêmica mais informada.
-
-### Proposta de Valor
-
 
 ### Público-Alvo
 * **Alunos de graduação:** Principalmente calouros e veteranos que precisam escolher disciplinas a cada semestre.Ex-alunos também são bem-vindos para contribuir com suas experiências e lições aprendidas.
@@ -67,7 +73,7 @@ O UniHub oferece uma solução centralizada e confiável, onde os alunos podem e
 
 ## 2\. Arquitetura do Sistema
 ### 2.1. Visão Arquitetural
-A arquitetura do UniHub adota um padrão de aplicação de três camadas (cliente-servidor-banco de dados). A aplicação é dividida em dois componentes principais: o front-end, desenvolvido com Angular, e o back-end, construído com Spring Boot. Essa separação permite maior escalabilidade, flexibilidade e a possibilidade de equipes de desenvolvimento trabalharem de forma independente. O front-end se comunica com o back-end através de uma API RESTful, e o back-end gerencia a lógica de negócio e a persistência dos dados em um banco de dados relacional.
+A arquitetura do UniHub adota um padrão de aplicação de três camadas (cliente-servidor-banco de dados). A aplicação é dividida em dois componentes principais: o front-end, desenvolvido com Angular, e o back-end, construído com Spring Boot. Essa separação permite maior escalabilidade, flexibilidade e a possibilidade de equipes de desenvolvimento trabalharem de forma independente. O front-end se comunica com o back-end através de uma API RESTful, e o back-end gerencia a lógica de negócio e a persistência dos dados em um banco de dados relacional. Para mais detalhes, consultar os diagramas de contexto, contêiners e componentes [aqui](diagrams/c4_model.md).
 
 ```mermaid
         C4Container
@@ -140,21 +146,129 @@ Este diagrama descreve como a informação se move entre os principais component
 ### 3.1. Tecnologias e Dependências
 Esta seção lista as principais tecnologias utilizadas no desenvolvimento do protótipo funcional.
 
-* **Linguagens de Programação:** TypeScript (para o front-end), Java (para o back-end).
+#### 3.1.1. Tecnologias Utilizadas
+#### Backend
+*   Java 17;
+*   Spring Boot 3.x: Spring Data JPA para acesso a dados, Spring Security para autenticação e autorização, Lombok para reduzir código boilerplate:
+    *   Spring Web;
+    *   Spring Data JPA;
+    *   Spring Security;
+*   PostgreSQL: Atualmente, a camada de dados utiliza dados mockados para facilitar o desenvolvimento e os testes iniciais.
+*   Maven;
+*   Lombok;
+*   Swagger/OpenAPI (Springdoc);
+*   Mockito;
+*   JUnit (tests).
 
-* **Frameworks:**
-    * **Front-end:** Angular para a aplicação web.
-    * **Back-end:** Spring Boot para a criação da API REST.
+#### Frontend
+*   Angular 17.x: RxJS para programação reativa, Angular Material para componentes de UI;
+*   TypeScript;
+*   Angular Material;
+*   Bootstrap;
+*   RxJS;
+*   HTML, SCSS.
+  
+#### 3.1.2. Descrições das Entidades
+*   **Usuário:**
+    *   `id`: Identificador único.
+    *   `username`: Nome de usuário para login (único).
+    *   `password`: Senha criptografada.
+    *   `email`: Email do usuário (único).
+    *   `role`: Papel do usuário no sistema (`USER` ou `ADMIN`).
+  
+*   **Professor:**
+    *   `id`: Identificador único.
+    *   `nomeCompleto`: Nome completo do professor.
+    *   `photoUrl`: URL para a foto do professor.
+    *   `notaGeral`: Média aritmética das notas de todos os critérios avaliados para este professor (calculado).
+  
+*   **Cadeira:** (Disciplina)
+    *   `id`: Identificador único.
+    *   `nome`: Nome da cadeira.
+    *   `cargaHoraria`: Carga horária da cadeira.
+    *   `isEletiva`: Indica se a cadeira é eletiva.
 
-* **Bancos de Dados:** PostgreSQL para persistência de dados. Atualmente, a camada de dados utiliza dados mockados para facilitar o desenvolvimento e os testes iniciais.
+*   **Professor_Cadeiras:** Tabela de junção para o relacionamento N-M entre Professor e Cadeira.
+    *   `professor_id`: Chave estrangeira para Professor.
+    *   `cadeira_id`: Chave estrangeira para Cadeira.
+  
+*   **Critério:**
+    *   `id`: Identificador único.
+    *   `nome`: Nome do critério de avaliação (ex: Didática, Assiduidade). Criado apenas por ADMIN.
+  
+*   **Avaliação:**
+    *   `id`: Identificador único.
+    *   `data`: Data e hora da avaliação.
+    *   `periodo`: Período acadêmico da avaliação (ex: "2023.1").
+    *   `usuario_id`: Chave estrangeira para Usuário que realizou a avaliação (mantido anônimo no frontend).
+    *   `professor_id`: Chave estrangeira para Professor avaliado.
+    *   `cadeira_id`: Chave estrangeira para Cadeira relacionada à avaliação.
+  
+*   **NotaCritério:**
+    *   `id`: Identificador único.
+    *   `avaliacao_id`: Chave estrangeira para Avaliação.
+    *   `criterio_id`: Chave estrangeira para Critério.
+    *   `nota`: Nota atribuída ao critério específico nesta avaliação.
+  
+*   **Comentário:**
+    *   `id`: Identificador único.
+    *   `texto`: Conteúdo do comentário.
+    *   `avaliacao_id`: Chave estrangeira para Avaliação.
+    *   `criterio_id`: Chave estrangeira para o Critério ao qual o comentário se refere.
+    *   `votosPositivos`: Número de votos positivos no comentário.
+    *   `votosNegativos`: Número de votos negativos no comentário.
 
-* **Ferramentas de Build:**
-    * **Front-end:** Node.js e npm.
-    * **Back-end:** Maven ou Gradle.
+O diagrama completo de Relacionamento entre Entidades pode ser encontrado [aqui](diagrams/modelo_er.md)
 
-* **Bibliotecas e Pacotes:**
-    * **Front-end (Angular):** RxJS para programação reativa, Angular Material para componentes de UI.
-    * **Back-end (Spring Boot):** Spring Data JPA para acesso a dados, Spring Security para autenticação e autorização, Lombok para reduzir código boilerplate.
+#### 3.1.3. Fluxos de Usuário Principais
+1.  **Registro de Novo Usuário:**
+    *   Usuário acessa a página de registro.
+    *   Preenche formulário (username, email, senha).
+    *   Sistema valida os dados e cria a conta com `role=USER`.
+    *   Usuário é redirecionado para login ou página principal.
+  
+2.  **Login de Usuário:**
+    *   Usuário acessa a página de login.
+    *   Fornece username/email e senha.
+    *   Sistema valida as credenciais.
+    *   Se válido, um token JWT é gerado e retornado. Usuário é redirecionado.
+  
+3.  **Avaliar Professor (Usuário Logado):**
+    *   Usuário navega para a página de um professor ou lista de professores.
+    *   Seleciona um professor e uma cadeira que ele leciona.
+    *   Acessa o formulário de avaliação para o período corrente.
+    *   Preenche as notas para todos os critérios obrigatórios.
+    *   Opcionalmente, adiciona comentários para cada critério.
+    *   Submete a avaliação. O sistema registra a avaliação de forma anônima (associação com usuário apenas no backend).
+  
+4.  **Visualizar Avaliações de Professor (Público):**
+    *   Qualquer visitante acessa a página de um professor.
+    *   Visualiza a `notaGeral` do professor.
+    *   Vê uma tabela com cada `Critério`, sua nota média e o principal comentário (ordenado por score `votosPositivos - votosNegativos`).
+    *   Pode navegar para a página de um critério específico para ver mais detalhes e comentários.
+  
+5.  **Administração de Professores (Admin Logado):**
+    *   Admin acessa o Dashboard de Administração.
+    *   Pode Criar, Ler, Atualizar e Deletar (CRUD) Professores.
+    *   Pode associar Cadeiras a Professores.
+  
+6.  **Administração de Critérios (Admin Logado):**
+    *   Admin acessa o Dashboard de Administração.
+    *   Pode Criar, Ler, Atualizar e Deletar (CRUD) Critérios de avaliação.
+  
+7.  **Atribuir Papel de Admin (Admin Logado):**
+    *   Admin acessa a seção de gerenciamento de usuários no Dashboard.
+    *   Pode alterar o `role` de um usuário para `ADMIN`.
+
+## 3.1.4. API Endpoints
+The backend exposes RESTful API endpoints under `/api`. Key controllers include:
+
+*   `/api/users`: Gerenciamento de usuários (admin only) e autenticação (login, register);
+*   `/api/professores`: Gerenciamento de professores e listagem pública;
+*   `/api/cadeiras`: Gerenciamento de cursos e listagem pública;
+*   `/api/criterios`: Gerenciamento de critérios e listagem pública;
+*   `/api/avaliacoes`: Submissão e recuperação de informações;
+*   `/api/comentarios`: Gerenciamento de comentários.
 
 ### 3.2. Requisitos e Qualidade
 A estratégia de requisitos e garantia de qualidade do projeto é baseada em Behavior-Driven Development (BDD), com os requisitos funcionais e não-funcionais (RNF) sendo documentados como User Stories. A implementação do protótipo será guiada por essas histórias, com testes unitários (TDD) implementados nos componentes, sempre que aplicável.
@@ -230,25 +344,51 @@ E a avaliação deve aparecer na página da disciplina com o nome "Estudante An�
 ## 4\. Relatório de Lições Aprendidas
 Este projeto, embora em fase inicial, forneceu aprendizados valiosos sobre a concepção e o desenvolvimento de um produto. Abaixo, destacamos o que deu certo, o que deu errado e as diferenças entre o que foi planejado e o que foi de fato realizado.
 
-### 4.1 Planejado vs. Realizado
-Tudo que foi planejado até o presente momento, foi realizado. Algumas decisões técnicas envolveram:
+### 4.1. Planejado vs. Realizado
+#### Planejado
+- login;
+- avaliação de disciplinas;
+- avaliação de professores;
+- implementação de campo para adsense (monetização);
+- modalidade premium (sem ads);
+- autenticação por e-mail;
+- pesquisa de validação de hipótese;
+- estilização com bootstrap;
+- pesquisa de validação de hipótese.
+  
+#### Realizado
+- login;
+- avaliação de disciplinas;
+- avaliação de professores;
+- avaliação anônima;
+- estilização com bootstrap;
+- pesquisa de validação de hipótese.
 
-* **Tecnologia:** A transição de um ambiente no-code (ideia inicial) para uma arquitetura com Angular, Spring Boot e PostgreSQL foi a maior mudança. Embora tenha aumentado o tempo de desenvolvimento, permitiu maior controle sobre a escalabilidade e a personalização da plataforma.
+### 4.2. Decisões técnicas e seus _trade-offs_
+* **Tecnologia:** A transição de um ambiente no-code (ideia inicial) para uma arquitetura com Angular, Spring Boot e PostgreSQL foi a maior mudança. Embora tenha aumentado o tempo de desenvolvimento, permitiu maior controle sobre a escalabilidade e a personalização da plataforma;
+  
+* **Plataforma:** Inicialmente o objetivo era que o projeto fosse mobile-first. No entanto, devido a decisão estratéfica do time de desenvolvimento, definiu-se que a aplicação seria web.
 
 * **Time:** O planejamento inicial não previa a utilização de ferramentas de IA como parte do fluxo de trabalho. A inclusão dessas ferramentas na prática demonstrou ser uma otimização significativa, acelerando a criação de documentação e a análise de requisitos.
 
-### 4.2 O que deu certo vs. O que deu errado
+### 4.3. O que deu certo vs. O que deu errado
 #### O que deu certo
 * **Validação da Ideia:** A pesquisa com usuários confirmou a existência de um problema real e a demanda por uma solução como o UniHub. Os dados coletados foram cruciais para validar a hipótese inicial e direcionar o desenvolvimento.
 
 * **Colaboração e Especialização:** A divisão de responsabilidades, com o gerente de produtos focado na análise de negócio e o desenvolvedor no código, permitiu que cada um se concentrasse em sua área de expertise, otimizando o fluxo de trabalho.
 
-* **Utilização de IA:** O uso de ferramentas de IA para a geração de documentação e outros artefatos de negócio demonstrou ser uma prática eficiente e ética para acelerar a fase de planejamento e especificação, permitindo focar em tarefas de maior complexidade.
+* **Utilização de IA:** O uso de ferramentas de IA para a geração de documentação e outros artefatos de negócio demonstrou ser uma prática eficiente e ética para acelerar a fase de planejamento e especificação, permitindo focar em tarefas de maior complexidade. O mesmo se aplicou para o desenvolvimento técnico _"ai supported"_;
 
 #### O que deu errado
 * **Adesão à Estratégia de Tecnologia:** Inicialmente, foi planejado o uso de uma plataforma no-code (Bubble.io) para o protótipo. No entanto, por decisão de negócio e pelas características da entrega, a arquitetura foi migrada para um stack de desenvolvimento tradicional (Angular, Spring Boot), o que gerou um atraso na fase de prototipagem, mas resultou em uma solução mais robusta e escalável a longo prazo.
+* **Implementação da camada de segurança;**
+* **Planejamento e implementação de pipelines de CI/CD;**
 
-### 4.3 Próximos passos
+### 4.3. Desafios Enfrentados
+- Implementação de pipelines de DevOps e DevSecOps por pouco background técnico do time;
+- Desenvolvimento _"ai supported"_ pode ser mais custoso do que a construção de artefatos "from scratch".
+  
+### 4.4. Próximos passos
 * Lançar o MVP com o escopo de usuário restrito à alunos do Centro de Informática com foco em validação e coleta de feedbacks iniciais.
 * Realizar ajustes e novas análises com base nos feedbacks coletados.
 * Aumentar o escopo de usuários para alunos da Universidade Federal de Pernambuco.
