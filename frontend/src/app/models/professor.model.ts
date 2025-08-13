@@ -10,6 +10,41 @@ export interface Professor {
   notaGeral?: number; // Derived
 }
 
+// Interface para notas por cadeira - corresponde ao CadeiraNotaDto do backend
+export interface CadeiraNota {
+  cadeiraId: number;
+  cadeiraNome: string;
+  cursoNome: string;
+  cargaHoraria: number;
+  isEletiva: boolean;
+  notaMedia: number;
+  totalAvaliacoes: number;
+}
+
+// Interface simplificada da cadeira
+export interface CadeiraSimplificada {
+  id: number;
+  nome: string;
+}
+
+// Interface para critério com comentário simplificado
+export interface ComentarioSimplificado {
+  id: number;
+  texto: string;
+  score: number;
+}
+
+export interface BackendCriterio {
+  id: number;
+  nome: string;
+}
+
+export interface BackendCriterioComMedia {
+  criterio: BackendCriterio;
+  mediaNotas: number;
+  topComentario?: ComentarioSimplificado;
+}
+
 // Corresponds to backend ProfessorDto (summary view)
 export interface ProfessorDto {
   id: number;
@@ -28,9 +63,9 @@ export interface ProfessorRequest {
 
 // Corresponds to backend ProfessorDetailDto (detailed view for professor page)
 export interface ProfessorDetailDto extends ProfessorDto {
-  cadeiras: Cadeira[];
-  criteriosComMedias: CriterioComMediaDto[];
-  // topComentariosRecentes: Comentario[]; // Or a simplified Comentario DTO
+  cadeiras: CadeiraSimplificada[];
+  cadeiraNotas: CadeiraNota[]; // Notas por cadeira
+  criteriosComMedias: BackendCriterioComMedia[];
 }
 
 export interface CriterioComMediaDto {
