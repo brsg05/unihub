@@ -81,6 +81,27 @@ public class ProfessorService {
             .map(c -> new CadeiraSimplificadaDto(c.getId(), c.getNome()))
             .collect(Collectors.toList()));
 
+        // Buscar notas por cadeira
+        List<CadeiraNotaDto> cadeiraNotas = professor.getCadeiras().stream()
+            .map(cadeira -> {
+                Double notaMediaDouble = notaCriterioRepository.calculateAverageNotaByProfessorAndCadeira(id, cadeira.getId());
+                BigDecimal notaMedia = (notaMediaDouble != null) ? BigDecimal.valueOf(notaMediaDouble).setScale(2, RoundingMode.HALF_UP) : BigDecimal.ZERO;
+                Long totalAvaliacoes = notaCriterioRepository.countAvaliacoesByProfessorAndCadeira(id, cadeira.getId());
+                
+                return new CadeiraNotaDto(
+                    cadeira.getId(),
+                    cadeira.getNome(),
+                    cadeira.getCurso() != null ? cadeira.getCurso().getNome() : "N/A",
+                    cadeira.getCargaHoraria(),
+                    cadeira.getIsEletiva(),
+                    notaMedia,
+                    totalAvaliacoes != null ? totalAvaliacoes : 0L
+                );
+            })
+            .collect(Collectors.toList());
+        
+        detailDto.setCadeiraNotas(cadeiraNotas);
+
         List<Criterio> criterios = criterioRepository.findAll();
         
         List<BackendCriterioComMediaDto> backendCriteriosComMedias = criterios.stream().map(criterio -> {
