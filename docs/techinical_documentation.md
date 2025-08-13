@@ -18,10 +18,12 @@ Autor: Ithalo Rannieri Araujo Soares
     - [2.2.2. Fluxo de Dados (Data Flow)](#222-fluxo-de-dados-data-flow)
 - [3. Detalhes Técnicos e de Implementação](#3-detalhes-técnicos-e-de-implementação)
   - [3.1. Tecnologias e Dependências](#31-tecnologias-e-dependências)
-    - [3.1.x Tecnologias Utilizadas](#31x-tecnologias-utilizadas)
+    - [3.1.1. Tecnologias Utilizadas](#311-tecnologias-utilizadas)
     - [Backend](#backend)
     - [Frontend](#frontend)
-- [3.1.xAPI Endpoints](#31xapi-endpoints)
+    - [3.1.2. Descrições das Entidades](#312-descrições-das-entidades)
+    - [3.1.3. Fluxos de Usuário Principais](#313-fluxos-de-usuário-principais)
+- [3.1.4. API Endpoints](#314-api-endpoints)
   - [3.2. Requisitos e Qualidade](#32-requisitos-e-qualidade)
     - [3.2.1. User Stories](#321-user-stories)
     - [3.2.2. Plano de Testes (BDD - Behavior-Driven Development)](#322-plano-de-testes-bdd---behavior-driven-development)
@@ -144,7 +146,7 @@ Este diagrama descreve como a informação se move entre os principais component
 ### 3.1. Tecnologias e Dependências
 Esta seção lista as principais tecnologias utilizadas no desenvolvimento do protótipo funcional.
 
-#### 3.1.x Tecnologias Utilizadas
+#### 3.1.1. Tecnologias Utilizadas
 #### Backend
 *   Java 17;
 *   Spring Boot 3.x: Spring Data JPA para acesso a dados, Spring Security para autenticação e autorização, Lombok para reduzir código boilerplate:
@@ -165,8 +167,98 @@ Esta seção lista as principais tecnologias utilizadas no desenvolvimento do pr
 *   Bootstrap;
 *   RxJS;
 *   HTML, SCSS.
+  
+#### 3.1.2. Descrições das Entidades
+*   **Usuário:**
+    *   `id`: Identificador único.
+    *   `username`: Nome de usuário para login (único).
+    *   `password`: Senha criptografada.
+    *   `email`: Email do usuário (único).
+    *   `role`: Papel do usuário no sistema (`USER` ou `ADMIN`).
+  
+*   **Professor:**
+    *   `id`: Identificador único.
+    *   `nomeCompleto`: Nome completo do professor.
+    *   `photoUrl`: URL para a foto do professor.
+    *   `notaGeral`: Média aritmética das notas de todos os critérios avaliados para este professor (calculado).
+  
+*   **Cadeira:** (Disciplina)
+    *   `id`: Identificador único.
+    *   `nome`: Nome da cadeira.
+    *   `cargaHoraria`: Carga horária da cadeira.
+    *   `isEletiva`: Indica se a cadeira é eletiva.
 
-## 3.1.xAPI Endpoints
+*   **Professor_Cadeiras:** Tabela de junção para o relacionamento N-M entre Professor e Cadeira.
+    *   `professor_id`: Chave estrangeira para Professor.
+    *   `cadeira_id`: Chave estrangeira para Cadeira.
+  
+*   **Critério:**
+    *   `id`: Identificador único.
+    *   `nome`: Nome do critério de avaliação (ex: Didática, Assiduidade). Criado apenas por ADMIN.
+  
+*   **Avaliação:**
+    *   `id`: Identificador único.
+    *   `data`: Data e hora da avaliação.
+    *   `periodo`: Período acadêmico da avaliação (ex: "2023.1").
+    *   `usuario_id`: Chave estrangeira para Usuário que realizou a avaliação (mantido anônimo no frontend).
+    *   `professor_id`: Chave estrangeira para Professor avaliado.
+    *   `cadeira_id`: Chave estrangeira para Cadeira relacionada à avaliação.
+  
+*   **NotaCritério:**
+    *   `id`: Identificador único.
+    *   `avaliacao_id`: Chave estrangeira para Avaliação.
+    *   `criterio_id`: Chave estrangeira para Critério.
+    *   `nota`: Nota atribuída ao critério específico nesta avaliação.
+  
+*   **Comentário:**
+    *   `id`: Identificador único.
+    *   `texto`: Conteúdo do comentário.
+    *   `avaliacao_id`: Chave estrangeira para Avaliação.
+    *   `criterio_id`: Chave estrangeira para o Critério ao qual o comentário se refere.
+    *   `votosPositivos`: Número de votos positivos no comentário.
+    *   `votosNegativos`: Número de votos negativos no comentário.
+
+#### 3.1.3. Fluxos de Usuário Principais
+1.  **Registro de Novo Usuário:**
+    *   Usuário acessa a página de registro.
+    *   Preenche formulário (username, email, senha).
+    *   Sistema valida os dados e cria a conta com `role=USER`.
+    *   Usuário é redirecionado para login ou página principal.
+  
+2.  **Login de Usuário:**
+    *   Usuário acessa a página de login.
+    *   Fornece username/email e senha.
+    *   Sistema valida as credenciais.
+    *   Se válido, um token JWT é gerado e retornado. Usuário é redirecionado.
+  
+3.  **Avaliar Professor (Usuário Logado):**
+    *   Usuário navega para a página de um professor ou lista de professores.
+    *   Seleciona um professor e uma cadeira que ele leciona.
+    *   Acessa o formulário de avaliação para o período corrente.
+    *   Preenche as notas para todos os critérios obrigatórios.
+    *   Opcionalmente, adiciona comentários para cada critério.
+    *   Submete a avaliação. O sistema registra a avaliação de forma anônima (associação com usuário apenas no backend).
+  
+4.  **Visualizar Avaliações de Professor (Público):**
+    *   Qualquer visitante acessa a página de um professor.
+    *   Visualiza a `notaGeral` do professor.
+    *   Vê uma tabela com cada `Critério`, sua nota média e o principal comentário (ordenado por score `votosPositivos - votosNegativos`).
+    *   Pode navegar para a página de um critério específico para ver mais detalhes e comentários.
+  
+5.  **Administração de Professores (Admin Logado):**
+    *   Admin acessa o Dashboard de Administração.
+    *   Pode Criar, Ler, Atualizar e Deletar (CRUD) Professores.
+    *   Pode associar Cadeiras a Professores.
+  
+6.  **Administração de Critérios (Admin Logado):**
+    *   Admin acessa o Dashboard de Administração.
+    *   Pode Criar, Ler, Atualizar e Deletar (CRUD) Critérios de avaliação.
+  
+7.  **Atribuir Papel de Admin (Admin Logado):**
+    *   Admin acessa a seção de gerenciamento de usuários no Dashboard.
+    *   Pode alterar o `role` de um usuário para `ADMIN`.
+
+## 3.1.4. API Endpoints
 The backend exposes RESTful API endpoints under `/api`. Key controllers include:
 
 *   `/api/users`: Gerenciamento de usuários (admin only) e autenticação (login, register);
