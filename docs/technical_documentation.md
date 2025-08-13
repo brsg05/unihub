@@ -354,7 +354,6 @@ Este projeto, embora em fase inicial, forneceu aprendizados valiosos sobre a con
 - autenticação por e-mail;
 - pesquisa de validação de hipótese;
 - estilização com bootstrap;
-- pesquisa de validação de hipótese.
   
 #### Realizado
 - login;
